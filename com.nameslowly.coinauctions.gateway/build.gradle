@@ -28,8 +28,19 @@ ext {
 }
 
 dependencies {
+	// 공통모듈
+	implementation(project(':com.nameslowly.coinauctions.common')) {
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-data-jpa'
+		exclude group: 'com.mysql', module: 'mysql-connector-j'
+//		exclude group: 'org.springframewo rk.boot', module: 'spring-boot-starter-web'
+	}
+
+	// JWT Claims 추출위해 사용
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.12.5'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.5'
+
 	implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
-	implementation 'org.springframework.cloud:spring-cloud-starter-gateway-mvc'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -47,3 +58,5 @@ dependencyManagement {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+tasks.register("prepareKotlinBuildScriptModel"){}
