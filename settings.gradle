@@ -1,0 +1,10 @@
+rootProject.name = 'coin-auctions-proto-msa'
+
+include 'com.nameslowly.coinauctions.auth'
+include 'com.nameslowly.coinauctions.auction'
+include 'com.nameslowly.coinauctions.bidwin'
+include 'com.nameslowly.coinauctions.chat'
+include 'com.nameslowly.coinauctions.coinpay'
+include 'com.nameslowly.coinauctions.common'
+include 'com.nameslowly.coinauctions.gateway'
+include 'com.nameslowly.coinauctions.server'
