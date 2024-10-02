@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,4 +33,13 @@ public class Bid {
     private BidStatus bidStatus;
     private LocalDateTime bidTime;
 
+    @Builder
+    public Bid(Long auctionId, Long participantMemberId, Long coinId, Long coinAmount) {
+        this.auctionId = auctionId;
+        this.participantMemberId = participantMemberId;
+        this.coinId = coinId;
+        this.coinAmount = coinAmount;
+        this.bidStatus = BidStatus.WIN;
+        this.bidTime = LocalDateTime.now();
+    }
 }
