@@ -254,3 +254,4 @@ $RECYCLE.BIN/
 *.lnk
 
 /jacoco
+com.nameslowly.coinauctions.auction/src/main/resources/application-dev.yml

@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: auction
+
+  profiles:
+    active: dev
+
+app:
+  operation-costs: 10000
