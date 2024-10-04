@@ -1,0 +1,64 @@
+# version: '3.8'
+
+services:
+  eureka-server:
+    networks:
+      - auction-network
+    container_name: eureka-server # 만들 컨테이너 이름 (이겠지)
+    build: # 새 이미지를 직접 만들어씀
+      context: . # docker-compose.yml 이 있는 경로
+      dockerfile: ./com.nameslowly.coinauctions.server/Dockerfile # 빌드할 이미지이름
+    ports:
+      - "8761:8761"
+
+  gateway:
+    networks:
+      - auction-network
+    container_name: gateway-server
+    build:
+      context: . # docker-compose.yml 이 있는 경로
+      dockerfile: ./com.nameslowly.coinauctions.gateway/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-server
+
+  auth-server:
+    networks:
+      - auction-network
+    container_name: auth-server
+    build:
+      context: . # docker-compose.yml 이 있는 경로
+      dockerfile: ./com.nameslowly.coinauctions.auth/Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka-server
+      - mysql-db
+
+  mysql-db:
+    networks:
+      - auction-network
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: userAuth
+      MYSQL_USER: auth_user
+      MYSQL_PASSWORD: auth_password
+    ports:
+      - "3306:3306"
+    volumes: # MySQL 데이터가 컨테이너 재시작이나 삭제 후에도 유지
+      - mysql-data:/var/lib/mysql
+
+volumes: # MySQL 데이터를 저장할 물리적 공간을 할당하여 데이터를 영구적으로 보존
+  mysql-data:
+
+networks:
+  auction-network:
+    driver: bridge
+
+#  settings.gradle 없다고 계속 지랄남 (common 을 복사해서 도커컴포즈만드는식으로)
+#  1. docker compose yml -> server,auth,gateway 만들기
+#  2. 돌려보면서 초기세팅하기
+#  3. refresh accessToken + 블랙리스트 로그아웃 + 소셜로그인 (금요이일)

@@ -1,4 +1,4 @@
-package com.nameslowly.coinauctions.auth.security;
+package com.nameslowly.coinauctions.auth.infrastructure.security;
 
 import com.nameslowly.coinauctions.common.shared.UserRole;
 import io.jsonwebtoken.Claims;
@@ -19,7 +19,6 @@ import java.net.URLEncoder;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
-import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -139,7 +138,4 @@ public class JwtUtil {
                 }
             }
         }
-        return null;
-    }
-}
-
+        return null
