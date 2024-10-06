@@ -138,4 +138,7 @@ public class JwtUtil {
                 }
             }
         }
-        return null
+        return null;
+    }
+}
+

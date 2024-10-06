@@ -1,4 +1,4 @@
-package com.nameslowly.coinauctions.auth.security;
+package com.nameslowly.coinauctions.auth.infrastructure.security;
 
 import com.nameslowly.coinauctions.auth.application.dto.UserDto;
 import com.nameslowly.coinauctions.auth.application.mapper.UserMapper;
