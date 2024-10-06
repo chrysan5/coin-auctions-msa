@@ -1,0 +1,12 @@
+### register
+POST http://localhost:8082/api/auctions
+Content-Type: application/json
+
+{
+  "title": "example title",
+  "image": "http://example.com/image.jpg",
+  "description": "example description",
+  "hopePrice": 1000.00,
+  "coinId": 1,
+  "registerMemberId": 12345
+}

@@ -14,6 +14,6 @@ public class AuctionStoreImpl extends AuctionStore {
 
     @Override
     public Auction store(Auction initAuction) {
-        return null;
+        return auctionRepository.save(initAuction);
     }
 }

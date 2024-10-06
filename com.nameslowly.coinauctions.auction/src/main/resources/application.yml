@@ -6,4 +6,4 @@ spring:
     active: dev
 
 app:
-  operation-costs: 10000
+  operation-costs: 10000.00
