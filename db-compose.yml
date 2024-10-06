@@ -3,7 +3,6 @@ services:
     networks:
       - auction-network
     image: mysql:8.0
-
     container_name: mysql-db
     environment:
       MYSQL_ROOT_PASSWORD: 1234
@@ -14,12 +13,34 @@ services:
 #      MYSQL_PASSWORD: auth_password
     ports:
       - "3306:3306"
-    volumes: # MySQL 데이터가 컨테이너 재시작이나 삭제 후에도 유지
+    volumes: # 컨테이너 내부에 생성될 볼륨
       - mysql-data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql # 초기화 스크립트 추가
 
-volumes: # MySQL 데이터를 저장할 물리적 공간을 할당하여 데이터를 영구적으로 보존
+  redis-db:
+    networks:
+      - auction-network
+    image: redis:7.0
+    container_name: redis-db
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+  mongo-db:
+    networks:
+      - auction-network
+    image: mongo:latest
+    container_name: mongo-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes: # 호스트 시스템에 생성된 볼륨
   mysql-data:
+  redis-data:
+  mongo-data:
 
 networks:
   auction-network:

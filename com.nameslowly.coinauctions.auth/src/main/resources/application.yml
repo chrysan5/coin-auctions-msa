@@ -12,7 +12,7 @@ spring:
 
   data:
     redis:
-      host: 172.17.129.27 # 성진 WSL 주소 -> localhost로 변경하기
+      host: redis-db # 성진 WSL 주소 -> localhost로 변경하기
       port: 6379
       username: default
       password:
