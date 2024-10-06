@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuctionService {
 
     private final AuctionStore auctionStore;
+    private final AuctionReader auctionReader;
 
     @Transactional
     public Long register(RegisterAuctionDto dto) {
@@ -42,5 +43,15 @@ public class AuctionService {
     public void endAuction() {
         List<Auction> ongoingAuctions = auctionReader.getOngoingAuction();
         ongoingAuctions.forEach(Auction::end);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Auction> retrieveAuctionPage(Pageable page) {
+        return auctionReader.getAuctionPage(page);
+    }
+
+    @Transactional(readOnly = true)
+    public Auction retrieveAuction(Long auctionId) {
+        return auctionReader.getAuction(auctionId);
     }
 }

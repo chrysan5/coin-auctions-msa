@@ -26,4 +26,13 @@ public class AuctionReaderImpl implements AuctionReader {
         return auctionRepository.findByAuctionStatus(AuctionStatus.ONGOING);
     }
 
+    @Override
+    public List<Auction> getAuctionPage(Pageable page) {
+        return auctionRepository.findAll(page).getContent();
+    }
+
+    @Override
+    public Auction getAuction(Long auctionId) {
+        return auctionRepository.findById(auctionId).orElseThrow();
+    }
 }

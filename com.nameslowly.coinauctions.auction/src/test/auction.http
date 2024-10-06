@@ -10,3 +10,9 @@ Content-Type: application/json
   "coinId": 1,
   "registerMemberId": 12345
 }
+
+### retrieve auction page
+GET http://localhost:8082/api/auctions
+
+### retrieve auction
+GET http://localhost:8082/api/auctions/1

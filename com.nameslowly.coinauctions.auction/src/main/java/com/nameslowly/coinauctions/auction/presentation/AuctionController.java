@@ -26,4 +26,16 @@ public class AuctionController {
         Long auctionId = auctionService.register(request.toDto());
         return CommonResponse.success(new RegisterAuctionResponse(auctionId));
     }
+
+    @GetMapping("/api/auctions")
+    public CommonResponse<List<Auction>> retrieveAuctionPage(Pageable page) {
+        List<Auction> auctionPage = auctionService.retrieveAuctionPage(page);
+        return CommonResponse.success(auctionPage);
+    }
+
+    @GetMapping("/api/auctions/{auctionId}")
+    public CommonResponse<Auction> retrieveAuction(@PathVariable("auctionId") Long auctionId) {
+        Auction auction = auctionService.retrieveAuction(auctionId);
+        return CommonResponse.success(auction);
+    }
 }

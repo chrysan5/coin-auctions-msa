@@ -10,4 +10,7 @@ public interface AuctionReader {
 
     List<Auction> getOngoingAuction();
 
+    List<Auction> getAuctionPage(Pageable page);
+
+    Auction getAuction(Long auctionId);
 }
