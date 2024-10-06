@@ -76,4 +76,8 @@ public class Auction extends BaseEntity {
                 this.currentAmount == null ? AuctionStatus.FAIL : AuctionStatus.SUCCESS;
         }
     }
+
+    public void updateCurrentAmount(BigDecimal currentAmount) {
+        this.currentAmount = currentAmount;
+    }
 }
