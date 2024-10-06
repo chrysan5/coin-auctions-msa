@@ -6,6 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+@EnableScheduling
 @ComponentScan(basePackages = {"com.nameslowly.coinauctions.auction",
     "com.nameslowly.coinauctions.common"})
 @EnableJpaAuditing

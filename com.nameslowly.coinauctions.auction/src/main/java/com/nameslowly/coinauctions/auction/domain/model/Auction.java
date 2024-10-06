@@ -57,4 +57,23 @@ public class Auction extends BaseEntity {
         this.registerMemberId = registerMemberId;
     }
 
+    public void start(BigDecimal fixedCoinPrice) {
+        if (this.auctionStatus != AuctionStatus.PENDING) {
+            return;
+        }
+        this.startTime = LocalDateTime.now();
+        this.endTime = this.startTime.plusMinutes(1000 * 60 * 60 * DURATION);
+        this.fixedCoinPrice = fixedCoinPrice;
+        this.auctionStatus = AuctionStatus.ONGOING;
+    }
+
+    public void end() {
+        if (this.auctionStatus != AuctionStatus.ONGOING) {
+            return;
+        }
+        if (this.endTime.isBefore(LocalDateTime.now())) {
+            this.auctionStatus =
+                this.currentAmount == null ? AuctionStatus.FAIL : AuctionStatus.SUCCESS;
+        }
+    }
 }

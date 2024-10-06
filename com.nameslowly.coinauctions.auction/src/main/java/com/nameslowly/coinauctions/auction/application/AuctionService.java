@@ -25,4 +25,22 @@ public class AuctionService {
         return auction.getId();
     }
 
+    @Scheduled(fixedRate = 60000)
+    @Transactional
+    public void startAuction() {
+        List<Auction> pendingAuctions = auctionReader.getPendingAuction();
+        pendingAuctions.forEach(
+            auction -> {
+                BigDecimal fixedCoinPrice = new BigDecimal(3333.33); // todo : coin price 조회
+                auction.start(fixedCoinPrice);
+            }
+        );
+    }
+
+    @Scheduled(fixedRate = 1000)
+    @Transactional
+    public void endAuction() {
+        List<Auction> ongoingAuctions = auctionReader.getOngoingAuction();
+        ongoingAuctions.forEach(Auction::end);
+    }
 }
