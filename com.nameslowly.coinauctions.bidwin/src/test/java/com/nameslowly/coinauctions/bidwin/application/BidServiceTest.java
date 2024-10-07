@@ -1,7 +1,9 @@
 package com.nameslowly.coinauctions.bidwin.application;
 
-import com.nameslowly.coinauctions.bidwin.application.dto.request.RegisterBidRequestDto;
+import com.nameslowly.coinauctions.bidwin.application.dto.RegisterBidDto;
+import com.nameslowly.coinauctions.bidwin.application.service.BidService;
 import com.nameslowly.coinauctions.bidwin.domain.repository.BidRepository;
+import java.math.BigDecimal;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,7 @@ class BidServiceTest {
     @Test
     public void register() throws Exception {
         // given
-        RegisterBidRequestDto dto = new RegisterBidRequestDto(1L, 2L, 3L, 4L);
+        RegisterBidDto dto = new RegisterBidDto(1L, 2L, 3L, new BigDecimal("4.4234"));
 
         // when
         Long bidId = bidService.register(dto);

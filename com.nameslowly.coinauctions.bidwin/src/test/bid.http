@@ -1,0 +1,10 @@
+### bid register
+POST http://localhost:8083/api/bids
+Content-Type: application/json
+
+{
+  "auctionId": 1,
+  "participantMemberId": 123,
+  "coinId": 456,
+  "coinAmount": 100.5000001
+}
