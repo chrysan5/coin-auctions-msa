@@ -5,6 +5,7 @@ import com.nameslowly.coinauctions.coinpay.domain.model.CoinVO;
 import com.nameslowly.coinauctions.coinpay.domain.repository.CoinRepository;
 import com.nameslowly.coinauctions.common.exception.GlobalException;
 import com.nameslowly.coinauctions.common.response.ResultCase;
+import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -36,24 +37,49 @@ public class CoinService {
                 .collect(Collectors.toList());
     }
 
-    @Scheduled(fixedRate = 5000)  // 5초마다 실행 업비트에서 코인들 가격 갱신
+//    @Scheduled(fixedRate = 5000)  // 5초마다 실행 업비트에서 코인들 가격 갱신
+//    public void updateCoinPrices() {
+//        List<Coin> coins = coinRepository.findAll();
+//        for (Coin coin : coins) {
+//            try {
+//                // Upbit API 호출하여 코인 가격 가져오기
+//                BigDecimal price = upbitApiService.fetchCoinPrice(coin.getCoinRealName());
+//                log.info("Updating price for coin: " + coin.getCoinRealName() + " with price: " + price);
+//
+//                // 코인 가격 업데이트
+//                coin.coinUpdate(price.setScale(2, RoundingMode.HALF_UP));
+//                coinRepository.save(coin);
+//            } catch (Exception e) {
+//                log.error("Error updating price for coin: " + coin.getCoinRealName(), e);
+//                throw new GlobalException(ResultCase.COIN_PRICE_UPDATE_FAILED);  // 가격 업데이트 실패 시 예외 처리
+//            }
+//        }
+//    }
+    @Scheduled(fixedRate = 5000)
     public void updateCoinPrices() {
         List<Coin> coins = coinRepository.findAll();
+        List<Coin> coinsToUpdate = new ArrayList<>();
+
         for (Coin coin : coins) {
             try {
-                // Upbit API 호출하여 코인 가격 가져오기
-                BigDecimal price = upbitApiService.fetchCoinPrice(coin.getCoinRealName());
-                log.info("Updating price for coin: " + coin.getCoinRealName() + " with price: " + price);
+                BigDecimal newPrice = upbitApiService.fetchCoinPrice(coin.getCoinRealName());
 
-                // 코인 가격 업데이트
-                coin.coinUpdate(price.setScale(2, RoundingMode.HALF_UP));
-                coinRepository.save(coin);
+                if (coin.getCoinPrice() == null || coin.getCoinPrice().compareTo(newPrice) != 0) {
+                    coin.coinUpdate(newPrice.setScale(2, RoundingMode.HALF_UP));
+                    coinsToUpdate.add(coin);  // 업데이트가 필요한 코인만 리스트에 추가
+                }
             } catch (Exception e) {
                 log.error("Error updating price for coin: " + coin.getCoinRealName(), e);
-                throw new GlobalException(ResultCase.COIN_PRICE_UPDATE_FAILED);  // 가격 업데이트 실패 시 예외 처리
+                throw new GlobalException(ResultCase.COIN_PRICE_UPDATE_FAILED);
             }
         }
+
+        if (!coinsToUpdate.isEmpty()) {
+            coinRepository.saveAll(coinsToUpdate);  // 변경된 코인만 한 번에 저장
+            log.info("Updated " + coinsToUpdate.size() + " coins.");
+        }
     }
+
 
     // Upbit에서 코인 가격 가져오기
     public BigDecimal getCoinPriceFromUpbit(String coinName) {
