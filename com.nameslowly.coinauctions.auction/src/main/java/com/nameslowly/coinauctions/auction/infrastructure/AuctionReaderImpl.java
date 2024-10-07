@@ -15,7 +15,6 @@ public class AuctionReaderImpl implements AuctionReader {
 
     private final AuctionRepository auctionRepository;
 
-
     @Override
     public List<Auction> getPendingAuction() {
         return auctionRepository.findByAuctionStatus(AuctionStatus.PENDING);

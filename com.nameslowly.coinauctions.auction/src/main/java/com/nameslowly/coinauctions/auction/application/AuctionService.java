@@ -4,6 +4,8 @@ import com.nameslowly.coinauctions.auction.application.dto.request.RegisterAucti
 import com.nameslowly.coinauctions.auction.domain.model.Auction;
 import com.nameslowly.coinauctions.auction.domain.service.AuctionReader;
 import com.nameslowly.coinauctions.auction.domain.service.AuctionStore;
+import com.nameslowly.coinauctions.auction.infrastructure.coinpay.CoinDto;
+import com.nameslowly.coinauctions.auction.infrastructure.coinpay.CoinpayService;
 import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +20,11 @@ public class AuctionService {
 
     private final AuctionStore auctionStore;
     private final AuctionReader auctionReader;
+    private final CoinpayService coinpayService;
 
     @Transactional
     public Long register(RegisterAuctionDto dto) {
+        coinpayService.getCoin(dto.getCoinId());
         Auction initAuction = dto.toEntity();
         Auction auction = auctionStore.store(initAuction);
         return auction.getId();
@@ -32,7 +36,8 @@ public class AuctionService {
         List<Auction> pendingAuctions = auctionReader.getPendingAuction();
         pendingAuctions.forEach(
             auction -> {
-                BigDecimal fixedCoinPrice = new BigDecimal(3333.33); // todo : coin price 조회
+                CoinDto coin = coinpayService.getCoin(auction.getCoinId());
+                BigDecimal fixedCoinPrice = coin.getCoinPrice();
                 auction.start(fixedCoinPrice);
             }
         );
