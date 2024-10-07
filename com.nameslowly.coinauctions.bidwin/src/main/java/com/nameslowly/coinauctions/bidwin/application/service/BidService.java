@@ -1,7 +1,6 @@
 package com.nameslowly.coinauctions.bidwin.application.service;
 
 import com.nameslowly.coinauctions.bidwin.application.dto.RegisterBidDto;
-import com.nameslowly.coinauctions.bidwin.application.dto.UserDto;
 import com.nameslowly.coinauctions.bidwin.domain.model.Bid;
 import com.nameslowly.coinauctions.bidwin.domain.service.BidFactory;
 import com.nameslowly.coinauctions.bidwin.domain.service.BidReader;
@@ -9,6 +8,8 @@ import com.nameslowly.coinauctions.bidwin.infrastructure.auction.AuctionDto;
 import com.nameslowly.coinauctions.bidwin.infrastructure.auction.AuctionService;
 import com.nameslowly.coinauctions.bidwin.infrastructure.coinpay.CoinDto;
 import com.nameslowly.coinauctions.bidwin.infrastructure.coinpay.CoinpayService;
+import com.nameslowly.coinauctions.bidwin.infrastructure.user.UserDto;
+import com.nameslowly.coinauctions.bidwin.infrastructure.user.UserService;
 import java.math.BigDecimal;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
