@@ -1,0 +1,49 @@
+# version: '3.8'
+
+services:
+  eureka-server:
+    networks:
+      - auction-network
+    container_name: eureka-server # 만들 컨테이너 이름 (이겠지)
+    build: # 새 이미지를 직접 만들어씀
+      context: . # app-compose.yml 이 있는 경로
+      dockerfile: ./com.nameslowly.coinauctions.server/Dockerfile # 빌드할 이미지이름
+    ports:
+      - "8761:8761"
+
+  rabbitmq:
+    networks:
+      - auction-network
+    image: rabbitmq:3-management # 관리콘솔 포함한 버젼
+    container_name: rabbitMQ-server
+    ports:
+      - "5672:5672"   # RabbitMQ 기본 포트
+      - "15672:15672" # RabbitMQ 관리 콘솔 포트
+
+  gateway:
+    networks:
+      - auction-network
+    container_name: gateway-server
+    build:
+      context: . # app-compose.yml 이 있는 경로
+      dockerfile: ./com.nameslowly.coinauctions.gateway/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-server
+      - rabbitmq
+
+  auth-server:
+    networks:
+      - auction-network
+    container_name: auth-server
+    build:
+      context: . # app-compose.yml 이 있는 경로
+      dockerfile: ./com.nameslowly.coinauctions.auth/Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka-server
+
+networks:
+  auction-network:

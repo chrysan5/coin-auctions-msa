@@ -7,7 +7,7 @@ import com.nameslowly.coinauctions.auth.application.dto.UserSignupResponseDto;
 import com.nameslowly.coinauctions.auth.application.mapper.UserMapper;
 import com.nameslowly.coinauctions.auth.domain.model.User;
 import com.nameslowly.coinauctions.auth.domain.repository.UserRepository;
-import com.nameslowly.coinauctions.auth.security.UserDetailsServiceImpl;
+import com.nameslowly.coinauctions.auth.infrastructure.security.UserDetailsServiceImpl;
 import com.nameslowly.coinauctions.common.exception.GlobalException;
 import com.nameslowly.coinauctions.common.response.ResultCase;
 import jakarta.transaction.Transactional;

@@ -53,7 +53,6 @@ public class GlobalFilterConfig {
 
         return (exchange, chain) -> {
             System.out.println("Global filter: Request received at " + exchange.getRequest().getURI());
-            System.out.println(createToken("testUser","MASTER",10000));
             return chain.filter(exchange)
                 .then(Mono.fromRunnable(() -> System.out.println("Global filter: Response sent with status " + exchange.getResponse().getStatusCode())));
         };
