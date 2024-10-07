@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class AuctionFallback implements AuctionFeignClient {
 
     @Override
-    public AuctionDto getAuction() {
+    public AuctionDto getAuction(Long auctionId) {
         log.info("auction service error");
 //        throw new RuntimeException("user service error");
         return null;

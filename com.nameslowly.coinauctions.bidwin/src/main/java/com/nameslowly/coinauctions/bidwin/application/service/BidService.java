@@ -31,10 +31,8 @@ public class BidService {
     private final CoinpayService coinpayService;
 
     private final RabbitTemplate rabbitTemplate;
-    @Value("${message.exchange}")
-    private String exchange;
-    @Value("${message.queue.coinpay}")
-    private String queueCoinpay;
+    @Value("${message.queue.bid}")
+    private String queueBidCancel;
 
     /***
      * 1. participant member exist // not -> exception
@@ -58,13 +56,12 @@ public class BidService {
      *          5.2 auction base coin amount > new bid coin amount -> exception
      */
     public Long register(RegisterBidDto dto) {
-        UserDto user = userService.getUser();
+        UserDto user = userService.getUser(dto.getParticipantMemberId());
         log.info("새 입찰자 존재 확인");
-        AuctionDto auction = auctionService.getAuction();
-//        BigDecimal baseAmount = auction.getBaseAmount();
-        BigDecimal baseAmount = new BigDecimal(0); // 임시
+        AuctionDto auction = auctionService.getAuction(dto.getAuctionId());
+        BigDecimal baseAmount = auction.getBaseAmount();
         log.info("입찰할 경매 존재 확인 및 시작가 조회");
-        CoinDto coin = coinpayService.getCoin();
+        CoinDto coin = coinpayService.getCoin(dto.getCoinId());
         log.info("입찰에 쓸 코인 존재 확인");
 
         Bid newBid;
@@ -79,18 +76,20 @@ public class BidService {
                 log.info("기존 입찰 보다 적음");
                 throw new RuntimeException("기존 입찰가보다 적습니다");
             }
-            // new bider coin decreass
+            coinpayService.decreaseUserCoin(winBid.getParticipantMemberId(),
+                winBid.getCoinAmount());
             log.info("새 입찰자 코인 사용");
             try {
                 newBid = bidFactory.create(dto);
                 log.info("새 입찰  생성");
             } catch (Exception e) {
                 log.info("새 입찰 생성 에러");
-                // new bider coin increase
+                coinpayService.increaseUserCoin(winBid.getParticipantMemberId(),
+                    winBid.getCoinAmount());
                 log.info("새 입찰자 코인 회복");
                 throw new RuntimeException("새 입찰 생성 에러 발생했습니다");
             }
-            rabbitTemplate.convertAndSend(queueCoinpay, ""); // win bid 취소 메시지
+            rabbitTemplate.convertAndSend(queueBidCancel, "current bid cancel");
             log.info("기존 입찰 취소 메시지 전송");
         } else {
             log.info("기존 입찰 없음");
@@ -102,8 +101,6 @@ public class BidService {
             log.info("새 입찰 생성");
         }
         log.info("새 입찰 등록 완료");
-        rabbitTemplate.convertAndSend(queueCoinpay, ""); // chatting 생성 메시지
-        log.info("채팅방 생성 메시지 전송");
         return newBid.getId();
     }
 

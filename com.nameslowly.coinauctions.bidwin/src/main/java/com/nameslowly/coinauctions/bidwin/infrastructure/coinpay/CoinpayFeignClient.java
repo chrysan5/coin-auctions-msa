@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.GetMapping;
 public interface CoinpayFeignClient extends CoinpayService {
 
     @GetMapping("/api/coinpays")
-    CoinDto getCoin();
+    CoinDto getCoin(Long coinId);
 }

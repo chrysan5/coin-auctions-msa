@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class UserFallback implements UserFeignClient {
 
     @Override
-    public UserDto getUser() {
+    public UserDto getUser(Long userId) {
         log.info("user service error");
 //        throw new RuntimeException("user service error");
         return null;

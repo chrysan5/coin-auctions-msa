@@ -2,5 +2,5 @@ package com.nameslowly.coinauctions.bidwin.infrastructure.auction;
 
 public interface AuctionService {
 
-    AuctionDto getAuction();
+    AuctionDto getAuction(Long auctionId);
 }

@@ -1,4 +1,4 @@
-package com.nameslowly.coinauctions.bidwin.infrastructure;
+package com.nameslowly.coinauctions.bidwin.infrastructure.service;
 
 import com.nameslowly.coinauctions.bidwin.domain.model.Bid;
 import com.nameslowly.coinauctions.bidwin.domain.model.BidStatus;
