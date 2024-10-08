@@ -17,8 +17,8 @@ public class CoinWalletController {
     private final CoinWalletService coinWalletService;
 
     @PostMapping("/coin_wallets")
-    public CommonResponse chargeCoin(@RequestBody CoinChargeRequest request){
-        CoinWalletVO coinWallet = coinWalletService.saveCoinWallet(request);
+    public CommonResponse chargeCoin(@RequestBody CoinChargeRequest request, @RequestHeader("X-User-Name") String username){
+        CoinWalletVO coinWallet = coinWalletService.saveCoinWallet(request, username);
         return CommonResponse.success(coinWallet);
     }
     @PutMapping("/internal/coin_wallets") //해당 api는 feign요청이므로 일단은 CommonResponse를 따로 통일 안함 테스트 우선
