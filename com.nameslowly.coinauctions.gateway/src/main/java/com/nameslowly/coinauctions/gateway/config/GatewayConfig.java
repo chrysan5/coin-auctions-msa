@@ -16,35 +16,35 @@ public class GatewayConfig {
     public RouteLocator customRoutes(RouteLocatorBuilder builder, JwtAuthGatewayFilter authFilter) {
 
         return builder.routes()
-            // hub
-            .route("ai-service", r -> r.path("/api/ai/**")
+            // userAuth
+            .route("userauth-service", r -> r.path("/api/auth/**")
                 .filters(f -> f.filter(authFilter))
-                .uri("lb://ai-service")
+                .uri("lb://userauth-service")
             )
-            // hub
-            .route("hub-service", r -> r.path("/api/hubs/**")
+            // auction
+            .route("auction-service", r -> r.path("/api/auctions/**")
                 .filters(f -> f.filter(authFilter))
-                .uri("lb://hub-service")
+                .uri("lb://auction-service")
             )
-            // order
-            .route("order-service", r -> r.path("/api/orders/**")
+            // bid
+            .route("bid-service", r -> r.path("/api/bids/**")
                 .filters(f -> f.filter(authFilter))
-                .uri("lb://order-service")
+                .uri("lb://bids-service")
             )
-            // hub-management
-            .route("hub-management-service", r -> r.path("/api/hub-managemnet/**")
+            // win
+            .route("win-service", r -> r.path("/api/wins/**")
                 .filters(f -> f.filter(authFilter))
-                .uri("lb://hub-management-service")
+                .uri("lb://win-service")
             )
-            // product-company
-            .route("product-company-service", r -> r.path("/api/products/**")
+            // coin
+            .route("coin-service", r -> r.path("/api/coins/**", "/api/coinWallets/**", "/api/coinHistory")
                 .filters(f -> f.filter(authFilter))
-                .uri("lb://product-company-service")
+                .uri("lb://coin-service")
             )
-            // slack-message
-            .route("slack-message-service", r -> r.path("/api/slack-message/**")
+            // chat
+            .route("chat-service", r -> r.path("/api/chatrooms/**")
                 .filters(f -> f.filter(authFilter))
-                .uri("lb://slack-message-service")
+                .uri("lb://chat-service")
             )
             .build();
     }

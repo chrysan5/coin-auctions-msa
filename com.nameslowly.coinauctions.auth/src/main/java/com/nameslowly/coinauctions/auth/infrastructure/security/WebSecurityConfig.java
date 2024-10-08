@@ -1,4 +1,4 @@
-package com.nameslowly.coinauctions.auth.security;
+package com.nameslowly.coinauctions.auth.infrastructure.security;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;

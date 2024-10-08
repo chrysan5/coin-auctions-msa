@@ -254,4 +254,7 @@ $RECYCLE.BIN/
 *.lnk
 
 /jacoco
+
 com.nameslowly.coinauctions.auction/src/main/resources/application-dev.yml
+com.nameslowly.coinauctions.bidwin/src/main/resources/application-dev.yml
+intellij-java-google-style.xml
