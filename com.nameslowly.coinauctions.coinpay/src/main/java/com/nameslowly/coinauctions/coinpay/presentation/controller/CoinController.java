@@ -1,0 +1,43 @@
+package com.nameslowly.coinauctions.coinpay.presentation.controller;
+
+import com.nameslowly.coinauctions.coinpay.domain.model.CoinVO;
+import com.nameslowly.coinauctions.coinpay.application.dto.request.CoinCreateRequest;
+import com.nameslowly.coinauctions.coinpay.application.service.CoinService;
+import com.nameslowly.coinauctions.common.response.CommonResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/coins")
+public class CoinController {
+
+    private final CoinService coinService;
+
+    @PostMapping("/create")
+    public CommonResponse createCoin(@RequestBody CoinCreateRequest coinRequest) {
+        // Upbit API에서 코인 가격 가져오기
+        BigDecimal coinPrice = coinService.getCoinPriceFromUpbit(coinRequest.getCoin_real_name());
+        // 코인 정보 저장
+        CoinVO coin = coinService.saveCoin(coinRequest.getCoin_name(),coinRequest.getCoin_real_name(), coinPrice);
+        return CommonResponse.success(coin);
+    }
+
+    @GetMapping
+    public CommonResponse getAllCoins() {
+        return CommonResponse.success(coinService.getAllCoins());
+    }
+
+    @DeleteMapping("/{coinId}")
+    public CommonResponse deleteCoin(@PathVariable Long coinId){
+        CoinVO coin = coinService.deleteCoin(coinId);
+        return CommonResponse.success(coin);
+    }
+    @GetMapping("/auctions/{coinId}")
+    public CoinVO getCoinById(@PathVariable("coinId") Long coinId) {
+        return coinService.getCoinById(coinId);
+    }
+
+}
