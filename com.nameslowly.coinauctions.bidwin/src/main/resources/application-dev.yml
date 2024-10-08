@@ -47,4 +47,5 @@ spring:
 message:
   exchange: app
   queue:
-    bid: app.bid.cancel
+    bid-cancel: app.bid.cancel
+    bid-register: app.bid.register

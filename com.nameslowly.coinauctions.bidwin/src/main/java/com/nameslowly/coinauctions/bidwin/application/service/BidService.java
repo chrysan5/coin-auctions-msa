@@ -11,12 +11,15 @@ import com.nameslowly.coinauctions.bidwin.infrastructure.coinpay.CoinpayService;
 import com.nameslowly.coinauctions.bidwin.infrastructure.user.UserDto;
 import com.nameslowly.coinauctions.bidwin.infrastructure.user.UserService;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -31,8 +34,10 @@ public class BidService {
     private final CoinpayService coinpayService;
 
     private final RabbitTemplate rabbitTemplate;
-    @Value("${message.queue.bid}")
+    @Value("${message.queue.bid-cancel}")
     private String queueBidCancel;
+    @Value("${message.queue.bid-register}")
+    private String queueBidRegister;
 
     /***
      * 1. participant member exist // not -> exception
@@ -101,6 +106,7 @@ public class BidService {
             log.info("새 입찰 생성");
         }
         log.info("새 입찰 등록 완료");
+        rabbitTemplate.convertAndSend(queueBidRegister, "bid register");
         return newBid.getId();
     }
 
@@ -108,4 +114,13 @@ public class BidService {
         return target.compareTo(source) <= 0;
     }
 
+    @Transactional(readOnly = true)
+    public List<Bid> retrieveBidPage(Pageable page) {
+        return bidReader.getBidPage(page);
+    }
+
+    @Transactional(readOnly = true)
+    public Bid retrieveBid(Long bidId) {
+        return bidReader.getBid(bidId);
+    }
 }
