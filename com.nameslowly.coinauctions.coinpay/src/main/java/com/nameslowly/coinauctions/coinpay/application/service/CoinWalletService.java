@@ -100,7 +100,7 @@ public class CoinWalletService {
             throw new GlobalException(ResultCase.COIN_WALLET_NOT_FOUND);
         }
         BigDecimal balanceBefore = coinWallet.getQuantity();
-        BigDecimal updatedQuantity = balanceBefore.add(request.getQuantity());
+        BigDecimal updatedQuantity = balanceBefore.subtract(request.getQuantity());
         if (updatedQuantity.compareTo(BigDecimal.ZERO) < 0) {
             throw new GlobalException(ResultCase.INVALID_QUANTITY);
         }
