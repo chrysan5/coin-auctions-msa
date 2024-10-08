@@ -31,3 +31,7 @@ hibernate:
 # 서버 기본 설정 (필요한 경우)
 server:
   port: 8084
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

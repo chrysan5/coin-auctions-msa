@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class CoinChargeRequest {
     private BigDecimal charge_amount;
-    private String username;
     private Long coin_id;
 }
 
