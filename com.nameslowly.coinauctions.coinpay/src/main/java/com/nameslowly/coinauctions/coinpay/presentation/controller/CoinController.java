@@ -11,12 +11,12 @@ import java.math.BigDecimal;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/coins")
+@RequestMapping("/api")
 public class CoinController {
 
     private final CoinService coinService;
 
-    @PostMapping("/create")
+    @PostMapping("/coins/create")
     public CommonResponse createCoin(@RequestBody CoinCreateRequest coinRequest) {
         // Upbit API에서 코인 가격 가져오기
         BigDecimal coinPrice = coinService.getCoinPriceFromUpbit(coinRequest.getCoin_real_name());
@@ -25,17 +25,17 @@ public class CoinController {
         return CommonResponse.success(coin);
     }
 
-    @GetMapping
+    @GetMapping("/coins")
     public CommonResponse getAllCoins() {
         return CommonResponse.success(coinService.getAllCoins());
     }
 
-    @DeleteMapping("/{coinId}")
+    @DeleteMapping("/coins/{coinId}")
     public CommonResponse deleteCoin(@PathVariable Long coinId){
         CoinVO coin = coinService.deleteCoin(coinId);
         return CommonResponse.success(coin);
     }
-    @GetMapping("/auctions/{coinId}")
+    @GetMapping("/internal/coins/{coinId}")
     public CoinVO getCoinById(@PathVariable("coinId") Long coinId) {
         return coinService.getCoinById(coinId);
     }

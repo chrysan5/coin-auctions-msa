@@ -12,20 +12,20 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/coin_wallets")
+@RequestMapping("/api")
 public class CoinWalletController {
     private final CoinWalletService coinWalletService;
 
-    @PostMapping
+    @PostMapping("/coin_wallets")
     public CommonResponse chargeCoin(@RequestBody CoinChargeRequest request){
         CoinWalletVO coinWallet = coinWalletService.saveCoinWallet(request);
         return CommonResponse.success(coinWallet);
     }
-    @PutMapping("/bids") //해당 api는 feign요청이므로 일단은 CommonResponse를 따로 통일 안함 테스트 우선
+    @PutMapping("/internal/coin_wallets") //해당 api는 feign요청이므로 일단은 CommonResponse를 따로 통일 안함 테스트 우선
     public void changeBidCoin(@RequestBody CoinBidRequest request){
         coinWalletService.changeBidCoin(request);
     }
-    @GetMapping("/{username}")
+    @GetMapping("/coin_wallets/{username}")
     public CommonResponse getCoinWallet(@PathVariable String username){
         List<CoinWalletVO> coinWallet = coinWalletService.getCoinWallet(username);
         return CommonResponse.success(coinWallet);
