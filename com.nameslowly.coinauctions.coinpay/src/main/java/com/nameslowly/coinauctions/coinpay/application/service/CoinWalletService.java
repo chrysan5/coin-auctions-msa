@@ -119,14 +119,16 @@ public class CoinWalletService {
     }
 
     @Transactional //메시징 시스템을 통해 새로운 입찰이 나타났을때 기존 입찰에 대한 코인 회복 -> 코인 히스토리 생성
-    public void restoreCoins(String username, Long coinId, BigDecimal amount) {
+    public void restoreCoins(String username, Long coinId, double amount) {
         CoinWallet wallet = coinWalletRepository.findByUsernameAndCoinId(username, coinId)
             .orElseThrow(() -> new GlobalException(ResultCase.COIN_WALLET_NOT_FOUND));
+        System.out.println("coin amount : " + amount);
+        BigDecimal amount1 = BigDecimal.valueOf(amount);
         BigDecimal balanceBefore = wallet.getQuantity(); // 변경 전 잔액
-        BigDecimal balanceAfter = balanceBefore.add(amount); // 변경 후 잔액
+        BigDecimal balanceAfter = balanceBefore.add(amount1); // 변경 후 잔액
         wallet.coinWalletUpdate(balanceAfter);
         coinWalletRepository.save(wallet);
         //코인 히스토리 생성
-        createCoinHistory(username, coinId, amount, balanceBefore, balanceAfter, "기존 입찰 코인 회복");
+        createCoinHistory(username, coinId, amount1, balanceBefore, balanceAfter, "기존 입찰 코인 회복");
     }
 }
