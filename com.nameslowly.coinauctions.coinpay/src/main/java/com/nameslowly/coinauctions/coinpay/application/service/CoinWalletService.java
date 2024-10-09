@@ -92,22 +92,24 @@ public class CoinWalletService {
     }
 
     @Transactional //코인 바인딩 feign요청 들어왔을 때 입찰한 만큼의 코인 바인딩 후 코인 히스토리로 남김
-    public void changeBidCoin(CoinBidRequest request) {
+    public boolean changeBidCoin(CoinBidRequest request) {
         CoinWallet coinWallet = coinWalletRepository.findByUsernameAndCoinId(request.getUsername(),
             request.getCoin_id())
             .orElseThrow(() -> new GlobalException(ResultCase.COIN_WALLET_NOT_FOUND));
-        if (coinWallet == null) {
-            throw new GlobalException(ResultCase.COIN_WALLET_NOT_FOUND);
-        }
+//        if (coinWallet == null) {
+//            throw new GlobalException(ResultCase.COIN_WALLET_NOT_FOUND);
+//        }
         BigDecimal balanceBefore = coinWallet.getQuantity();
         BigDecimal updatedQuantity = balanceBefore.subtract(request.getQuantity());
         if (updatedQuantity.compareTo(BigDecimal.ZERO) < 0) {
-            throw new GlobalException(ResultCase.INVALID_QUANTITY);
+            return false;
+//            throw new GlobalException(ResultCase.INVALID_QUANTITY);
         }
         coinWallet.coinWalletUpdate(updatedQuantity);
         coinWalletRepository.save(coinWallet);
         // CoinHistory 저장
         createCoinHistory(request.getUsername(), request.getCoin_id(), request.getQuantity(), balanceBefore, updatedQuantity, "코인 바인딩");
+        return true;
     }
 
     @Transactional(readOnly = true) //유저의 로그인 ID에 해당하는 코인지갑 확인
@@ -130,5 +132,20 @@ public class CoinWalletService {
         coinWalletRepository.save(wallet);
         //코인 히스토리 생성
         createCoinHistory(username, coinId, amount1, balanceBefore, balanceAfter, "기존 입찰 코인 회복");
+    }
+
+    public void recoverBidCoin(CoinBidRequest request) {
+        CoinWallet coinWallet = coinWalletRepository.findByUsernameAndCoinId(request.getUsername(),
+                request.getCoin_id())
+            .orElseThrow(() -> new GlobalException(ResultCase.COIN_WALLET_NOT_FOUND));
+//        if (coinWallet == null) {
+//            throw new GlobalException(ResultCase.COIN_WALLET_NOT_FOUND);
+//        }
+        BigDecimal balanceBefore = coinWallet.getQuantity();
+        BigDecimal updatedQuantity = balanceBefore.add(request.getQuantity());
+        coinWallet.coinWalletUpdate(updatedQuantity);
+        coinWalletRepository.save(coinWallet);
+        // CoinHistory 저장
+        createCoinHistory(request.getUsername(), request.getCoin_id(), request.getQuantity(), balanceBefore, updatedQuantity, "코인 회복");
     }
 }

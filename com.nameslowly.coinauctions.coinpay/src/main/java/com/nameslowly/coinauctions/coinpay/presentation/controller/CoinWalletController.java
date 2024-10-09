@@ -21,9 +21,13 @@ public class CoinWalletController {
         CoinWalletVO coinWallet = coinWalletService.saveCoinWallet(request, username);
         return CommonResponse.success(coinWallet);
     }
-    @PutMapping("/internal/coin_wallets") //해당 api는 feign요청이므로 일단은 CommonResponse를 따로 통일 안함 테스트 우선
-    public void changeBidCoin(@RequestBody CoinBidRequest request){
-        coinWalletService.changeBidCoin(request);
+    @PutMapping("/internal/coin_wallets/use") //해당 api는 feign요청이므로 일단은 CommonResponse를 따로 통일 안함 테스트 우선 감소
+    public boolean changeBidCoin(@RequestBody CoinBidRequest request){
+        return coinWalletService.changeBidCoin(request);
+    }
+    @PutMapping("/internal/coin_wallets/recover")
+    public void recoverBidCoin(@RequestBody CoinBidRequest request){
+         coinWalletService.recoverBidCoin(request);
     }
     @GetMapping("/coin_wallets/{username}")
     public CommonResponse getCoinWallet(@PathVariable String username){
