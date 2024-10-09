@@ -1,4 +1,4 @@
-package com.nameslowly.coinauctions.bidwin.infrastructure;
+package com.nameslowly.coinauctions.auction.infrastructure;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -14,8 +14,6 @@ public class QueueConfig {
 
     @Value("${message.exchange}")
     private String exchange;
-    @Value("${message.queue.bid-cancel}")
-    private String queueBidCancel;
     @Value("${message.queue.bid-register}")
     private String queueBidRegister;
 
@@ -27,16 +25,6 @@ public class QueueConfig {
     @Bean
     public TopicExchange exchange() {
         return new TopicExchange(exchange);
-    }
-
-    @Bean
-    public Queue queueBidCancel() {
-        return new Queue(queueBidCancel);
-    }
-
-    @Bean
-    public Binding bindingBidCancel() {
-        return BindingBuilder.bind(queueBidCancel()).to(exchange()).with(queueBidCancel);
     }
 
     @Bean

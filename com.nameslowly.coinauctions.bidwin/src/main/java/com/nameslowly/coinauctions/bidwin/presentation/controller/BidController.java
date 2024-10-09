@@ -1,9 +1,10 @@
 package com.nameslowly.coinauctions.bidwin.presentation.controller;
 
-import com.nameslowly.coinauctions.bidwin.application.service.BidService;
+import com.nameslowly.coinauctions.bidwin.application.BidService;
 import com.nameslowly.coinauctions.bidwin.domain.model.Bid;
-import com.nameslowly.coinauctions.bidwin.presentation.dto.request.RegisterBidRequest;
-import com.nameslowly.coinauctions.bidwin.presentation.dto.response.RegisterBidResponse;
+import com.nameslowly.coinauctions.bidwin.infrastructure.auction.AuctionService;
+import com.nameslowly.coinauctions.bidwin.presentation.request.RegisterBidRequest;
+import com.nameslowly.coinauctions.bidwin.presentation.response.RegisterBidResponse;
 import com.nameslowly.coinauctions.common.response.CommonResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BidController {
 
     private final BidService bidService;
+    private final AuctionService auctionService;
 
     @PostMapping("/api/bids")
     public CommonResponse<RegisterBidResponse> register(@RequestBody RegisterBidRequest request) {

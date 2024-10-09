@@ -1,6 +1,6 @@
 spring:
   application:
-    name: auction
+    name: auction-server
 
   profiles:
     active: dev

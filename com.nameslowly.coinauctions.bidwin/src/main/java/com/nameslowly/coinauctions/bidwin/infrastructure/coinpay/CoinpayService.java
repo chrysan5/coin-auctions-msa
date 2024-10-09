@@ -6,7 +6,7 @@ public interface CoinpayService {
 
     CoinDto getCoin(Long coinId);
 
-    void decreaseUserCoin(Long userId, BigDecimal coinAmount);
+    void decreaseUserCoin(BigDecimal coinAmount);
 
-    void increaseUserCoin(Long userId, BigDecimal coinAmount);
+    void increaseUserCoin(BigDecimal coinAmount);
 }

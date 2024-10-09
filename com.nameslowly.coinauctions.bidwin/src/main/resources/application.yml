@@ -1,6 +1,6 @@
 spring:
   application:
-    name: bidwin
+    name: bidwin-server
 
   profiles:
     active: dev

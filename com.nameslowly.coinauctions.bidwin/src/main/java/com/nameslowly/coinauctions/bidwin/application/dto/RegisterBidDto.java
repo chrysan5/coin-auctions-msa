@@ -14,14 +14,14 @@ import lombok.NoArgsConstructor;
 public class RegisterBidDto {
 
     private Long auctionId;
-    private Long participantMemberId;
+    private String participantMemberUsername;
     private Long coinId;
     private BigDecimal coinAmount;
 
     public Bid toEntity() {
         return Bid.builder()
             .auctionId(this.auctionId)
-            .participantMemberId(this.participantMemberId)
+            .participantMemberUsername(this.participantMemberUsername)
             .coinId(this.coinId)
             .coinAmount(this.coinAmount)
             .build();

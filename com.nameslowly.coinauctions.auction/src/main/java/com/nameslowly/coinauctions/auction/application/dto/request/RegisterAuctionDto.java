@@ -16,7 +16,6 @@ public class RegisterAuctionDto {
     private String title;
     private String image;
     private String description;
-    private Integer duration;
     private BigDecimal hopePrice;
     private Long coinId;
     private Long registerMemberId;

@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CoinDto {
 
-    private Long coinId;
-    private BigDecimal coinPrice;
+    private Long id;
+    private String coin_name;
+    private String coin_real_name;
+    private BigDecimal coin_price;
 }

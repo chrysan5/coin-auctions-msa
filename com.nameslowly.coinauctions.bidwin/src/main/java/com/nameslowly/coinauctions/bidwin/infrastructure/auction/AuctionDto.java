@@ -18,7 +18,7 @@ public class AuctionDto {
     private LocalDateTime registerTime;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private BigDecimal baseAmount;
+    private BigDecimal basePrice;
     private Long coinId;
     private BigDecimal coinFixedPrice;
     private Long registerMemberId;
