@@ -30,7 +30,7 @@ public class Bid extends BaseEntity {
     @Column(name = "bid_id")
     private Long id;
     private Long auctionId;
-    private Long participantMemberId;
+    private String participantMemberUsername;
     private Long coinId;
     @Column(precision = 10, scale = 3)
     private BigDecimal coinAmount;
@@ -39,9 +39,10 @@ public class Bid extends BaseEntity {
     private LocalDateTime bidTime;
 
     @Builder
-    public Bid(Long auctionId, Long participantMemberId, Long coinId, BigDecimal coinAmount) {
+    public Bid(Long auctionId, String participantMemberUsername, Long coinId,
+        BigDecimal coinAmount) {
         this.auctionId = auctionId;
-        this.participantMemberId = participantMemberId;
+        this.participantMemberUsername = participantMemberUsername;
         this.coinId = coinId;
         this.coinAmount = coinAmount;
         this.bidStatus = BidStatus.WIN;

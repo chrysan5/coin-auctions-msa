@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "auctionId": 1,
-  "participantMemberId": 123,
+  "participantMemberUsername": "panjun",
   "coinId": 456,
-  "coinAmount": 10077.5000001
+  "coinAmount": 2011
 }
