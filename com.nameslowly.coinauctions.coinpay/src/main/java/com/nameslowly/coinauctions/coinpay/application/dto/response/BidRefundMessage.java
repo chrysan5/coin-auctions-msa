@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 public class BidRefundMessage {
     private String username;
     private Long coin_id;
-    private BigDecimal Amount;
+    private double amount;
 }

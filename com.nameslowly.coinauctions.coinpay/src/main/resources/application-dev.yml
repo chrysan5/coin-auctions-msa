@@ -5,10 +5,6 @@ spring:
     username: guest
     password: guest
 
-#message:
-#  queue:
-#    coinpay: app.coin
-
 
   datasource:
     url: jdbc:mysql://localhost:3306/coin  # 여기에 실제 데이터베이스 이름을 넣으세요
@@ -35,3 +31,7 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+message:
+  exchange: app
+  queue:
+    bid-cancel: app.bid.cancel
