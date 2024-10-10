@@ -1,8 +1,8 @@
-package com.nameslowly.coinauctions.bidwin.presentation.controller;
+package com.nameslowly.coinauctions.bidwin.presentation;
 
 import com.nameslowly.coinauctions.bidwin.application.BidService;
 import com.nameslowly.coinauctions.bidwin.domain.model.Bid;
-import com.nameslowly.coinauctions.bidwin.infrastructure.auction.AuctionService;
+import com.nameslowly.coinauctions.bidwin.infrastructure.coinpay.CoinpayService;
 import com.nameslowly.coinauctions.bidwin.presentation.request.RegisterBidRequest;
 import com.nameslowly.coinauctions.bidwin.presentation.response.RegisterBidResponse;
 import com.nameslowly.coinauctions.common.response.CommonResponse;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BidController {
 
     private final BidService bidService;
-    private final AuctionService auctionService;
+    private final CoinpayService coinpayService;
 
     @PostMapping("/api/bids")
     public CommonResponse<RegisterBidResponse> register(@RequestBody RegisterBidRequest request) {
@@ -39,5 +39,4 @@ public class BidController {
     public CommonResponse<Bid> retrieveBid(@PathVariable("bidId") Long bidId) {
         return CommonResponse.success(bidService.retrieveBid(bidId));
     }
-
 }

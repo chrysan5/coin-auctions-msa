@@ -1,0 +1,18 @@
+### coin create
+POST http://localhost:8084/api/coins/create
+Content-Type: application/json
+
+{
+  "coin_real_name": "KRW-WAVES",
+  "coin_name": "wave"
+}
+
+### coin purchase
+POST http://localhost:8084/api/coin_wallets
+Content-Type: application/json
+X-User-Name: biggu
+
+{
+  "charge_amount": 5000000,
+  "coin_id": 1
+}

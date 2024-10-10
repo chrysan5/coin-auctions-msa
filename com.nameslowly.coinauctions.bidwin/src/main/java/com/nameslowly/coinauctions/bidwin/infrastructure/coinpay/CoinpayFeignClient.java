@@ -1,9 +1,9 @@
 package com.nameslowly.coinauctions.bidwin.infrastructure.coinpay;
 
-import java.math.BigDecimal;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Primary;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface CoinpayFeignClient extends CoinpayService {
 
     @GetMapping("/api/internal/coins/{coinId}")
-    CoinDto getCoin(Long coinId);
+    CoinDto getCoin(@PathVariable("coinId") Long coinId);
 
-    @PutMapping("/api/internal/coins/decrease")
-    void decreaseUserCoin(@RequestBody BigDecimal coinAmount);
+    @PutMapping("/api/internal/coin_wallets/use")
+    boolean useCoin(@RequestBody CoinBidRequest request);
 
-    @PutMapping("/api/internal/coins/increase")
-    void increaseUserCoin(@RequestBody BigDecimal coinAmount);
+    @PutMapping("/api/internal/coin_wallets/recover")
+    void recoverCoin(@RequestBody CoinBidRequest request);
 
 }

@@ -6,6 +6,8 @@ import com.nameslowly.coinauctions.bidwin.domain.service.BidFactory;
 import com.nameslowly.coinauctions.bidwin.domain.service.BidReader;
 import com.nameslowly.coinauctions.bidwin.infrastructure.auction.AuctionDto;
 import com.nameslowly.coinauctions.bidwin.infrastructure.auction.AuctionService;
+import com.nameslowly.coinauctions.bidwin.infrastructure.coinpay.CoinBidRequest;
+import com.nameslowly.coinauctions.bidwin.infrastructure.coinpay.CoinDto;
 import com.nameslowly.coinauctions.bidwin.infrastructure.coinpay.CoinpayService;
 import com.nameslowly.coinauctions.bidwin.infrastructure.message.BidCancelMessage;
 import com.nameslowly.coinauctions.bidwin.infrastructure.message.BidRegisterMessage;
@@ -67,7 +69,7 @@ public class BidService {
         log.info("입찰자 조회");
         AuctionDto auction = auctionService.getAuction(dto.getAuctionId());
         log.info("경매 조회");
-//        CoinDto coin = coinpayService.getCoin(dto.getCoinId());
+        CoinDto coin = coinpayService.getCoin(dto.getCoinId());
         log.info("코인 조회");
 
         if (!auction.getAuctionStatus().equals("ONGOING")) {
@@ -75,45 +77,52 @@ public class BidService {
             throw new GlobalException(ResultCase.NOT_ONGOING_AUCTION);
         }
 
-//        if (coinpayService.decreaseUserCoin(dto.getCoinAmount())) {
-//            log.info("새 입찰자 코인 부족");
-//            throw new GlobalException(ResultCase.NOT_ENOUGH_USER_COIN_AMOUNT);
-//        }
-        log.info("새 입찰자 코인 사용");
-
         Bid newBid;
         Boolean isNewBid = false;
         BidCancelMessage bidCancelMessage = null;
-        try {
-            Optional<Bid> winBidOpt = bidReader.findWinBidByAuctionId(dto.getAuctionId());
-            if (winBidOpt.isPresent()) {
-                log.info("현재 입찰 존재");
-                Bid winBid = winBidOpt.get();
+        Optional<Bid> winBidOpt = bidReader.findWinBidByAuctionId(dto.getAuctionId());
+        if (winBidOpt.isPresent()) {
+            log.info("현재 입찰 존재");
+            Bid winBid = winBidOpt.get();
 
-                if (notExceed(dto.getCoinAmount(), winBid.getCoinAmount())) {
-                    log.info("현재 입찰 보다 적음");
-                    throw new GlobalException(ResultCase.NOT_ENOUGH_THAN_CURRENT_PRICE);
-                }
-
-                bidCancelMessage = new BidCancelMessage(
-                    winBid.getParticipantMemberUsername(), winBid.getCoinId(),
-                    winBid.getCoinAmount());
-            } else {
-                isNewBid = true;
-                log.info("최초 입찰");
-
-                if (notExceed(dto.getCoinAmount(), auction.getBasePrice())) {
-                    log.info("경매 시작가보다 보다 적음");
-                    throw new GlobalException(ResultCase.NOT_ENOUGH_THAN_BASE_AMOUNT);
-                }
+            if (winBid.getParticipantMemberUsername() == dto.getParticipantMemberUsername()) {
+                throw new RuntimeException("최고 입찰자가 본인임");
             }
 
+            if (notExceed(dto.getCoinAmount(), winBid.getCoinAmount())) {
+                log.info("현재 입찰 보다 적음");
+                throw new GlobalException(ResultCase.NOT_ENOUGH_THAN_CURRENT_PRICE);
+            }
+
+            bidCancelMessage = new BidCancelMessage(
+                winBid.getParticipantMemberUsername(), winBid.getCoinId(),
+                winBid.getCoinAmount());
+        } else {
+            isNewBid = true;
+            log.info("최초 입찰");
+
+            if (notExceed(dto.getCoinAmount(), auction.getBasePrice())) {
+                log.info("경매 시작가보다 보다 적음");
+                throw new GlobalException(ResultCase.NOT_ENOUGH_THAN_BASE_AMOUNT);
+            }
+        }
+
+        if (!coinpayService.useCoin(
+            new CoinBidRequest(dto.getParticipantMemberUsername(), dto.getCoinId(),
+                dto.getCoinAmount()))) {
+            log.info("새 입찰자 코인 부족");
+            throw new GlobalException(ResultCase.NOT_ENOUGH_USER_COIN_AMOUNT);
+        }
+        log.info("새 입찰자 코인 사용");
+
+        try {
             newBid = bidFactory.create(dto);
             log.info("새 입찰 생성");
-
         } catch (Exception e) {
             log.info("새 입찰 생성 에러");
-//                coinpayService.increaseUserCoin(winBid.getCoinAmount());
+            coinpayService.recoverCoin(
+                new CoinBidRequest(dto.getParticipantMemberUsername(), dto.getCoinId(),
+                    dto.getCoinAmount()));
             log.info("새 입찰자 코인 회복");
             throw new GlobalException(ResultCase.NEW_BID_CREATE_ERROR);
         }
@@ -125,7 +134,7 @@ public class BidService {
         rabbitTemplate.convertAndSend(queueBidRegister, bidRegisterMessage);
         log.info("새 입찰 등록 메시지 발행");
 
-        if (!isNewBid) {
+        if (!isNewBid) { // 최초 입찰이 아니면
             rabbitTemplate.convertAndSend(queueBidCancel, bidCancelMessage);
             log.info("현재 입찰 취소 메시지 발행");
         }

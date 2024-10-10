@@ -4,6 +4,7 @@ import com.nameslowly.coinauctions.auction.application.dto.request.RegisterAucti
 import com.nameslowly.coinauctions.auction.domain.model.Auction;
 import com.nameslowly.coinauctions.auction.domain.service.AuctionReader;
 import com.nameslowly.coinauctions.auction.domain.service.AuctionStore;
+import com.nameslowly.coinauctions.auction.infrastructure.coinpay.CoinDto;
 import com.nameslowly.coinauctions.auction.infrastructure.coinpay.CoinpayService;
 import com.nameslowly.coinauctions.auction.infrastructure.user.UserService;
 import java.math.BigDecimal;
@@ -25,21 +26,20 @@ public class AuctionService {
     @Transactional
     public Long register(RegisterAuctionDto dto) {
 //        userService.getUser(dto.getRegisterMemberId());
-//        CoinDto coin = coinpayService.getCoin(dto.getCoinId());
+        CoinDto coin = coinpayService.getCoin(dto.getCoinId());
         Auction initAuction = dto.toEntity();
         Auction auction = auctionStore.store(initAuction);
         return auction.getId();
     }
 
-    //    @Scheduled(fixedRate = 60000)
+    //    @Scheduled(fixedRate = 10000)
     @Transactional
     public void startAuction() {
         List<Auction> pendingAuctions = auctionReader.getPendingAuction();
         pendingAuctions.forEach(
             auction -> {
-//                CoinDto coin = coinpayService.getCoin(auction.getCoinId());
-//                BigDecimal fixedCoinPrice = coin.getCoin_price();
-                BigDecimal fixedCoinPrice = new BigDecimal(100.00);
+                CoinDto coin = coinpayService.getCoin(auction.getCoinId());
+                BigDecimal fixedCoinPrice = coin.getCoin_price();
                 auction.start(fixedCoinPrice);
             }
         );
@@ -60,5 +60,11 @@ public class AuctionService {
     @Transactional(readOnly = true)
     public Auction retrieveAuction(Long auctionId) {
         return auctionReader.getAuction(auctionId);
+    }
+
+    @Transactional
+    public void updateCurrentAmount(Long auctionId, BigDecimal bidAmount) {
+        Auction auction = auctionReader.getAuction(auctionId);
+        auction.updateCurrentAmount(bidAmount);
     }
 }
