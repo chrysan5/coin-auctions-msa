@@ -39,6 +39,10 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+<<<<<<< HEAD
+
+	runtimeOnly 'com.mysql:mysql-connector-j'
+=======
 	runtimeOnly 'mysql:mysql-connector-java:8.0.33'
 
 	implementation 'org.webjars.bower:jquery:3.3.1'
@@ -52,6 +56,7 @@ dependencies {
 	//implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
 	//implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
 	//implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+>>>>>>> b0366081caefae25f81935e498ed542578bb5c4f
 }
 
 dependencyManagement {
@@ -60,6 +65,14 @@ dependencyManagement {
 	}
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
-}
+//tasks.named('test') {
+//	useJUnitPlatform()
+//}
+
+//def activeProfile = System.getenv('SPRING_PROFILES_ACTIVE') // application.yml 의 spring.profiles.active 값을 가져온다
+//
+//if (activeProfile != "prod") { // activeProfile이 prod가 아닌 경우에만 작업 실행
+//	tasks.register("prepareKotlinBuildScriptModel") {
+//		// 작업 내용 작성
+//	}
+//}
