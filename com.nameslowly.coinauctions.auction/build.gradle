@@ -35,10 +35,16 @@ dependencies {
     implementation project(path: ':com.nameslowly.coinauctions.common')
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // test database
+    testCompileOnly 'com.h2database:h2'
+    // test jpa
+    testCompileOnly 'org.springframework.boot:spring-boot-starter-data-jpa'
 }
 
 dependencyManagement {
@@ -46,9 +52,19 @@ dependencyManagement {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
-
-tasks.named('test') {
-    useJUnitPlatform()
-}
-
-tasks.register("prepareKotlinBuildScriptModel") {}
+//
+//tasks.named('test') {
+//    useJUnitPlatform()
+//}
+//
+//
+//def activeProfile = System.getenv('SPRING_PROFILES_ACTIVE') // application.yml 의 spring.profiles.active 값을 가져온다
+//
+//logger.lifecycle("Active profile: ${activeProfile}") // 프로파일 디버깅
+//
+//if (activeProfile != "prod" && activeProfile != "test") { // activeProfile이 prod가 아닌 경우에만 작업 실행
+//    logger.lifecycle("실행되버렸습니다...") // 프로파일 디버깅
+//    tasks.register("prepareKotlinBuildScriptModel") {
+//        // 작업 내용 작성
+//    }
+//}

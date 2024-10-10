@@ -1,6 +1,6 @@
 spring:
   application:
-    name: coin
+    name: chat
 
   profiles:
     active: prod
