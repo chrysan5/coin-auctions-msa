@@ -36,6 +36,21 @@ public enum ResultCase {
     EXPIRED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, 2005, "만료된 Refresh Token"),
 
     /* 서비스별로 분기 */
+
+    /* auction-server 4000 */
+
+    /* bidwin-server 5000 */
+    NOT_FOUND_USER(HttpStatus.BAD_REQUEST, 7000, "해당 유저 찾을 수 없음"),
+    NOT_FOUND_AUCTION(HttpStatus.BAD_REQUEST, 7001, "해당 경매 찾을 수 없음"),
+    NOT_FOUND_COIN(HttpStatus.BAD_REQUEST, 7002, "해당 코인 찾을 수 없음"),
+    NOT_ONGOING_AUCTION(HttpStatus.BAD_REQUEST, 7003, "진행 중인 경매 아님"),
+    NOT_ENOUGH_USER_COIN_AMOUNT(HttpStatus.BAD_REQUEST, 7004, "유저 코인 부족"),
+    NOT_ENOUGH_THAN_CURRENT_PRICE(HttpStatus.BAD_REQUEST, 7005, "현재 입찰 보다 적음"),
+    NOT_ENOUGH_THAN_BASE_AMOUNT(HttpStatus.BAD_REQUEST, 7006, "경매 시작가 보다 적음"),
+    NEW_BID_CREATE_ERROR(HttpStatus.BAD_REQUEST, 7007, "새 입찰 생성 에러"),
+
+
+    /* coinpay-server 7000 */
     COIN_NOT_FOUND(HttpStatus.NOT_FOUND, 7000, "코인을 찾을 수 없습니다."),
     COIN_WALLET_NOT_FOUND(HttpStatus.NOT_FOUND, 7001, "해당 코인과 유저에 해당하는 코인지갑을 찾을 수 없습니다."),
     INVALID_COIN_PRICE(HttpStatus.BAD_REQUEST, 7002, "해당 코인의 값이 유효하지 않습니다."),

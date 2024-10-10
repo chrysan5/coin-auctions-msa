@@ -1,26 +1,25 @@
 package com.nameslowly.coinauctions.coinpay.application.service;
 
 
+import com.nameslowly.coinauctions.coinpay.application.dto.request.CoinBidRequest;
+import com.nameslowly.coinauctions.coinpay.application.dto.request.CoinChargeRequest;
 import com.nameslowly.coinauctions.coinpay.domain.model.Coin;
 import com.nameslowly.coinauctions.coinpay.domain.model.CoinHistory;
 import com.nameslowly.coinauctions.coinpay.domain.model.CoinWallet;
 import com.nameslowly.coinauctions.coinpay.domain.model.CoinWalletVO;
-import com.nameslowly.coinauctions.coinpay.application.dto.request.CoinBidRequest;
-import com.nameslowly.coinauctions.coinpay.application.dto.request.CoinChargeRequest;
 import com.nameslowly.coinauctions.coinpay.domain.repository.CoinHistoryRepository;
 import com.nameslowly.coinauctions.coinpay.domain.repository.CoinRepository;
 import com.nameslowly.coinauctions.coinpay.domain.repository.CoinWalletRepository;
 import com.nameslowly.coinauctions.common.exception.GlobalException;
 import com.nameslowly.coinauctions.common.response.ResultCase;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,8 +31,22 @@ public class CoinWalletService {
     private final CoinWalletRepository coinWalletRepository;
     private final CoinHistoryRepository coinHistoryRepository;
 
+    // 코인 히스토리 생성 함수
+    private void createCoinHistory(String username, Long coinId, BigDecimal amount,
+        BigDecimal balanceBefore, BigDecimal balanceAfter, String reason) {
+        CoinHistory coinHistory = CoinHistory.builder()
+            .username(username)
+            .coinId(coinId)
+            .amount(amount)
+            .balanceBefore(balanceBefore)
+            .balanceAfter(balanceAfter)
+            .reason(reason)
+            .build();
+        coinHistoryRepository.save(coinHistory);
+    }
+
     @Transactional //코인 지갑 생성 -> 이미 해당유저와 코인이 있는경우 충전금액 만큼 코인 추가, 없을 경우 생성 -> 코인 히스토리 생성
-    public CoinWalletVO saveCoinWallet(CoinChargeRequest request) {
+    public CoinWalletVO saveCoinWallet(CoinChargeRequest request, String username) {
         Coin coin = coinRepository.findByIdAndIsDeletedFalse(request.getCoin_id())
             .orElseThrow(() -> new GlobalException(ResultCase.COIN_NOT_FOUND));
 
@@ -51,7 +64,8 @@ public class CoinWalletService {
         BigDecimal quantity = chargeAmount.divide(price, 2, RoundingMode.HALF_UP);
 
         // username과 coinId로 기존 CoinWallet을 조회
-        CoinWallet coinWallet = coinWalletRepository.findByUsernameAndCoinId(request.getUsername(), request.getCoin_id())
+        CoinWallet coinWallet = coinWalletRepository.findByUsernameAndCoinId(username,
+                request.getCoin_id())
             .orElse(null);
         log.info("Saving coin wallet: {}", coinWallet);
         BigDecimal balanceBefore;
@@ -67,52 +81,39 @@ public class CoinWalletService {
             balanceBefore = BigDecimal.ZERO;
             balanceAfter = quantity;
             coinWallet = CoinWallet.builder()
-                .username(request.getUsername())
+                .username(username)
                 .coinId(request.getCoin_id())
                 .quantity(quantity)
                 .build();
         }
 
         coinWalletRepository.save(coinWallet);
-
         // CoinHistory 저장
-        CoinHistory coinHistory = CoinHistory.builder()
-            .username(request.getUsername())
-            .coinId(request.getCoin_id())
-            .amount(quantity)
-            .balanceBefore(balanceBefore)
-            .balanceAfter(balanceAfter)
-            .reason("코인 충전")
-            .build();
-        coinHistoryRepository.save(coinHistory);
-
+        createCoinHistory(username, request.getCoin_id(), quantity, balanceBefore, balanceAfter,
+            "코인 충전");
         return coinWallet.toCoinWalletVO();
     }
 
     @Transactional //코인 바인딩 feign요청 들어왔을 때 입찰한 만큼의 코인 바인딩 후 코인 히스토리로 남김
-    public void changeBidCoin(CoinBidRequest request) {
+    public boolean changeBidCoin(CoinBidRequest request) {
         CoinWallet coinWallet = coinWalletRepository.findByUsernameAndCoinId(request.getUsername(),
-            request.getCoin_id())
+                request.getCoin_id())
             .orElseThrow(() -> new GlobalException(ResultCase.COIN_WALLET_NOT_FOUND));
-        if (coinWallet == null) {
-            throw new GlobalException(ResultCase.COIN_WALLET_NOT_FOUND);
-        }
+//        if (coinWallet == null) {
+//            throw new GlobalException(ResultCase.COIN_WALLET_NOT_FOUND);
+//        }
         BigDecimal balanceBefore = coinWallet.getQuantity();
-        BigDecimal updatedQuantity = balanceBefore.add(request.getQuantity());
+        BigDecimal updatedQuantity = balanceBefore.subtract(request.getQuantity());
         if (updatedQuantity.compareTo(BigDecimal.ZERO) < 0) {
-            throw new GlobalException(ResultCase.INVALID_QUANTITY);
+            return false;
+//            throw new GlobalException(ResultCase.INVALID_QUANTITY);
         }
         coinWallet.coinWalletUpdate(updatedQuantity);
         coinWalletRepository.save(coinWallet);
-        CoinHistory coinHistory = CoinHistory.builder()
-            .username(request.getUsername())
-            .coinId(request.getCoin_id())
-            .amount(request.getQuantity())
-            .balanceBefore(balanceBefore)
-            .balanceAfter(updatedQuantity)
-            .reason("코인 바인딩")
-            .build();
-        coinHistoryRepository.save(coinHistory);
+        // CoinHistory 저장
+        createCoinHistory(request.getUsername(), request.getCoin_id(), request.getQuantity(),
+            balanceBefore, updatedQuantity, "코인 바인딩");
+        return true;
     }
 
     @Transactional(readOnly = true) //유저의 로그인 ID에 해당하는 코인지갑 확인
@@ -127,18 +128,29 @@ public class CoinWalletService {
     public void restoreCoins(String username, Long coinId, BigDecimal amount) {
         CoinWallet wallet = coinWalletRepository.findByUsernameAndCoinId(username, coinId)
             .orElseThrow(() -> new GlobalException(ResultCase.COIN_WALLET_NOT_FOUND));
+        System.out.println("coin amount : " + amount);
+        BigDecimal amount1 = amount;
         BigDecimal balanceBefore = wallet.getQuantity(); // 변경 전 잔액
-        BigDecimal balanceAfter = balanceBefore.add(amount); // 변경 후 잔액
+        BigDecimal balanceAfter = balanceBefore.add(amount1); // 변경 후 잔액
         wallet.coinWalletUpdate(balanceAfter);
         coinWalletRepository.save(wallet);
-        CoinHistory coinHistory = CoinHistory.builder()
-            .username(username)
-            .coinId(coinId)
-            .amount(amount)
-            .balanceBefore(balanceBefore)
-            .balanceAfter(balanceAfter)
-            .reason("기존 입찰 코인 회복")
-            .build();
-        coinHistoryRepository.save(coinHistory);
+        //코인 히스토리 생성
+        createCoinHistory(username, coinId, amount1, balanceBefore, balanceAfter, "기존 입찰 코인 회복");
+    }
+
+    public void recoverBidCoin(CoinBidRequest request) {
+        CoinWallet coinWallet = coinWalletRepository.findByUsernameAndCoinId(request.getUsername(),
+                request.getCoin_id())
+            .orElseThrow(() -> new GlobalException(ResultCase.COIN_WALLET_NOT_FOUND));
+//        if (coinWallet == null) {
+//            throw new GlobalException(ResultCase.COIN_WALLET_NOT_FOUND);
+//        }
+        BigDecimal balanceBefore = coinWallet.getQuantity();
+        BigDecimal updatedQuantity = balanceBefore.add(request.getQuantity());
+        coinWallet.coinWalletUpdate(updatedQuantity);
+        coinWalletRepository.save(coinWallet);
+        // CoinHistory 저장
+        createCoinHistory(request.getUsername(), request.getCoin_id(), request.getQuantity(),
+            balanceBefore, updatedQuantity, "코인 회복");
     }
 }

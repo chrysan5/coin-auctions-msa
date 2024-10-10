@@ -1,4 +1,4 @@
-package com.nameslowly.coinauctions.auction.presentation.dto.response;
+package com.nameslowly.coinauctions.bidwin.presentation.response;
 
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
@@ -8,8 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterAuctionResponse implements Serializable {
+public class RegisterBidResponse implements Serializable {
 
-    private Long auctionId;
-
+    private Long bidId;
 }

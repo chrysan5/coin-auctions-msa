@@ -14,10 +14,10 @@ public class QueueConfig {
 
     @Value("${message.exchange}")
     private String exchange;
-    @Value("${message.queue.bid}")
+    @Value("${message.queue.bid-cancel}")
     private String queueBidCancel;
-    @Value("${message.queue.coin}")
-    private String queueCoinVariation;
+    @Value("${message.queue.bid-register}")
+    private String queueBidRegister;
 
     @Bean
     public Jackson2JsonMessageConverter producerJackson2MessageConverter() {
@@ -40,13 +40,13 @@ public class QueueConfig {
     }
 
     @Bean
-    public Queue queueCoinVariation() {
-        return new Queue(queueCoinVariation);
+    public Queue queueBidRegister() {
+        return new Queue(queueBidRegister);
     }
 
     @Bean
-    public Binding bindingCoinVariation() {
-        return BindingBuilder.bind(queueCoinVariation()).to(exchange()).with(queueCoinVariation);
+    public Binding bindingBidRegister() {
+        return BindingBuilder.bind(queueBidRegister()).to(exchange()).with(queueBidRegister);
     }
 
 }
