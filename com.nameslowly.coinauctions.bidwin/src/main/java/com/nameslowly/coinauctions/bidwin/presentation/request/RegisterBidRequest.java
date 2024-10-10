@@ -1,4 +1,4 @@
-package com.nameslowly.coinauctions.bidwin.presentation.dto.request;
+package com.nameslowly.coinauctions.bidwin.presentation.request;
 
 import com.nameslowly.coinauctions.bidwin.application.dto.RegisterBidDto;
 import java.math.BigDecimal;
@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 public class RegisterBidRequest {
 
     private Long auctionId;
-    private Long participantMemberId;
+    private String participantMemberUsername;
     private Long coinId;
     private BigDecimal coinAmount;
 
     public RegisterBidDto toDto() {
         return RegisterBidDto.builder()
             .auctionId(this.auctionId)
-            .participantMemberId(this.participantMemberId)
+            .participantMemberUsername(this.participantMemberUsername)
             .coinId(this.coinId)
             .coinAmount(this.coinAmount)
             .build();

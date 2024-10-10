@@ -1,6 +1,7 @@
 package com.nameslowly.coinauctions.bidwin.infrastructure.coinpay;
 
-import java.math.BigDecimal;
+import com.nameslowly.coinauctions.common.exception.GlobalException;
+import com.nameslowly.coinauctions.common.response.ResultCase;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -10,18 +11,18 @@ public class CoinpayFallback implements CoinpayFeignClient {
 
     @Override
     public CoinDto getCoin(Long coinId) {
-        log.info("coin service error");
-//        throw new RuntimeException("user service error");
-        return null;
+        log.info("COINPAY-SERVER 에러");
+        throw new GlobalException(ResultCase.NOT_FOUND_COIN);
     }
 
     @Override
-    public void decreaseUserCoin(Long userId, BigDecimal coinAmount) {
-
+    public boolean useCoin(CoinBidRequest request) {
+        log.info("COINPAY-SERVER 에러");
+        return false;
     }
 
     @Override
-    public void increaseUserCoin(Long userId, BigDecimal coinAmount) {
-
+    public void recoverCoin(CoinBidRequest request) {
+        log.info("COINPAY-SERVER 에러");
     }
 }

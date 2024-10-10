@@ -7,7 +7,7 @@ public class CoinpayFallback implements CoinpayFeignClient {
 
     @Override
     public CoinDto getCoin(Long coinId) {
-        return new CoinDto();
+        throw new RuntimeException("no coin");
     }
 
 }

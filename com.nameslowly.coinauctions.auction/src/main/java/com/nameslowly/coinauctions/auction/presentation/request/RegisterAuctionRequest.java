@@ -1,4 +1,4 @@
-package com.nameslowly.coinauctions.auction.presentation.dto.request;
+package com.nameslowly.coinauctions.auction.presentation.request;
 
 import com.nameslowly.coinauctions.auction.application.dto.request.RegisterAuctionDto;
 import java.math.BigDecimal;

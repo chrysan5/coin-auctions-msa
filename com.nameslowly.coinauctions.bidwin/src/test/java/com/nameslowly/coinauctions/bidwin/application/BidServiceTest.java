@@ -1,7 +1,6 @@
 package com.nameslowly.coinauctions.bidwin.application;
 
 import com.nameslowly.coinauctions.bidwin.application.dto.RegisterBidDto;
-import com.nameslowly.coinauctions.bidwin.application.service.BidService;
 import com.nameslowly.coinauctions.bidwin.domain.repository.BidRepository;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Assertions;
