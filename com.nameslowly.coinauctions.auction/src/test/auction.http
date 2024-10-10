@@ -3,12 +3,12 @@ POST http://localhost:8082/api/auctions
 Content-Type: application/json
 
 {
-  "title": "example title",
+  "title": "galaxy s24",
   "image": "http://example.com/image.jpg",
-  "description": "example description",
-  "hopePrice": 1000.00,
-  "coinId": 1,
-  "registerMemberId": 1
+  "description": "액정 고장남",
+  "hopePrice": 1000,
+  "coinId": 3,
+  "registerMemberId": 123
 }
 
 ### retrieve auction page

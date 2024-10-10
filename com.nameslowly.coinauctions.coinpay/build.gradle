@@ -50,11 +50,4 @@ dependencyManagement {
 //tasks.named('test') {
 //	useJUnitPlatform()
 //}
-
-//def activeProfile = System.getenv('SPRING_PROFILES_ACTIVE') // application.yml 의 spring.profiles.active 값을 가져온다
-//
-//if (activeProfile != "prod") { // activeProfile이 prod가 아닌 경우에만 작업 실행
-//	tasks.register("prepareKotlinBuildScriptModel") {
-//		// 작업 내용 작성
-//	}
-//}
+//tasks.register("prepareKotlinBuildScriptModel"){}

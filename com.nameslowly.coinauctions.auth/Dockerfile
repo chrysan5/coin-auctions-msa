@@ -31,7 +31,7 @@ RUN chmod +x /app/gradlew
 RUN /app/gradlew build
 
 # 빌드된 JAR 파일을 임시 디렉토리로 복사
-RUN cp /app/build/libs/*.jar /app/
+RUN cp /app/b\uild/libs/*.jar /app/
 RUN ls
 
 # 빌드된 결과를 실행

@@ -1,0 +1,43 @@
+### 회원 가입
+POST http://localhost:8081/sign-up
+Content-Type: application/json
+
+{
+  "username": "user1234",
+  "password": "pwd1234@"
+}
+
+### 경매 등록
+POST http://localhost:8082/api/auctions
+Content-Type: application/json
+
+{
+  "title": "Galaxy S24",
+  "image": "http://example.com/Galaxy S24.jpg",
+  "description": "액정 고장남",
+  "hopePrice": 1000,
+  "coinId": 3,
+  "registerMemberId": 123
+}
+
+### 최초 입찰
+POST http://localhost:8083/api/bids
+Content-Type: application/json
+
+{
+  "auctionId": 1,
+  "participantMemberUsername": "panjun",
+  "coinId": 3,
+  "coinAmount": 15
+}
+
+### 재입찰
+POST http://localhost:8083/api/bids
+Content-Type: application/json
+
+{
+  "auctionId": 1,
+  "participantMemberUsername": "hyeokjin",
+  "coinId": 3,
+  "coinAmount": 16.01
+}

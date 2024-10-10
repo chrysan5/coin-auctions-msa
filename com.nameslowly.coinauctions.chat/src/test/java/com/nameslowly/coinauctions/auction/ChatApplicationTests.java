@@ -1,4 +1,4 @@
-package com.nameslowly.coinauctions.chat;
+package com.nameslowly.coinauctions.auction;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
