@@ -56,8 +56,8 @@ public class JwtUtil {
 
     ////////////////////////////////////////////////////////////////////
 
-    // 1. access 토큰(JWT) 생성 (1) JWT 토큰을 헤더에 달아 보낼수도 있고 (2) 쿠키객체에 담아 줄 수도 있다 - 프론트와 조율해야함
-    public String createAccessToken(String username, UserRole role) {
+    // 1. JWT 토큰 생성 (1) JWT 토큰을 헤더에 달아 보낼수도 있고 (2) 쿠키객체에 담아 줄 수도 있다 - 프론트와 조율해야함
+    public String createToken(String username, UserRole role) {
         Date date = new Date();
 
         return BEARER_PREFIX +
@@ -68,20 +68,6 @@ public class JwtUtil {
                        .issuedAt(date) // 발급일
                        .signWith(key) // 암호화 알고리즘
                        .compact();
-    }
-
-    // 2. refresh 토큰 생성
-    public String createRefreshToken(String username) {
-        Date date = new Date();
-
-        return BEARER_PREFIX +
-            Jwts.builder()
-                .subject(username) // 사용자 식별자값(ID)
-//                .claim(AUTHORIZATION_KEY, role) // 사용자 권한
-                .expiration(new Date(date.getTime() + TOKEN_TIME)) // 만료 시간
-                .issuedAt(date) // 발급일
-                .signWith(key) // 암호화 알고리즘
-                .compact();
     }
 
     // 2. jWT를 쿠키에 저장
