@@ -1,6 +1,6 @@
 spring:
   application:
-    name: coinpay-server
+    name: chat
 
   profiles:
     active: prod
