@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +33,7 @@ public class AuctionService {
         return auction.getId();
     }
 
-    //    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 1000 * 60 * 2)
     @Transactional
     public void startAuction() {
         List<Auction> pendingAuctions = auctionReader.getPendingAuction();
@@ -45,11 +46,17 @@ public class AuctionService {
         );
     }
 
-    //    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 1000)
     @Transactional
     public void endAuction() {
         List<Auction> ongoingAuctions = auctionReader.getOngoingAuction();
         ongoingAuctions.forEach(Auction::end);
+    }
+
+    @Transactional
+    public void updateCurrentAmount(Long auctionId, BigDecimal bidAmount) {
+        Auction auction = auctionReader.getAuction(auctionId);
+        auction.updateCurrentAmount(bidAmount);
     }
 
     @Transactional(readOnly = true)
@@ -60,11 +67,5 @@ public class AuctionService {
     @Transactional(readOnly = true)
     public Auction retrieveAuction(Long auctionId) {
         return auctionReader.getAuction(auctionId);
-    }
-
-    @Transactional
-    public void updateCurrentAmount(Long auctionId, BigDecimal bidAmount) {
-        Auction auction = auctionReader.getAuction(auctionId);
-        auction.updateCurrentAmount(bidAmount);
     }
 }
