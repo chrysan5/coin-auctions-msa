@@ -23,6 +23,7 @@ RUN echo "project(':com.nameslowly.coinauctions.common').projectDir = file('com.
 RUN apt-get update && apt-get install -y findutils
 
 # 프로젝트를 빌드
+RUN chmod +x /app/gradlew
 RUN /app/gradlew build
 
 # 빌드된 JAR 파일을 임시 디렉토리로 복사
