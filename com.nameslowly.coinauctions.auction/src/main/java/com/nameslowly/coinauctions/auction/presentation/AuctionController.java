@@ -2,6 +2,7 @@ package com.nameslowly.coinauctions.auction.presentation;
 
 import com.nameslowly.coinauctions.auction.application.AuctionService;
 import com.nameslowly.coinauctions.auction.domain.model.Auction;
+import com.nameslowly.coinauctions.auction.infrastructure.coinpay.CoinpayService;
 import com.nameslowly.coinauctions.auction.infrastructure.message.BidRegisterMessage;
 import com.nameslowly.coinauctions.auction.presentation.request.RegisterAuctionRequest;
 import com.nameslowly.coinauctions.auction.presentation.response.AuctionDto;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuctionController {
 
     private final AuctionService auctionService;
+    private final CoinpayService coinpayService;
 
     @PostMapping("/api/auctions")
     public CommonResponse<RegisterAuctionResponse> register(
@@ -50,8 +52,6 @@ public class AuctionController {
 
     @RabbitListener(queues = "${message.queue.bid-register}") // todo
     public void updateCurrentAmount(BidRegisterMessage message) {
-        System.out.println(message.getAuctionId());
-        System.out.println(message.getBidAmount());
+        auctionService.updateCurrentAmount(message.getAuctionId(), message.getBidAmount());
     }
-
 }

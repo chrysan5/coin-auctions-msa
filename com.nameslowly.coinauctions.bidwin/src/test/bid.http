@@ -4,7 +4,10 @@ Content-Type: application/json
 
 {
   "auctionId": 1,
-  "participantMemberUsername": "panjun",
-  "coinId": 456,
-  "coinAmount": 2011
+  "participantMemberUsername": "biggu",
+  "coinId": 1,
+  "coinAmount": 200.003
 }
+
+###
+GET http://localhost:8083/api/bids
