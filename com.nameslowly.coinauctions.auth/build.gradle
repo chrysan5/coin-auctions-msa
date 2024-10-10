@@ -70,10 +70,7 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 	// test database
-	testImplementation 'com.h2database:h2'
-	// test jpa
-	testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
+	testRuntimeOnly 'com.h2database:h2'
 
 
 }
@@ -84,14 +81,8 @@ dependencyManagement {
 	}
 }
 
-//tasks.named('test') { // 테스트시 JUnit 5 쓰겠다는 의미
-//	useJUnitPlatform()
-//}
+tasks.named('test') {
+	useJUnitPlatform()
+}
 
-//def activeProfile = System.getenv('SPRING_PROFILES_ACTIVE') // application.yml 의 spring.profiles.active 값을 가져온다
-//
-//if (activeProfile != "prod") { // activeProfile이 prod가 아닌 경우에만 작업 실행
-//	tasks.register("prepareKotlinBuildScriptModel") {
-//		// 작업 내용 작성
-//	}
-//}
+//tasks.register("prepareKotlinBuildScriptModel"){}

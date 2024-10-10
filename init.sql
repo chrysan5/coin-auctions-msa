@@ -1,46 +1,17 @@
 -- 데이터베이스 생성
-CREATE DATABASE IF NOT EXISTS auction;
 CREATE DATABASE IF NOT EXISTS userAuth;
-CREATE DATABASE IF NOT EXISTS bidwin;
-CREATE DATABASE IF NOT EXISTS chat;
-CREATE DATABASE IF NOT EXISTS coinpay;
 
-
-# 계정 생성 및 권한부야
 -- 데이터베이스 선택
--- 사용자 auth_user 생성
--- 사용자 권한 부여
--- 사용자 권한 변경 사항 적용
-
-USE auction;
-CREATE USER 'auction_user'@'%' IDENTIFIED BY 'auction_password';
-GRANT ALL PRIVILEGES ON auction.* TO 'auction_user'@'%';
-FLUSH PRIVILEGES;
-
 USE userAuth;
+
+-- 사용자 auth_user 생성
 CREATE USER 'auth_user'@'%' IDENTIFIED BY 'auth_password';
+
+-- 사용자 권한 부여
 GRANT ALL PRIVILEGES ON userAuth.* TO 'auth_user'@'%';
+
+-- 사용자 권한 변경 사항 적용
 FLUSH PRIVILEGES;
-
-USE bidwin;
-CREATE USER 'bidwin_user'@'%' IDENTIFIED BY 'bidwin_password';
-GRANT ALL PRIVILEGES ON bidwin.* TO 'bidwin_user'@'%';
-FLUSH PRIVILEGES;
-
-USE chat;
-CREATE USER 'chat_user'@'%' IDENTIFIED BY 'chat_password';
-GRANT ALL PRIVILEGES ON chat.* TO 'chat_user'@'%';
-FLUSH PRIVILEGES;
-
-USE coinpay;
-CREATE USER 'coinpay_user'@'%' IDENTIFIED BY 'coinpay_password';
-GRANT ALL PRIVILEGES ON coinpay.* TO 'coinpay_user'@'%';
-FLUSH PRIVILEGES;
-
-
-
-# 배포위해서 테이블 및 예시 데이터들도 틈틈히 만들어주세요
-
 
 -- p_user 테이블 생성
 CREATE TABLE IF NOT EXISTS p_user (
