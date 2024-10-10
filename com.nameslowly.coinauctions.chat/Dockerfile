@@ -22,6 +22,8 @@ RUN echo "project(':com.nameslowly.coinauctions.common').projectDir = file('com.
 # 필수 패키지 설치 (Debian 기반)
 RUN apt-get update && apt-get install -y findutils
 
+# gradlew 파일에 실행 권한 추가
+RUN chmod +x /app/gradlew
 # 프로젝트를 빌드
 RUN /app/gradlew build
 
