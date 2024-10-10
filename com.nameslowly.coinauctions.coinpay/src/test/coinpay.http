@@ -1,4 +1,4 @@
-### coin create
+### coin create / MASTER / init
 POST http://localhost:8084/api/coins/create
 Content-Type: application/json
 
@@ -7,12 +7,12 @@ Content-Type: application/json
   "coin_name": "wave"
 }
 
-### coin purchase
+### 코인 구매 / user : panjun
 POST http://localhost:8084/api/coin_wallets
 Content-Type: application/json
-X-User-Name: biggu
+X-User-Name: hyeokjin
 
 {
-  "charge_amount": 5000000,
-  "coin_id": 1
+  "charge_amount": 200000,
+  "coin_id": 3
 }

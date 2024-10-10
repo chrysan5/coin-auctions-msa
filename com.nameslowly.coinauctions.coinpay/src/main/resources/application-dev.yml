@@ -18,6 +18,15 @@ spring:
     show-sql: true     # SQL 쿼리 로그 확인
     database-platform: org.hibernate.dialect.MySQL8Dialect
 
+    defer-datasource-initialization: false
+
+  sql:
+    init:
+      mode: never
+      data-locations: >
+        classpath:data/coinpay.sql
+
+
 # Hibernate 기본 설정
 hibernate:
   naming:
