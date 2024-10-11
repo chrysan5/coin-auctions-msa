@@ -4,11 +4,11 @@ RUN mkdir /app
 WORKDIR /app
 
 # Gradle Wrapper 및 build.gradle 파일 복사
-COPY ./com.nameslowly.coinauctions.auth/gradlew /app/gradlew
-COPY ./com.nameslowly.coinauctions.auth/gradlew.bat /app/gradlew.bat
-COPY ./com.nameslowly.coinauctions.auth/build.gradle /app/build.gradle
-COPY ./com.nameslowly.coinauctions.auth/gradle/ /app/gradle/
-COPY ./com.nameslowly.coinauctions.auth/src/ /app/src/
+COPY ./com.nameslowly.coinauctions.chat/gradlew /app/gradlew
+COPY ./com.nameslowly.coinauctions.chat/gradlew.bat /app/gradlew.bat
+COPY ./com.nameslowly.coinauctions.chat/build.gradle /app/build.gradle
+COPY ./com.nameslowly.coinauctions.chat/gradle/ /app/gradle/
+COPY ./com.nameslowly.coinauctions.chat/src/ /app/src/
 
 # common 모듈 복사
 COPY ./com.nameslowly.coinauctions.common ./com.nameslowly.coinauctions.common

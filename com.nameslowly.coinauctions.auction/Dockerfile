@@ -4,11 +4,11 @@ RUN mkdir /app
 WORKDIR /app
 
 # Gradle Wrapper 및 build.gradle 파일 복사
-COPY ./com.nameslowly.coinauctions.auth/gradlew /app/gradlew
-COPY ./com.nameslowly.coinauctions.auth/gradlew.bat /app/gradlew.bat
-COPY ./com.nameslowly.coinauctions.auth/build.gradle /app/build.gradle
-COPY ./com.nameslowly.coinauctions.auth/gradle/ /app/gradle/
-COPY ./com.nameslowly.coinauctions.auth/src/ /app/src/
+COPY ./com.nameslowly.coinauctions.auction/gradlew /app/gradlew
+COPY ./com.nameslowly.coinauctions.auction/gradlew.bat /app/gradlew.bat
+COPY ./com.nameslowly.coinauctions.auction/build.gradle /app/build.gradle
+COPY ./com.nameslowly.coinauctions.auction/gradle/ /app/gradle/
+COPY ./com.nameslowly.coinauctions.auction/src/ /app/src/
 
 # common 모듈 복사
 COPY ./com.nameslowly.coinauctions.common ./com.nameslowly.coinauctions.common
@@ -22,6 +22,10 @@ RUN echo "project(':com.nameslowly.coinauctions.common').projectDir = file('com.
 # 필수 패키지 설치 (Debian 기반)
 RUN apt-get update && apt-get install -y findutils
 
+# 환경변수설정 (build.gradle 에서 kotlin 설정에 쓰임)
+ENV SPRING_PROFILES_ACTIVE=prod
+ENV SPRING_PROFILES_ACTIVE2=test
+
 # 프로젝트를 빌드
 RUN chmod +x /app/gradlew
 RUN /app/gradlew build
@@ -29,6 +33,7 @@ RUN /app/gradlew build
 # 빌드된 JAR 파일을 임시 디렉토리로 복사
 RUN cp /app/build/libs/*.jar /app/
 RUN ls
+
 
 # 빌드된 결과를 실행
 ENTRYPOINT ["java", "-jar", "/app/app-0.0.1-SNAPSHOT.jar"]
