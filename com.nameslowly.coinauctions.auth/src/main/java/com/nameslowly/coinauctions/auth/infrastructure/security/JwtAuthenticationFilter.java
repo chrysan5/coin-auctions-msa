@@ -60,21 +60,18 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request,
         HttpServletResponse response, FilterChain chain, Authentication authResult)
         throws IOException, ServletException {
-
-        log.info("로그인 성공 및 JWT 생성시작");
+        log.info("로그인 성공 및 JWT 생성");
         String username = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
         UserRole role = ((UserDetailsImpl) authResult.getPrincipal()).getUser().getRole();
 
-        // Access Token 생성
-        String accessToken = jwtUtil.createAccessToken(username, role);
-        jwtUtil.addJwtToCookie(accessToken, response);
-        log.info("JWT access 토큰 {}",accessToken);
 
-        // Refresh Token 생성
-        String refreshToken = jwtUtil.createRefreshToken(username);
+        String token = jwtUtil.createToken(username, role);
+        jwtUtil.addJwtToCookie(token, response);
+
+        log.info("JWT 토큰 {}",token);
 
         // 로그인 결과를 담은 DTO 생성
-        UserLoginResponseDto dto = UserLoginResponseDto.createLoginReponse(username,accessToken);
+        UserLoginResponseDto dto = UserLoginResponseDto.createLoginReponse(username,token);
 
         // 응답을 JSON으로 직렬화하여 응답 본문에 작성
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);

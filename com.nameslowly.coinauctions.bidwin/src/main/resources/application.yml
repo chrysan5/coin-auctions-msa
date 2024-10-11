@@ -3,4 +3,4 @@ spring:
     name: bidwin-server
 
   profiles:
-    active: prod
+    active: dev
