@@ -37,6 +37,15 @@ services:
     volumes:
       - mongo-data:/data/db
 
+  rabbitmq:
+    networks:
+      - auction-network
+    image: rabbitmq:3-management # 관리콘솔 포함한 버젼
+    container_name: rabbitMQ-server
+    ports:
+      - "5672:5672"   # RabbitMQ 기본 포트
+      - "15672:15672" # RabbitMQ 관리 콘솔 포트
+
 volumes: # 호스트 시스템에 생성된 볼륨
   mysql-data:
   redis-data:

@@ -1,0 +1,11 @@
+### 코인생성
+POST http://localhost:8084/api/coins/create
+Content-Type: application/json
+
+{
+  "coin_real_name": "시바이누 코인떡상 기원",
+  "coin_name": "시바이누"
+}
+
+### 코인 조회
+GET http://localhost:8084/api/coins

@@ -1,0 +1,24 @@
+### 회원 가입
+POST localhost:8081/api/auth/sign-up
+Content-Type: application/json
+
+{
+    "username": "user1234",
+    "password": "pwd1234@",
+    "role" : "MASTER"
+}
+
+### 회원 조회
+GET localhost:8081/api/auth/user1234
+
+### 회원들 조회
+GET localhost:8081/api/auth/all
+
+### 로그인
+POST localhost:8081/user/login
+Content-Type: application/json
+
+{
+    "username": "user1234",
+    "password": "pwd1234@"
+}
