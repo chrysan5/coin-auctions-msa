@@ -1,18 +1,20 @@
 server:
-  port: 8082
+  port: 8085
 
 spring:
   application:
-    name: auction-service
+    name: chat-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver  # MySQL 드라이버 클래스 이름
-    url: jdbc:mysql://mysql-db:3306/auction  # MySQL 데이터베이스 URL
-    username: auction_user  # 데이터베이스 사용자 이름
-    password: auction_password  # 데이터베이스 비밀번호
+    url: jdbc:mysql://localhost:3306/chat  # MySQL 데이터베이스 URL
+    username: chat_user  # 데이터베이스 사용자 이름
+    password: chat_password  # 데이터베이스 비밀번호
+
+  # 몽고 DB 추가해야함
 
   data:
     redis:
-      host: redis-db
+      host: localhost
       port: 6379
       username: default
       password:
@@ -26,12 +28,13 @@ spring:
         format-sql: true
         generate-ddl: true
 
-message:
-  exchange: app
-  queue:
-    bid-register: app.bid.register
-
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://eureka-server:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
+
+jwt:
+  secret:
+    key: YW55IHNlY3JldCBleGFtcGxlIHNlY3JldCBrZXkgZm9yIGp3dA==
+  expiration: 3600000
+

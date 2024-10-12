@@ -101,7 +101,8 @@ public class BidService {
             isNewBid = true;
             log.info("최초 입찰");
 
-            if (notExceed(dto.getCoinAmount(), auction.getBasePrice())) {
+            if (notExceed(dto.getCoinAmount().multiply(auction.getFixedCoinPrice()),
+                auction.getBasePrice())) {
                 log.info("경매 시작가보다 보다 적음");
                 throw new GlobalException(ResultCase.NOT_ENOUGH_THAN_BASE_AMOUNT);
             }
@@ -134,7 +135,7 @@ public class BidService {
         rabbitTemplate.convertAndSend(queueBidRegister, bidRegisterMessage);
         log.info("새 입찰 등록 메시지 발행");
 
-        if (!isNewBid) { // 최초 입찰이 아니면
+        if (!isNewBid) {
             rabbitTemplate.convertAndSend(queueBidCancel, bidCancelMessage);
             log.info("현재 입찰 취소 메시지 발행");
         }

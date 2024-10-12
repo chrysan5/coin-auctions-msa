@@ -23,8 +23,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = PROTECTED)
 public class Auction extends BaseEntity {
 
-    private static final BigDecimal OPERATING_COASTS = new BigDecimal(1000.00);
-    private static final Integer DURATION = 1;
+    private static final BigDecimal OPERATING_COASTS = new BigDecimal(500);
+    private static final Integer DURATION = 10;
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -62,7 +62,7 @@ public class Auction extends BaseEntity {
             return;
         }
         this.startTime = LocalDateTime.now();
-        this.endTime = this.startTime.plusMinutes(1000 * 60 * 60 * DURATION);
+        this.endTime = this.startTime.plusMinutes(DURATION);
         this.fixedCoinPrice = fixedCoinPrice;
         this.auctionStatus = AuctionStatus.ONGOING;
     }

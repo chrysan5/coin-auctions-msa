@@ -26,6 +26,8 @@ RUN apt-get update && apt-get install -y findutils
 ENV SPRING_PROFILES_ACTIVE=prod
 ENV SPRING_PROFILES_ACTIVE2=test
 
+# gradlew 파일에 실행 권한 추가
+RUN chmod +x /app/gradlew
 # 프로젝트를 빌드
 RUN /app/gradlew build
 

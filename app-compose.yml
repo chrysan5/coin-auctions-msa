@@ -11,15 +11,6 @@ services:
     ports:
       - "8761:8761"
 
-  rabbitmq:
-    networks:
-      - auction-network
-    image: rabbitmq:3-management # 관리콘솔 포함한 버젼
-    container_name: rabbitMQ-server
-    ports:
-      - "5672:5672"   # RabbitMQ 기본 포트
-      - "15672:15672" # RabbitMQ 관리 콘솔 포트
-
   gateway:
     networks:
       - auction-network
@@ -31,7 +22,6 @@ services:
       - "8080:8080"
     depends_on:
       - eureka-server
-      - rabbitmq
 
   auth-server:
     networks:

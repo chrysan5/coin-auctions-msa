@@ -39,10 +39,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-<<<<<<< HEAD
 
-	runtimeOnly 'com.mysql:mysql-connector-j'
-=======
 	runtimeOnly 'mysql:mysql-connector-java:8.0.33'
 
 	implementation 'org.webjars.bower:jquery:3.3.1'
@@ -56,7 +53,7 @@ dependencies {
 	//implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
 	//implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
 	//implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
->>>>>>> b0366081caefae25f81935e498ed542578bb5c4f
+
 }
 
 dependencyManagement {

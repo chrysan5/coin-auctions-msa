@@ -30,3 +30,8 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka-server:8761/eureka/
+
+message:
+  exchange: app
+  queue:
+    bid-cancel: app.bid.cancel

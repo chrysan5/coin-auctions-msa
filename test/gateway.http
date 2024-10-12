@@ -1,0 +1,5 @@
+### 게이트웨이를 통한 회원조회
+GET localhost:8080/api/auth/user1234
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMTIzNCIsImF1dGgiOiJNQVNURVIiLCJleHAiOjE3Mjg3MzEzNzMsImlhdCI6MTcyODcyNzc3M30.Sx4nalKgI6aONX13xPrWfB7d93AXQafk5F_eq39Gq04
+
+### 게이트웨이를 통한~
