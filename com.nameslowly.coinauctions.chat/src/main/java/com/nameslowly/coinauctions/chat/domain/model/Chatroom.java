@@ -20,6 +20,7 @@ public class Chatroom {
     @Column(name = "chatroom_id")
     private Long chatroomId;
 
+    @Column(nullable = false, unique = true)
     private String roomname;
 
     private LocalTime closeAt;
@@ -32,4 +33,7 @@ public class Chatroom {
     /*@OneToMany(mappedBy = "chatroom", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ChatroomMember> chatroomMemberList = new ArrayList<>();*/
 
+    public Chatroom(String roomname){
+        this.roomname = roomname;
+    }
 }
