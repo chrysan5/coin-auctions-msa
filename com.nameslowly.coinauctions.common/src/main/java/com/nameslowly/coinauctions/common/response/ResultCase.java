@@ -49,6 +49,12 @@ public enum ResultCase {
     NOT_ENOUGH_THAN_BASE_AMOUNT(HttpStatus.BAD_REQUEST, 7006, "경매 시작가 보다 적음"),
     NEW_BID_CREATE_ERROR(HttpStatus.BAD_REQUEST, 7007, "새 입찰 생성 에러"),
 
+    
+    /* chat-server 6000 */
+    CHATROOM_NOT_FOUND(HttpStatus.NOT_FOUND, 6000, "채팅방이 존재하지 않습니다."),
+    CHATROOM_MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, 6001, "채팅방-멤버 정보가 존재하지 않습니다."),
+    CHATMESSAGE_NOT_FOUND(HttpStatus.NOT_FOUND, 6002, "채팅 메시지가 존재하지 않습니다."),
+    
 
     /* coinpay-server 7000 */
     COIN_NOT_FOUND(HttpStatus.NOT_FOUND, 7000, "코인을 찾을 수 없습니다."),

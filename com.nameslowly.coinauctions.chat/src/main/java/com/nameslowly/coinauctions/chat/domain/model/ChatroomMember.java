@@ -3,10 +3,12 @@ package com.nameslowly.coinauctions.chat.domain.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @NoArgsConstructor
 @Getter
+@Setter
 @Table(name = "chatroom_members")
 public class ChatroomMember {
     @Id
@@ -20,10 +22,10 @@ public class ChatroomMember {
     @JoinColumn(name = "chatroom_id", nullable = false)
     private Chatroom chatroom;
 
-    private Long userId; //memberId
+    private String username;
 
-    public ChatroomMember(Chatroom chatroom, Long userId) {
+    public ChatroomMember(Chatroom chatroom, String username) {
         this.chatroom = chatroom;
-        this.userId = userId;
+        this.username = username;
     }
 }
