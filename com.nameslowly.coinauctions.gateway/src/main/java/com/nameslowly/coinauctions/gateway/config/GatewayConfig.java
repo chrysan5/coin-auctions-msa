@@ -27,19 +27,20 @@ public class GatewayConfig {
                 .uri("lb://auction-service")
             )
             // bid
-            .route("bid-service", r -> r.path("/api/bids/**")
+            .route("bidwin-service", r -> r.path("/api/bids/**")
                 .filters(f -> f.filter(authFilter))
                 .uri("lb://bids-service")
             )
             // win
-            .route("win-service", r -> r.path("/api/wins/**")
+            .route("bidwin-service", r -> r.path("/api/wins/**")
                 .filters(f -> f.filter(authFilter))
                 .uri("lb://win-service")
             )
             // coin
-            .route("coin-service", r -> r.path("/api/coins/**", "/api/coin_wallets/**", "/api/coin_histories/")
+            .route("coinpay-service", r -> r.path("/api/coins/**", "/api/coin_wallets/**", "/api/coin_histories")
+
                 .filters(f -> f.filter(authFilter))
-                .uri("lb://coin-service")
+                .uri("lb://coinpay-service")
             )
             // chat
             .route("chat-service", r -> r.path("/api/chat/**")
