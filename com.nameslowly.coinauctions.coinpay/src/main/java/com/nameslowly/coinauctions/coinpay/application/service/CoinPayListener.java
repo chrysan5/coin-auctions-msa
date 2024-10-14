@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service;
 public class CoinPayListener {
     private final CoinWalletService coinWalletService;
 
-    @RabbitListener(queues = "${message.queue.bid-cancel}")
+//    @RabbitListener(queues = "${message.queue.bid-cancel}")
+    @RabbitListener(queues = "app.bid.cancel")
     public void handleBidRefund(BidRefundMessage bidRefundMessage) {
         // 메시지에 담긴 정보로 유저의 코인 복구
         coinWalletService.restoreCoins(bidRefundMessage.getUsername(), bidRefundMessage.getCoin_id(), bidRefundMessage.getAmount());
