@@ -11,6 +11,7 @@ import com.nameslowly.coinauctions.bidwin.infrastructure.coinpay.CoinDto;
 import com.nameslowly.coinauctions.bidwin.infrastructure.coinpay.CoinpayService;
 import com.nameslowly.coinauctions.bidwin.infrastructure.message.BidCancelMessage;
 import com.nameslowly.coinauctions.bidwin.infrastructure.message.BidRegisterMessage;
+import com.nameslowly.coinauctions.bidwin.infrastructure.user.UserDto;
 import com.nameslowly.coinauctions.bidwin.infrastructure.user.UserService;
 import com.nameslowly.coinauctions.common.exception.GlobalException;
 import com.nameslowly.coinauctions.common.response.ResultCase;
@@ -65,7 +66,7 @@ public class BidService {
      *          5.2 auction base coin amount > new bid coin amount -> exception
      */
     public Long register(RegisterBidDto dto) {
-//        UserDto user = userService.getUser(dto.getParticipantMemberId());
+        UserDto user = userService.getUser(dto.getParticipantMemberUsername());
         log.info("입찰자 조회");
         AuctionDto auction = auctionService.getAuction(dto.getAuctionId());
         log.info("경매 조회");
