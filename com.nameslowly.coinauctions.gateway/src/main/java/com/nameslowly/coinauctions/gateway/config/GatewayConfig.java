@@ -43,7 +43,7 @@ public class GatewayConfig {
                 .uri("lb://coinpay-service")
             )
             // chat
-            .route("chat-service", r -> r.path("/api/chat/**")
+            .route("chat-service", r -> r.path("/api/chat/**", "/chat/**")
                 .filters(f -> f.filter(authFilter))
                 .uri("lb://chat-service")
             )
