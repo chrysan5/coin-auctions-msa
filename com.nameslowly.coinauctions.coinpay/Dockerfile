@@ -12,7 +12,8 @@ COPY ./com.nameslowly.coinauctions.coinpay/src/ /app/src/
 
 # common 모듈 복사
 COPY ./com.nameslowly.coinauctions.common ./com.nameslowly.coinauctions.common
-
+# gradlew 파일에 실행 권한 추가
+RUN chmod +x /app/gradlew
 # settings.gradle 파일을 직접 생성 (common도 가져오게끔)
 RUN echo "rootProject.name = 'app'" > settings.gradle
 RUN echo "include 'com.nameslowly.coinauctions.common'" >> settings.gradle
@@ -22,8 +23,7 @@ RUN echo "project(':com.nameslowly.coinauctions.common').projectDir = file('com.
 # 필수 패키지 설치 (Debian 기반)
 RUN apt-get update && apt-get install -y findutils
 
-# gradlew 파일에 실행 권한 추가
-RUN chmod +x /app/gradlew
+
 # 프로젝트를 빌드
 RUN /app/gradlew build
 
