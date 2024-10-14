@@ -4,8 +4,29 @@ spring:
 
   profiles:
     active: dev
-  datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.driver
-app:
-  operation-costs: 10000.00
+
+  cloud:
+    openfeign:
+      circuit breaker:
+        enabled: true
+        alphanumeric-ids:
+          enabled: true
+
+  resilience4j:
+    circuit breaker:
+      configs:
+        default:
+          registerHealthIndicator: true
+          slidingWindowType: COUNT_BASED
+          slidingWindowSize: 5
+          minimumNumberOfCalls: 5
+          slowCallRateThreshold: 100
+          slowCallDurationThreshold: 60000
+          failureRateThreshold: 50
+          permittedNumberOfCallsInHalfOpenState: 3
+          waitDurationInOpenState: 20s
+
+message:
+  exchange: app
+  queue:
+    bid-register: app.bid.register

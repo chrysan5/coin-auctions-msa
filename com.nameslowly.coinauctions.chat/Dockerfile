@@ -23,6 +23,8 @@ RUN echo "project(':com.nameslowly.coinauctions.common').projectDir = file('com.
 # 필수 패키지 설치 (Debian 기반)
 RUN apt-get update && apt-get install -y findutils
 
+# 템플릿 파일 복사
+COPY ./com.nameslowly.coinauctions.chat/src/main/resources/templates /app/src/main/resources/templates
 
 # 프로젝트를 빌드
 RUN /app/gradlew build

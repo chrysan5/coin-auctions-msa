@@ -1,3 +1,30 @@
+### 1번 코인 생성
+POST http://localhost:8084/api/coins/create
+Content-Type: application/json
+
+{
+    "coin_real_name" : "KRW-SOL",
+    "coin_name" : "solana"
+}
+
+### 2번 코인 생성
+POST http://localhost:8084/api/coins/create
+Content-Type: application/json
+
+{
+  "coin_real_name" : "KRW-USDT",
+  "coin_name" : "usdt"
+}
+
+### 3번 코인 생성
+POST http://localhost:8084/api/coins/create
+Content-Type: application/json
+
+{
+  "coin_real_name" : "KRW-DOGE",
+  "coin_name" : "doge"
+}
+
 ### 모든 코인 조회
 GET http://localhost:8084/api/coins
 
