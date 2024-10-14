@@ -42,7 +42,7 @@ public class GatewayConfig {
                 .uri("lb://coin-service")
             )
             // chat
-            .route("chat-service", r -> r.path("/api/chatrooms/**")
+            .route("chat-service", r -> r.path("/api/chat/**")
                 .filters(f -> f.filter(authFilter))
                 .uri("lb://chat-service")
             )
