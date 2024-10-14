@@ -5,16 +5,12 @@ import com.nameslowly.coinauctions.auction.domain.model.AuctionStatus;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 @Builder
-@AllArgsConstructor
-public class AuctionDto implements Serializable {
+public class RetrieveAuctionResponse implements Serializable {
 
     private Long id;
     private String title;
@@ -27,11 +23,11 @@ public class AuctionDto implements Serializable {
     private BigDecimal basePrice;
     private Long coinId;
     private BigDecimal fixedCoinPrice;
-    private Long registerMemberId;
+    private String registerMemberUsername;
     private BigDecimal currentAmount;
 
-    public static AuctionDto of(Auction auction) {
-        return AuctionDto.builder()
+    public static RetrieveAuctionResponse of(Auction auction) {
+        return RetrieveAuctionResponse.builder()
             .id(auction.getId())
             .title(auction.getTitle())
             .image(auction.getImage())
@@ -43,7 +39,7 @@ public class AuctionDto implements Serializable {
             .basePrice(auction.getBasePrice())
             .coinId(auction.getCoinId())
             .fixedCoinPrice(auction.getFixedCoinPrice())
-            .registerMemberId(auction.getRegisterMemberId())
+            .registerMemberUsername(auction.getRegisterMemberUsername())
             .currentAmount(auction.getCurrentAmount())
             .build();
     }

@@ -5,8 +5,10 @@ import com.nameslowly.coinauctions.auction.domain.model.Auction;
 import com.nameslowly.coinauctions.auction.infrastructure.coinpay.CoinpayService;
 import com.nameslowly.coinauctions.auction.infrastructure.message.BidRegisterMessage;
 import com.nameslowly.coinauctions.auction.presentation.request.RegisterAuctionRequest;
-import com.nameslowly.coinauctions.auction.presentation.response.AuctionDto;
+import com.nameslowly.coinauctions.auction.application.dto.response.AuctionDto;
 import com.nameslowly.coinauctions.auction.presentation.response.RegisterAuctionResponse;
+import com.nameslowly.coinauctions.auction.presentation.response.RetrieveAuctionPageResponse;
+import com.nameslowly.coinauctions.auction.presentation.response.RetrieveAuctionResponse;
 import com.nameslowly.coinauctions.common.response.CommonResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -33,16 +35,21 @@ public class AuctionController {
     }
 
     @GetMapping("/api/auctions")
-    public CommonResponse<List<Auction>> retrieveAuctionPage(Pageable page) {
+    public CommonResponse<List<RetrieveAuctionPageResponse>> retrieveAuctionPage(Pageable page) {
         List<Auction> auctionPage = auctionService.retrieveAuctionPage(page);
-        return CommonResponse.success(auctionPage);
+        List<RetrieveAuctionPageResponse> response = auctionPage.stream()
+            .map(RetrieveAuctionPageResponse::of).toList();
+        return CommonResponse.success(response);
     }
 
     @GetMapping("/api/auctions/{auctionId}")
-    public CommonResponse<Auction> retrieveAuction(@PathVariable("auctionId") Long auctionId) {
+    public CommonResponse<RetrieveAuctionResponse> retrieveAuction(@PathVariable("auctionId") Long auctionId) {
         Auction auction = auctionService.retrieveAuction(auctionId);
-        return CommonResponse.success(auction);
+        RetrieveAuctionResponse response = RetrieveAuctionResponse.of(auction);
+        return CommonResponse.success(response);
     }
+
+    // internal
 
     @GetMapping("/api/internal/auctions/{auctionId}")
     public AuctionDto getAuction(@PathVariable("auctionId") Long auctionId) {
@@ -50,7 +57,9 @@ public class AuctionController {
         return AuctionDto.of(auction);
     }
 
-    @RabbitListener(queues = "${message.queue.bid-register}") // todo
+    // message
+
+    @RabbitListener(queues = "${message.queue.bid-register}")
     public void updateCurrentAmount(BidRegisterMessage message) {
         auctionService.updateCurrentAmount(message.getAuctionId(), message.getBidAmount());
     }

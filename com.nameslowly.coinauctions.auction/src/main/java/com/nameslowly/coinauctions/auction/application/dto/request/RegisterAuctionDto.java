@@ -8,9 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 @Builder
-@AllArgsConstructor
 public class RegisterAuctionDto {
 
     private String title;
@@ -18,7 +16,7 @@ public class RegisterAuctionDto {
     private String description;
     private BigDecimal hopePrice;
     private Long coinId;
-    private Long registerMemberId;
+    private String registerMemberUsername;
 
     public Auction toEntity() {
         return Auction.builder()
@@ -27,7 +25,7 @@ public class RegisterAuctionDto {
             .description(this.description)
             .basePrice(this.hopePrice)
             .coinId(this.coinId)
-            .registerMemberId(this.registerMemberId)
+            .registerMemberUsername(this.registerMemberUsername)
             .build();
     }
 

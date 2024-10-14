@@ -12,6 +12,6 @@ public class UserFallback implements UserFeignClient {
     @Override
     public UserDto getUser(Long userId) {
         log.info("USER-SERVER 에러");
-        throw new GlobalException(ResultCase.NOT_FOUND_USER);
+        throw new GlobalException(ResultCase.USER_NOT_FOUND);
     }
 }

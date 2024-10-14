@@ -26,14 +26,14 @@ public class AuctionService {
 
     @Transactional
     public Long register(RegisterAuctionDto dto) {
-//        userService.getUser(dto.getRegisterMemberId());
-        CoinDto coin = coinpayService.getCoin(dto.getCoinId());
+        userService.getUser(dto.getRegisterMemberUsername());
+        coinpayService.getCoin(dto.getCoinId());
         Auction initAuction = dto.toEntity();
         Auction auction = auctionStore.store(initAuction);
         return auction.getId();
     }
 
-    @Scheduled(fixedRate = 1000 * 60 * 2)
+    @Scheduled(fixedRate = 1000 * 60 * 3)
     @Transactional
     public void startAuction() {
         List<Auction> pendingAuctions = auctionReader.getPendingAuction();
@@ -61,7 +61,8 @@ public class AuctionService {
 
     @Transactional(readOnly = true)
     public List<Auction> retrieveAuctionPage(Pageable page) {
-        return auctionReader.getAuctionPage(page);
+        List<Auction> auctionPage = auctionReader.getAuctionPage(page);
+        return auctionPage;
     }
 
     @Transactional(readOnly = true)
