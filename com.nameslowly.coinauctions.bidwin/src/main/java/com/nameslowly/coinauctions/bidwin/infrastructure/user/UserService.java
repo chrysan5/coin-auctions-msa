@@ -2,5 +2,6 @@ package com.nameslowly.coinauctions.bidwin.infrastructure.user;
 
 public interface UserService {
 
-    UserDto getUser(Long userId);
+    UserDto getUser(String username);
+
 }

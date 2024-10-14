@@ -38,6 +38,7 @@ public class GatewayConfig {
             )
             // coin
             .route("coinpay-service", r -> r.path("/api/coins/**", "/api/coin_wallets/**", "/api/coin_histories")
+
                 .filters(f -> f.filter(authFilter))
                 .uri("lb://coinpay-service")
             )

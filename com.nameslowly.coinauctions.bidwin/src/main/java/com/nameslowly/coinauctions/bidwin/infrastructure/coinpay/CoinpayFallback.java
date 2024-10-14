@@ -12,7 +12,7 @@ public class CoinpayFallback implements CoinpayFeignClient {
     @Override
     public CoinDto getCoin(Long coinId) {
         log.info("COINPAY-SERVER 에러");
-        throw new GlobalException(ResultCase.NOT_FOUND_COIN);
+        throw new GlobalException(ResultCase.COIN_NOT_FOUND);
     }
 
     @Override

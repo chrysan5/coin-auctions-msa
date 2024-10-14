@@ -5,6 +5,8 @@ import com.nameslowly.coinauctions.bidwin.domain.model.Bid;
 import com.nameslowly.coinauctions.bidwin.infrastructure.coinpay.CoinpayService;
 import com.nameslowly.coinauctions.bidwin.presentation.request.RegisterBidRequest;
 import com.nameslowly.coinauctions.bidwin.presentation.response.RegisterBidResponse;
+import com.nameslowly.coinauctions.bidwin.presentation.response.RetrieveBidPageResponse;
+import com.nameslowly.coinauctions.bidwin.presentation.response.RetrieveBidResponse;
 import com.nameslowly.coinauctions.common.response.CommonResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class BidController {
 
     private final BidService bidService;
-    private final CoinpayService coinpayService;
 
     @PostMapping("/api/bids")
     public CommonResponse<RegisterBidResponse> register(@RequestBody RegisterBidRequest request) {
@@ -31,12 +32,16 @@ public class BidController {
     }
 
     @GetMapping("/api/bids")
-    public CommonResponse<List<Bid>> retrieveBidPage(Pageable page) {
-        return CommonResponse.success(bidService.retrieveBidPage(page));
+    public CommonResponse<List<RetrieveBidPageResponse>> retrieveBidPage(Pageable page) {
+        List<Bid> bidPage = bidService.retrieveBidPage(page);
+        List<RetrieveBidPageResponse> response = bidPage.stream().map(RetrieveBidPageResponse::of).toList();
+        return CommonResponse.success(response);
     }
 
     @GetMapping("/api/bids/{bidId}")
-    public CommonResponse<Bid> retrieveBid(@PathVariable("bidId") Long bidId) {
-        return CommonResponse.success(bidService.retrieveBid(bidId));
+    public CommonResponse<RetrieveBidResponse> retrieveBid(@PathVariable("bidId") Long bidId) {
+        Bid bid = bidService.retrieveBid(bidId);
+        RetrieveBidResponse response = RetrieveBidResponse.of(bid);
+        return CommonResponse.success(response);
     }
 }

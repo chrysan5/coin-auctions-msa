@@ -1,11 +1,64 @@
-### 코인생성
+### 1번 코인 생성
 POST http://localhost:8084/api/coins/create
 Content-Type: application/json
 
 {
-  "coin_real_name": "시바이누 코인떡상 기원",
-  "coin_name": "시바이누"
+    "coin_real_name" : "KRW-SOL",
+    "coin_name" : "solana"
 }
 
-### 코인 조회
+### 2번 코인 생성
+POST http://localhost:8084/api/coins/create
+Content-Type: application/json
+
+{
+  "coin_real_name" : "KRW-USDT",
+  "coin_name" : "usdt"
+}
+
+### 3번 코인 생성
+POST http://localhost:8084/api/coins/create
+Content-Type: application/json
+
+{
+  "coin_real_name" : "KRW-DOGE",
+  "coin_name" : "doge"
+}
+
+### 모든 코인 조회
 GET http://localhost:8084/api/coins
+
+### 코인 구매 (혁진, 코인3)
+POST http://localhost:8084/api/coin_wallets
+X-User-Name: hyeokjin
+Content-Type: application/json
+
+{
+  "coin_id": 3,
+  "charge_amount": 100000
+}
+
+### 코인 구매 (빅구, 코인3)
+POST http://localhost:8084/api/coin_wallets
+X-User-Name: biggu
+Content-Type: application/json
+
+{
+  "coin_id": 3,
+  "charge_amount": 100000
+}
+
+### 코인 구매 (빅구, 코인1)
+POST http://localhost:8084/api/coin_wallets
+X-User-Name: biggu
+Content-Type: application/json
+
+{
+  "coin_id": 1,
+  "charge_amount": 100000
+}
+
+### 본인 코인 확인 (로그인 한 유저가 보는거, biggu로 로그인 시)
+GET http://localhost:8084/api/coin_wallets
+X-User-Name: biggu
+

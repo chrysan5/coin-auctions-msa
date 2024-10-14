@@ -29,8 +29,8 @@ public class CoinWalletController {
     public void recoverBidCoin(@RequestBody CoinBidRequest request){
          coinWalletService.recoverBidCoin(request);
     }
-    @GetMapping("/coin_wallets/{username}")
-    public CommonResponse getCoinWallet(@PathVariable String username){
+    @GetMapping("/coin_wallets")
+    public CommonResponse getCoinWallet(@RequestHeader("X-User-Name") String username){
         List<CoinWalletVO> coinWallet = coinWalletService.getCoinWallet(username);
         return CommonResponse.success(coinWallet);
     }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class AuctionStoreImpl extends AuctionStore {
+public class AuctionStoreImpl implements AuctionStore {
 
     private final AuctionRepository auctionRepository;
 

@@ -41,12 +41,12 @@ public class Auction extends BaseEntity {
     private BigDecimal basePrice;
     private Long coinId;
     private BigDecimal fixedCoinPrice;
-    private Long registerMemberId;
+    private String registerMemberUsername;
     private BigDecimal currentAmount;
 
     @Builder
     public Auction(String title, String image, String description, BigDecimal basePrice,
-        Long coinId, Long registerMemberId) {
+        Long coinId, String registerMemberUsername) {
         this.title = title;
         this.image = image;
         this.description = description;
@@ -54,7 +54,7 @@ public class Auction extends BaseEntity {
         this.registerTime = LocalDateTime.now();
         this.basePrice = basePrice.add(OPERATING_COASTS);
         this.coinId = coinId;
-        this.registerMemberId = registerMemberId;
+        this.registerMemberUsername = registerMemberUsername;
     }
 
     public void start(BigDecimal fixedCoinPrice) {

@@ -8,7 +8,7 @@ Content-Type: application/json
   "description": "액정 고장남",
   "hopePrice": 1000,
   "coinId": 3,
-  "registerMemberId": 123
+  "registerMemberUsername": "panjun"
 }
 
 ### retrieve auction page
