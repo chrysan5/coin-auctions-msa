@@ -12,7 +12,7 @@ services:
 #      MYSQL_USER: auth_user
 #      MYSQL_PASSWORD: auth_password
     ports:
-      - "3306:3306"
+      - "13306:3306"
     volumes: # 컨테이너 내부에 생성될 볼륨
       - mysql-data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql # 초기화 스크립트 추가
