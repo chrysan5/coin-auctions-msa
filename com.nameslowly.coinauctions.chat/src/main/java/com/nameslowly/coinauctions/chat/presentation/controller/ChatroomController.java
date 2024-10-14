@@ -22,7 +22,7 @@ public class ChatroomController {
 
     //채팅방 목록 -> 일단 유저서비스 켜서 feign으로 user 가져와서 이거 테스트 되는지 보자.
     @GetMapping("/rooms-list")
-    public String getChatroomList(Model model, @RequestHeader(value = "X-username", required = true) String username) {
+    public String getChatroomList(Model model, @RequestHeader(value = "X-User-Name", required = true) String username) {
         model.addAttribute("username", username);
 
         //모든 채팅방 목록
@@ -38,7 +38,7 @@ public class ChatroomController {
     
     //채팅방 들어가기(상세)
     @GetMapping("/rooms/{chatroomId}")
-    public String enterChatroom(@PathVariable String chatroomId, Model model, @RequestHeader(value = "X-username", required = true) String username) {
+    public String enterChatroom(@PathVariable String chatroomId, Model model, @RequestHeader(value = "X-User-Name", required = true) String username) {
         //chatroomId 메세징시스템에서 가져와야함
         Chatroom chatroom = chatroomService.enterChatroom(chatroomId, username);
         model.addAttribute("room", chatroom);
@@ -56,7 +56,7 @@ public class ChatroomController {
 
     //채팅방 생성
     @PostMapping("/rooms")
-    public String createChatroom(@RequestParam("roomname") String roomname, @RequestHeader(value = "X-username", required = true) String username){
+    public String createChatroom(@RequestParam("roomname") String roomname, @RequestHeader(value = "X-User-Name", required = true) String username){
         chatroomService.createChatroom(roomname, username);
         return "redirect:/chat/rooms-list";
     }
