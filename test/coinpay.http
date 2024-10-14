@@ -1,11 +1,37 @@
-### 코인생성
-POST http://localhost:8084/api/coins/create
+### 모든 코인 조회
+GET http://localhost:8084/api/coins
+
+### 코인 구매 (혁진, 코인3)
+POST http://localhost:8084/api/coin_wallets
+X-User-Name: hyeokjin
 Content-Type: application/json
 
 {
-  "coin_real_name": "시바이누 코인떡상 기원",
-  "coin_name": "시바이누"
+  "coin_id": 3,
+  "charge_amount": 100000
 }
 
-### 코인 조회
-GET http://localhost:8084/api/coins
+### 코인 구매 (빅구, 코인3)
+POST http://localhost:8084/api/coin_wallets
+X-User-Name: biggu
+Content-Type: application/json
+
+{
+  "coin_id": 3,
+  "charge_amount": 100000
+}
+
+### 코인 구매 (빅구, 코인1)
+POST http://localhost:8084/api/coin_wallets
+X-User-Name: biggu
+Content-Type: application/json
+
+{
+  "coin_id": 1,
+  "charge_amount": 100000
+}
+
+### 본인 코인 확인 (로그인 한 유저가 보는거, biggu로 로그인 시)
+GET http://localhost:8084/api/coin_wallets
+X-User-Name: biggu
+

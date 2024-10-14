@@ -19,7 +19,7 @@ class BidServiceTest {
     @Test
     public void register() throws Exception {
         // given
-        RegisterBidDto dto = new RegisterBidDto(1L, "2L", 3L, new BigDecimal("4.4234"));
+        RegisterBidDto dto = new RegisterBidDto(1L, "hyukjin", 3L, new BigDecimal("4.4234"));
 
         // when
         Long bidId = bidService.register(dto);
