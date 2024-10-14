@@ -37,7 +37,7 @@ public class GatewayConfig {
                 .uri("lb://win-service")
             )
             // coin
-            .route("coin-service", r -> r.path("/api/coins/**", "/api/coinWallets/**", "/api/coinHistory")
+            .route("coin-service", r -> r.path("/api/coins/**", "/api/coin_wallets/**", "/api/coin_histories/")
                 .filters(f -> f.filter(authFilter))
                 .uri("lb://coin-service")
             )

@@ -3,4 +3,4 @@ spring:
     name: chat-service
 
   profiles:
-    active: dev
+    active: prod

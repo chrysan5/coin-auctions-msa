@@ -1,5 +1,5 @@
 ### 회원 가입
-POST http://localhost:8081/sign-up
+POST http://localhost:8081/api/auth/sign-up
 Content-Type: application/json
 
 {

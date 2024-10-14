@@ -7,9 +7,9 @@ spring:
 
 
   datasource:
-    url: jdbc:mysql://localhost:3306/CoinAuction  # 여기에 실제 데이터베이스 이름을 넣으세요
-    username: panjun
-    password: 0709
+    url: jdbc:mysql://localhost:3306/coin  # 여기에 실제 데이터베이스 이름을 넣으세요
+    username: root
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:

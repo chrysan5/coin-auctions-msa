@@ -11,15 +11,6 @@ services:
     ports:
       - "8761:8761"
 
-  rabbitmq:
-    networks:
-      - auction-network
-    image: rabbitmq:3-management # 관리콘솔 포함한 버젼
-    container_name: rabbitMQ-server
-    ports:
-      - "5672:5672"   # RabbitMQ 기본 포트
-      - "15672:15672" # RabbitMQ 관리 콘솔 포트
-
   gateway:
     networks:
       - auction-network
@@ -31,7 +22,6 @@ services:
       - "8080:8080"
     depends_on:
       - eureka-server
-      - rabbitmq
 
   auth-server:
     networks:
@@ -42,6 +32,54 @@ services:
       dockerfile: ./com.nameslowly.coinauctions.auth/Dockerfile
     ports:
       - "8081:8081"
+    depends_on:
+      - eureka-server
+
+  auction-server:
+    networks:
+      - auction-network
+    container_name: auction-server
+    build:
+      context: . # app-compose.yml 이 있는 경로
+      dockerfile: ./com.nameslowly.coinauctions.auction/Dockerfile
+    ports:
+      - "8082:8082"
+    depends_on:
+      - eureka-server
+
+  bidwin-server:
+    networks:
+      - auction-network
+    container_name: bidwin-server
+    build:
+      context: . # app-compose.yml 이 있는 경로
+      dockerfile: ./com.nameslowly.coinauctions.bidwin/Dockerfile
+    ports:
+      - "8083:8083"
+    depends_on:
+      - eureka-server
+
+  chat-server:
+    networks:
+      - auction-network
+    container_name: chat-server
+    build:
+      context: . # app-compose.yml 이 있는 경로
+      dockerfile: ./com.nameslowly.coinauctions.chat/Dockerfile
+    ports:
+      - "8085:8085"
+    depends_on:
+      - eureka-server
+
+  coinpay-server:
+    networks:
+      - auction-network
+    container_name: coinpay-server
+    build:
+      context: . # app-compose.yml 이 있는 경로
+      dockerfile: ./com.nameslowly.coinauctions.coinpay/Dockerfile
+    ports:
+      - "8084:8084"
     depends_on:
       - eureka-server
 

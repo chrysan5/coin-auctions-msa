@@ -1,0 +1,37 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: coinpay-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver  # MySQL 드라이버 클래스 이름
+    url: jdbc:mysql://mysql-db:3306/coinpay  # MySQL 데이터베이스 URL
+    username: coinpay_user  # 데이터베이스 사용자 이름
+    password: coinpay_password  # 데이터베이스 비밀번호
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        show-sql: true
+        format-sql: true
+        generate-ddl: true
+
+  rabbitmq:
+    host: rabbitMQ-server
+    port: 5672
+    username: guest
+    password: guest
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/
+
+message:
+  exchange: app
+  queue:
+    bid-cancel: app.bid.cancel

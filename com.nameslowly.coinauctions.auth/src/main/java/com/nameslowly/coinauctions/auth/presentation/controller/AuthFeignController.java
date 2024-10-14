@@ -13,7 +13,7 @@ public class AuthFeignController {
 
     private final AuthService authService;
 
-    @GetMapping("/api/internal/auth/{username}")
+    @GetMapping("/api/auth/internal/{username}")
     public UserInfoResponseDto getUser(@PathVariable String username) {
         UserInfoResponseDto userInfoResponseDto = authService.getUserByUsername(username);
         return userInfoResponseDto;

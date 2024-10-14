@@ -9,6 +9,9 @@ COPY ./com.nameslowly.coinauctions.auth/gradlew.bat /app/gradlew.bat
 COPY ./com.nameslowly.coinauctions.auth/build.gradle /app/build.gradle
 COPY ./com.nameslowly.coinauctions.auth/gradle/ /app/gradle/
 COPY ./com.nameslowly.coinauctions.auth/src/ /app/src/
+RUN chmod +x /app/gradlew
+# gralde 버젼 확인
+RUN /app/gradlew --version
 
 # common 모듈 복사
 COPY ./com.nameslowly.coinauctions.common ./com.nameslowly.coinauctions.common
@@ -22,12 +25,14 @@ RUN echo "project(':com.nameslowly.coinauctions.common').projectDir = file('com.
 # 필수 패키지 설치 (Debian 기반)
 RUN apt-get update && apt-get install -y findutils
 
+# gradlew 파일에 실행 권한 추가
+
 # 프로젝트를 빌드
 RUN chmod +x /app/gradlew
 RUN /app/gradlew build
 
 # 빌드된 JAR 파일을 임시 디렉토리로 복사
-RUN cp /app/build/libs/*.jar /app/
+RUN cp /app/b\uild/libs/*.jar /app/
 RUN ls
 
 # 빌드된 결과를 실행
