@@ -1,19 +1,19 @@
 ### 채팅방 생성
 POST http://localhost:8085/chat/rooms?roomname=모자 경매 채팅방
-X-username: user1
+X-User-Name : user1
 
 ### 채팅방 삭제
 PUT http://localhost:8085/chat/rooms/5
 
 ### 채팅방 목록 조회
 GET http://localhost:8085/chat/rooms-list
-X-username: user1
+X-User-Name : user1
 
 ### 채팅방 들어가기
 GET http://localhost:8085/chat/rooms/1
-X-username: user1
+X-User-Name : user1
 
 ### 채팅방 나가기
 GET http://localhost:8085/chat/rooms-out
-X-username: user1
+X-User-Name : user1
 
