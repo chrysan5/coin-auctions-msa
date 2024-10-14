@@ -39,6 +39,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
 	runtimeOnly 'mysql:mysql-connector-java:8.0.33'
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 
@@ -57,8 +58,14 @@ dependencyManagement {
 	}
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
-}
+//tasks.named('test') {
+//	useJUnitPlatform()
+//}
 
-tasks.register("prepareKotlinBuildScriptModel") {}
+//def activeProfile = System.getenv('SPRING_PROFILES_ACTIVE') // application.yml 의 spring.profiles.active 값을 가져온다
+//
+//if (activeProfile != "prod") { // activeProfile이 prod가 아닌 경우에만 작업 실행
+//	tasks.register("prepareKotlinBuildScriptModel") {
+//		// 작업 내용 작성
+//	}
+//}

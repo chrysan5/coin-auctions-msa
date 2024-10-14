@@ -9,9 +9,11 @@ COPY ./com.nameslowly.coinauctions.server/gradlew.bat /app/gradlew.bat
 COPY ./com.nameslowly.coinauctions.server/build.gradle /app/build.gradle
 COPY ./com.nameslowly.coinauctions.server/gradle/ /app/gradle/
 COPY ./com.nameslowly.coinauctions.server/src/ /app/src/
-
+# gradlew 파일에 실행 권한 추가
+RUN chmod +x /app/gradlew
 # 필수 패키지 설치 (Debian 기반)
 RUN apt-get update && apt-get install -y findutils
+
 
 # 프로젝트를 빌드
 RUN chmod +x /app/gradlew

@@ -9,7 +9,8 @@ COPY ./com.nameslowly.coinauctions.auction/gradlew.bat /app/gradlew.bat
 COPY ./com.nameslowly.coinauctions.auction/build.gradle /app/build.gradle
 COPY ./com.nameslowly.coinauctions.auction/gradle/ /app/gradle/
 COPY ./com.nameslowly.coinauctions.auction/src/ /app/src/
-
+# gradlew 파일에 실행 권한 추가
+RUN chmod +x /app/gradlew
 # common 모듈 복사
 COPY ./com.nameslowly.coinauctions.common ./com.nameslowly.coinauctions.common
 
@@ -26,8 +27,8 @@ RUN apt-get update && apt-get install -y findutils
 ENV SPRING_PROFILES_ACTIVE=prod
 ENV SPRING_PROFILES_ACTIVE2=test
 
+
 # 프로젝트를 빌드
-RUN chmod +x /app/gradlew
 RUN /app/gradlew build
 
 # 빌드된 JAR 파일을 임시 디렉토리로 복사

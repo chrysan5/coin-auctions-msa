@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,11 +54,19 @@ public class AuthController {
      * 회원정보 단일검색
      */
     @GetMapping("/{username}")
-    public CommonResponse<UserInfoResponseDto> getUser(@PathVariable String username) {
+    public CommonResponse<UserInfoResponseDto> getUser(@PathVariable String username,
+        @RequestHeader(value = "X-User-Name", required = false) String headerUsername,
+        @RequestHeader(value = "X-User-Role", required = false) String headerRole
+        ) {
+
+        log.info("받은 헤더 => headerUsername={}, headerRole={}", headerUsername, headerRole);
+
         UserInfoResponseDto userInfoResponseDto = authService.getUserByUsername(username);
 
         return CommonResponse.success(userInfoResponseDto);
     }
+    
+    // 내부용 API 유저 데이터만
 
     /**
      * 회원정보 전체검색 (페이징 포함) - 관리자기능
