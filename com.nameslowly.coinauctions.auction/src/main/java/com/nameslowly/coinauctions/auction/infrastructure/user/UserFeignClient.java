@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Primary
 public interface UserFeignClient extends UserService {
 
-    @GetMapping("/api/internal/users/{userId}")
-    UserDto getUser(@PathVariable("userId") Long userId);
-
-
+    @GetMapping("/api/internal/users/{username}")
+    UserDto getUser(@PathVariable("username") String username);
 }
