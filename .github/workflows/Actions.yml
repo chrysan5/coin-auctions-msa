@@ -35,7 +35,13 @@ jobs:
   docker:
     name: Build docker image and Push to registry
     needs: build
+    steps: # test docker
+      - name: Checkout Build
+      - uses: actions/checkout@v1
 
   deploy:
     name: Deploy
     needs: Docker
+    steps: # test steps
+      - name: Checkout Docker
+      - uses: actions/checkout@v1
