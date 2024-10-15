@@ -1,6 +1,14 @@
+server:
+  port: 8085
+
 spring:
   application:
     name: chat-service
 
   profiles:
     active: prod
+
+jwt:
+  secret:
+    key: YW55IHNlY3JldCBleGFtcGxlIHNlY3JldCBrZXkgZm9yIGp3dA==
+  expiration: 3600000

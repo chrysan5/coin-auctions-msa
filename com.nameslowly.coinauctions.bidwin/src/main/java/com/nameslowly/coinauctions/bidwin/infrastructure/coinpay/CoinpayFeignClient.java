@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "coinpay-server", fallbackFactory = CoinpayFallbackFactory.class)
+@FeignClient(name = "coinpay-service", fallbackFactory = CoinpayFallbackFactory.class)
 @Primary
 public interface CoinpayFeignClient extends CoinpayService {
 

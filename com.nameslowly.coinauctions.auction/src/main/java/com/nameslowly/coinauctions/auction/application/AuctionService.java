@@ -1,5 +1,6 @@
 package com.nameslowly.coinauctions.auction.application;
 
+import com.nameslowly.coinauctions.auction.application.dto.request.BidAuctionDto;
 import com.nameslowly.coinauctions.auction.application.dto.request.RegisterAuctionDto;
 import com.nameslowly.coinauctions.auction.domain.model.Auction;
 import com.nameslowly.coinauctions.auction.domain.service.AuctionReader;
@@ -25,19 +26,20 @@ public class AuctionService {
     private final UserService userService;
 
     @Transactional
-    public Long register(RegisterAuctionDto dto) {
+    public Long registerAuction(RegisterAuctionDto dto) {
         userService.getUser(dto.getRegisterMemberUsername());
         coinpayService.getCoin(dto.getCoinId());
+
         Auction initAuction = dto.toEntity();
         Auction auction = auctionStore.store(initAuction);
+
         return auction.getId();
     }
 
-    @Scheduled(fixedRate = 1000 * 60 * 3)
+    @Scheduled(fixedRate = 1000L * 60 * 10)
     @Transactional
     public void startAuction() {
-        List<Auction> pendingAuctions = auctionReader.getPendingAuction();
-        pendingAuctions.forEach(
+        auctionReader.getPendingAuction().forEach(
             auction -> {
                 CoinDto coin = coinpayService.getCoin(auction.getCoinId());
                 BigDecimal fixedCoinPrice = coin.getCoin_price();
@@ -49,14 +51,7 @@ public class AuctionService {
     @Scheduled(fixedRate = 1000)
     @Transactional
     public void endAuction() {
-        List<Auction> ongoingAuctions = auctionReader.getOngoingAuction();
-        ongoingAuctions.forEach(Auction::end);
-    }
-
-    @Transactional
-    public void updateCurrentAmount(Long auctionId, BigDecimal bidAmount) {
-        Auction auction = auctionReader.getAuction(auctionId);
-        auction.updateCurrentAmount(bidAmount);
+        auctionReader.getOngoingAuction().forEach(Auction::end);
     }
 
     @Transactional(readOnly = true)
@@ -68,5 +63,11 @@ public class AuctionService {
     @Transactional(readOnly = true)
     public Auction retrieveAuction(Long auctionId) {
         return auctionReader.getAuction(auctionId);
+    }
+
+    @Transactional
+    public void bidAuction(BidAuctionDto dto) {
+        Auction auction = auctionReader.getAuction(dto.getAuctionId());
+        auction.bid(dto.getBidUserUsername(), dto.getBidAmount());
     }
 }
