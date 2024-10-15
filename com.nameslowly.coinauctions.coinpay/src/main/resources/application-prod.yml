@@ -1,9 +1,4 @@
-server:
-  port: 8084
-
 spring:
-  application:
-    name: coinpay-service
   mvc:
     static-path-pattern: /swagger-ui/**
   datasource:

@@ -1,9 +1,4 @@
-server:
-  port: 8081
-
 spring:
-  application:
-    name: userAuth-service
   mvc:
     static-path-pattern: /swagger-ui/**
   datasource:
@@ -32,9 +27,3 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka-server:8761/eureka/
-
-jwt:
-  secret:
-    key: YW55IHNlY3JldCBleGFtcGxlIHNlY3JldCBrZXkgZm9yIGp3dA==
-  expiration: 3600000
-

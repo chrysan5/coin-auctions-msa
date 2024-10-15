@@ -5,11 +5,10 @@ spring:
     username: guest
     password: guest
 
-
   datasource:
-    url: jdbc:mysql://localhost:3306/coin  # 여기에 실제 데이터베이스 이름을 넣으세요
-    username: root
-    password:
+    url: jdbc:mysql://localhost:3306/CoinAuction  # 여기에 실제 데이터베이스 이름을 넣으세요
+    username: panjun
+    password: 0709
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -26,7 +25,6 @@ spring:
       data-locations: >
         classpath:data/coinpay.sql
 
-
 # Hibernate 기본 설정
 hibernate:
   naming:
@@ -34,13 +32,8 @@ hibernate:
     implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
 
 # 서버 기본 설정 (필요한 경우)
-server:
-  port: 8084
+
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
-message:
-  exchange: app
-  queue:
-    bid-cancel: app.bid.cancel
