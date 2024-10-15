@@ -52,7 +52,7 @@ public class GlobalFilterConfig {
     public WebFilter customGlobalFilter() {
 
         return (exchange, chain) -> {
-            System.out.println("Global filter: Request received at " + exchange.getRequest().getURI());
+            System.out.println("(v2) Global filter: Request received at " + exchange.getRequest().getURI());
             return chain.filter(exchange)
                 .then(Mono.fromRunnable(() -> System.out.println("Global filter: Response sent with status " + exchange.getResponse().getStatusCode())));
         };
