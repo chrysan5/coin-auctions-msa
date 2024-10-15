@@ -1,0 +1,41 @@
+# gitAction 이 실행할 workflow 를 정의하는 Actions.yml
+
+name:  CI/CD with AWS EC2, ECR
+
+# 이벤트 트리거. deploy 브렌치에 push 될 때 자동실행되는 파이프라인 스크립트
+on:
+  push:
+    branches:
+      - deploy
+
+# 모든 Job에서 사용할 환경 변수
+env:
+
+# 3개의 job으로 구성
+# 1. github 에서 코드를 가져와 Gradle 빌드 (build)
+# 2. 그것을 도커 이미지로 빌드하고 ECR에 푸시 (Docker)
+# 3. EC2로 접속하여 컨테이너 재실행 (Deploy)
+
+jobs:
+  build:
+    name: Build
+    steps: # 각 job에서 순차적으로 실행될 순서
+      - name: Checkout # 작업 이름(로그에 찍힐 것)
+      - uses: actions/checkout@v1 # 작업 내용 - 레포지토리 파일들을 가져옴(v1은 버젼)
+
+#      - name: Set up JDK 17 # JDK 설정
+#        uses: actions/setup-java@v4
+#        with:
+#          java-version: '17'
+#          distribution: 'temurin'
+#
+#      - name: Build with Gradle  # Gradle 빌드
+#        run: ./gradlew clean build
+
+  docker:
+    name: Build docker image and Push to registry
+    needs: build
+
+  deploy:
+    name: Deploy
+    needs: Docker
