@@ -1,5 +1,11 @@
-# 모든 서비스 도커 이미지를 빌드합니다.
-services=("server" "gateway" "user")
+# 모든 서비스 도커 이미지를 빌드합니다!
+services=("com.nameslowly.coinauctions.auction"
+"com.nameslowly.coinauctions.auth"
+"com.nameslowly.coinauctions.bidwin"
+"com.nameslowly.coinauctions.chat"
+"com.nameslowly.coinauctions.coinpay"
+"com.nameslowly.coinauctions.gateway"
+"com.nameslowly.coinauctions.server")
 
 # 도커 이미지에 commit hash를 기반으로한 이미지 태그를 설정합니다.
 commit_hash=$(git rev-parse --short HEAD)
