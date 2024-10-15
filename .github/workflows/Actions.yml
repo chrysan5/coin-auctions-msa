@@ -18,6 +18,7 @@ env:
 # 3. EC2로 접속하여 컨테이너 재실행 (Deploy)
 
 jobs:
+  ###################### 1. github 에서 코드를 가져와 Gradle 빌드 (build) #########################
   build:
     name: 프로젝트 빌드하기
     runs-on: ubuntu-latest # github 가 우분투에서 실행시킴
@@ -55,6 +56,9 @@ jobs:
         run: ./gradlew clean build
         working-directory: ${{ matrix.service }}
 
+      # 여기에 테스트를 진행해보자
+
+  ###################### 2. 빌드한 프로젝트들을 도커 이미지로 빌드하고 ECR에 푸시 #########################
   docker:
     name: 도커 이미지로 만들고 ECR 올리기
     needs: build
@@ -85,6 +89,7 @@ jobs:
         env:
           ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
 
+  ###################### 3. EC2로 접속하여 ECR에서 받은 이미지로 컨테이너 재실행 (Deploy) #########################
   deploy:
     name: EC2 들어가서 배포하기
     needs: docker
@@ -94,7 +99,7 @@ jobs:
       - name: Checkout Docker
         uses: actions/checkout@v4
 
-        ######### 도커 컴포즈를 EC2로 복사해주는 스크립트 #######
+        # 도커 컴포즈를 EC2로 복사
       - name: Copy Docker compose file to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -104,11 +109,11 @@ jobs:
           source: "docker-compose.yml"
           target: "/home/ubuntu" # target 은 디렉토리임. target directory 아래에 같은 이름의 파일로 옮겨진다.
 
-        ######### SSH를 통해 EC2 접속하고 컨테이너 재실행 #######
+        # SSH를 통해 EC2 접속하고 컨테이너 재실행
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.0.3
 
-        ######### EC2 접속하는 시크릿 설정 #########
+        # EC2 접속하는 시크릿 설정
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
