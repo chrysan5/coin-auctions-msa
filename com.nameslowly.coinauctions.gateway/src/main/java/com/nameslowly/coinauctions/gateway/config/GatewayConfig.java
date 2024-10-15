@@ -17,9 +17,9 @@ public class GatewayConfig {
 
         return builder.routes()
             // userAuth
-            .route("userauth-service", r -> r.path("/api/auth/**")
+            .route("userAuth-service", r -> r.path("/api/auth/**")
                 .filters(f -> f.filter(authFilter))
-                .uri("lb://userauth-service")
+                .uri("lb://userAuth-service")
             )
             // auction
             .route("auction-service", r -> r.path("/api/auctions/**")
@@ -29,12 +29,7 @@ public class GatewayConfig {
             // bid
             .route("bidwin-service", r -> r.path("/api/bids/**")
                 .filters(f -> f.filter(authFilter))
-                .uri("lb://bids-service")
-            )
-            // win
-            .route("bidwin-service", r -> r.path("/api/wins/**")
-                .filters(f -> f.filter(authFilter))
-                .uri("lb://win-service")
+                .uri("lb://bidwin-service")
             )
             // coin
             .route("coinpay-service", r -> r.path("/api/coins/**", "/api/coin_wallets/**", "/api/coin_histories")

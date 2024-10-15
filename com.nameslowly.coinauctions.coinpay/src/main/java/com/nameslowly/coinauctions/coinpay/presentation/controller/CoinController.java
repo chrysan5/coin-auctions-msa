@@ -39,5 +39,4 @@ public class CoinController {
     public CoinVO getCoinById(@PathVariable("coinId") Long coinId) {
         return coinService.getCoinById(coinId);
     }
-
 }

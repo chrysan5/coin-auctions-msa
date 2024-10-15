@@ -1,4 +1,4 @@
-### 회원 가입
+### 회원가입
 POST localhost:8081/api/auth/sign-up
 Content-Type: application/json
 
@@ -8,17 +8,27 @@ Content-Type: application/json
     "role" : "MASTER"
 }
 
-### 회원 조회
-GET localhost:8081/api/auth/user1234
-
-### 회원들 조회
-GET localhost:8081/api/auth/all
-
 ### 로그인
 POST localhost:8081/user/login
 Content-Type: application/json
 
 {
-    "username": "user1234",
-    "password": "pwd1234@"
+  "username": "user1234",
+  "password": "pwd1234@"
 }
+
+### 로그아웃
+POST localhost:8081/api/auth/logout
+
+### 회원정보 단일검색
+GET localhost:8081/api/auth/user1234
+X-User-Name: user1234
+X-User-Role: MASTER
+
+### 회원정보 전체검색 (페이징 포함) - 관리자기능
+GET localhost:8081/api/auth/all
+X-User-Name: user1234
+X-User-Role: MASTER
+
+### INTERNAL GET USER
+GET localhost:8081/api/auth/internal/user1234
