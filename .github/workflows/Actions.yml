@@ -45,6 +45,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      # gradlew 에 파일 실행 권한주기
+      - name: Set Gradlew Permission
+        run: chmod +x ${{ matrix.service }}/gradlew
+        working-directory: ${{ matrix.service }}
+
       # Gradle 빌드
       - name: Build with Gradle
         run: ./gradlew clean build
