@@ -1,0 +1,94 @@
+# version: '3.8'
+
+services:
+  eureka-server:
+    networks:
+      - auction-network
+    container_name: eureka-server # 만들 컨테이너 이름 (이겠지)
+    build: # 새 이미지를 직접 만들어씀
+      context: . # app-compose.yml 이 있는 경로
+      dockerfile: ./com.nameslowly.coinauctions.server/Dockerfile # 빌드할 이미지이름
+    ports:
+      - "8761:8761"
+    image: ${ECR_REGISTRY}/${ECR_NAMESPACE}/server
+
+  gateway:
+    networks:
+      - auction-network
+    container_name: gateway-server
+    build:
+      context: . # app-compose.yml 이 있는 경로
+      dockerfile: ./com.nameslowly.coinauctions.gateway/Dockerfile
+    image: ${ECR_REGISTRY}/${ECR_NAMESPACE}/gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-server
+
+  auth-server:
+    networks:
+      - auction-network
+    container_name: auth-server
+    build:
+      context: . # app-compose.yml 이 있는 경로
+      dockerfile: ./com.nameslowly.coinauctions.auth/Dockerfile
+    image: ${ECR_REGISTRY}/${ECR_NAMESPACE}/auth
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka-server
+
+  auction-server:
+    networks:
+      - auction-network
+    container_name: auction-server
+    build:
+      context: . # app-compose.yml 이 있는 경로
+      dockerfile: ./com.nameslowly.coinauctions.auction/Dockerfile
+    image: ${ECR_REGISTRY}/${ECR_NAMESPACE}/auction
+    ports:
+      - "8082:8082"
+    depends_on:
+      - eureka-server
+
+  bidwin-server:
+    networks:
+      - auction-network
+    container_name: bidwin-server
+    build:
+      context: . # app-compose.yml 이 있는 경로
+      dockerfile: ./com.nameslowly.coinauctions.bidwin/Dockerfile
+    image: ${ECR_REGISTRY}/${ECR_NAMESPACE}/bidwin
+    ports:
+      - "8083:8083"
+    depends_on:
+      - eureka-server
+
+  chat-server:
+    networks:
+      - auction-network
+    container_name: chat-server
+    build:
+      context: . # app-compose.yml 이 있는 경로
+      dockerfile: ./com.nameslowly.coinauctions.chat/Dockerfile
+    image: ${ECR_REGISTRY}/${ECR_NAMESPACE}/chat
+    ports:
+      - "8085:8085"
+    depends_on:
+      - eureka-server
+
+  coinpay-server:
+    networks:
+      - auction-network
+    container_name: coinpay-server
+    build:
+      context: . # app-compose.yml 이 있는 경로
+      dockerfile: ./com.nameslowly.coinauctions.coinpay/Dockerfile
+    image: ${ECR_REGISTRY}/${ECR_NAMESPACE}/coinpay
+    ports:
+      - "8084:8084"
+    depends_on:
+      - eureka-server
+
+networks:
+  auction-network:
