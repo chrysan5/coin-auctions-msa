@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: bidwin-service
+  mvc:
+    static-path-pattern: /swagger-ui/**
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver  # MySQL 드라이버 클래스 이름
     url: jdbc:mysql://mysql-db:3306/bidwin  # MySQL 데이터베이스 URL
