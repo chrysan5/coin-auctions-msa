@@ -81,21 +81,28 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      # 작업중 폴더 좀 보자
+      - name: List files in current directory
+        run: ls -la
+
+      # workflows 안의 파일좀 보자
+      - name: List files in .github/workflows directory
+        run: |
+          cd .github/workflows
+          ls -la
+
       # 혹시모르니 sh 파일에 권한부여해보자
       - name: Make the script executable
         run: chmod +x .github/workflows/dockerTagAndPush.sh
 
-      # 작업 폴더도 좀 보자
-      - name: List files in current directory
-        run: ls -la
-        
       # docker compose 를 이용해서 여러 이미지를 모두 빌드하고, 별도의 script를 사용해서 이미지를 push 합니다.
       - name: Build, Tag and Push docker image to AWS ECR
         run: |
           docker compose build
-          ./.github/workflows/dockerTagAndPush.sh
+          .github/workflows/dockerTagAndPush.sh
         env:
           ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+
 
   ###################### 3. EC2로 접속하여 ECR에서 받은 이미지로 컨테이너 재실행 (Deploy) #########################
   deploy:
