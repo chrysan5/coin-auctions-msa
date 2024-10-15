@@ -33,7 +33,7 @@ public class ChatroomController {
         List<Chatroom> myChatroomList = chatroomService.getMyChatroomList(username);
         model.addAttribute("myrooms", myChatroomList);
 
-        return "/rooms";
+        return "rooms";
     }
     
     //채팅방 들어가기(상세)
@@ -43,7 +43,7 @@ public class ChatroomController {
         Chatroom chatroom = chatroomService.enterChatroom(chatroomId, username);
         model.addAttribute("room", chatroom);
         model.addAttribute("username", username);
-        return "/room-detail";
+        return "room-detail";
     }
 
     //채팅방 나가기 -> 채팅방을 나가도 채팅방을 삭제하지 않으면 과거 채팅 기록 조회 가능함
@@ -51,20 +51,20 @@ public class ChatroomController {
     public String exitChatroom(Model model) {
         List<Chatroom> chatroomList = chatroomService.getChatroomList();
         model.addAttribute("rooms", chatroomList);
-        return "redirect:/chat/rooms-list";
+        return "redirect:/api/chat/rooms-list";
     }
 
     //채팅방 생성
     @PostMapping("/rooms")
     public String createChatroom(@RequestParam("roomname") String roomname, @RequestHeader(value = "X-User-Name", required = true) String username){
         chatroomService.createChatroom(roomname, username);
-        return "redirect:/chat/rooms-list";
+        return "redirect:/api/chat/rooms-list";
     }
 
     //채팅방 삭제 -> 채팅방 목록에서 보이지 않으므로 과거 채팅 기록 조회 불가능
     @PutMapping("/rooms/{chatroomId}")
     public String deleteChatroom(@PathVariable String chatroomId){
         chatroomService.deleteChatMember(chatroomId);
-        return "redirect:/chat/rooms-list";
+        return "redirect:/api/chat/rooms-list";
     }
 }
