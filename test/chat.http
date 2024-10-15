@@ -1,5 +1,5 @@
 ### 채팅방 생성
-POST http://localhost:8085/api/chat/rooms?roomname=중고폰
+POST http://localhost:8085/api/chat/rooms?roomname=중고폰2
 X-User-Name: user1
 
 ### 채팅방 삭제

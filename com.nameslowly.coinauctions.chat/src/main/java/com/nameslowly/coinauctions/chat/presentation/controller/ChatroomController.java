@@ -43,6 +43,7 @@ public class ChatroomController {
         Chatroom chatroom = chatroomService.enterChatroom(chatroomId, username);
         model.addAttribute("room", chatroom);
         model.addAttribute("username", username);
+
         return "room-detail";
     }
 
