@@ -21,7 +21,7 @@ jobs:
     name: Build
     steps: # 각 job에서 순차적으로 실행될 순서
       - name: Checkout # 작업 이름(로그에 찍힐 것)
-      - uses: actions/checkout@v1 # 작업 내용 - 레포지토리 파일들을 가져옴(v1은 버젼)
+        uses: actions/checkout@v1 # 작업 내용 - 레포지토리 파일들을 가져옴(v1은 버젼)
 
 #      - name: Set up JDK 17 # JDK 설정
 #        uses: actions/setup-java@v4
@@ -35,7 +35,13 @@ jobs:
   docker:
     name: Build docker image and Push to registry
     needs: build
+    steps: # test docker
+      - name: Checkout Build
+        uses: actions/checkout@v1
 
   deploy:
     name: Deploy
     needs: Docker
+    steps: # test steps
+      - name: Checkout Docker
+        uses: actions/checkout@v1
