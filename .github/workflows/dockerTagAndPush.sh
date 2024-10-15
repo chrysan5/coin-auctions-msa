@@ -1,3 +1,5 @@
+# Bash 쉘 스크립트
+
 # 모든 서비스 도커 이미지를 빌드합니다!
 services=("com.nameslowly.coinauctions.auction"
 "com.nameslowly.coinauctions.auth"
