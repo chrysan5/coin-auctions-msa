@@ -53,7 +53,7 @@ jobs:
       # Gradle 빌드
       - name: Build with Gradle
         run: ./gradlew clean build
-        working-directory: ${{ matrix.service }} # 여기에 각 폴더들
+        working-directory: ${{ matrix.service }}
 
   docker:
     name: 도커 이미지로 만들고 ECR 올리기
@@ -61,14 +61,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps: # test docker
-      - name: Checkout Build
+      - name: Checkout 를 왜 하는거지?
         uses: actions/checkout@v1
 
-      # AWS ECR 에 이미지 업로드 권한을 얻기 위해 인증을 진행합니다.
+      # AWS ECR 에 이미지 업로드 권한을 얻기 위해 인증 진행
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
 
-        ######### 여기에 ECR 들어가기 위한 시크릿 설정 해줘야함 #######
+      # 로그인
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      # docker compose 를 이용해서 여러 이미지를 모두 빌드하고, 별도의 script를 사용해서 이미지를 push 합니다.
+      - name: Build, Tag and Push docker image to AWS ECR
+        run: |
+          docker compose build
+          ./dockerTagAndPush.sh
+        env:
+          ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
 
   deploy:
     name: EC2 들어가서 배포하기
@@ -79,10 +94,34 @@ jobs:
       - name: Checkout Docker
         uses: actions/checkout@v4
 
-        ######### 여기에 도커 컴포즈를 EC2로 복사해주는 스크립트 작성 해줘야함 #######
+        ######### 도커 컴포즈를 EC2로 복사해주는 스크립트 #######
+      - name: Copy Docker compose file to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_KEY }}
+          source: "docker-compose.yml"
+          target: "/home/ubuntu" # target 은 디렉토리임. target directory 아래에 같은 이름의 파일로 옮겨진다.
 
+        ######### SSH를 통해 EC2 접속하고 컨테이너 재실행 #######
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.0.3
 
-        ######### 여기에 EC2 접속하는 시크릿 설정 해줘야함 #########
-
+        ######### EC2 접속하는 시크릿 설정 #########
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_KEY }}
+          port: 22
+          envs: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, ECR_REGISTRY, ECR_NAMESPACE
+          script: |
+            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
+            docker compose down
+            docker compose pull
+            docker compose up -d
