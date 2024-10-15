@@ -50,6 +50,8 @@ dependencies {
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
 
 	implementation project(path: ':com.nameslowly.coinauctions.common')
+	// SWAGGER
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0'
 }
 
 dependencyManagement {
