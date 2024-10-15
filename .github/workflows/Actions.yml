@@ -10,6 +10,7 @@ on:
 
 # 모든 Job에서 사용할 환경 변수
 env:
+  ECR_NAMESPACE: 12jo
 
 # 3개의 job으로 구성
 # 1. github 에서 코드를 가져와 Gradle 빌드 (build)
@@ -21,7 +22,7 @@ jobs:
     name: 프로젝트 빌드하기
     runs-on: ubuntu-latest # github 가 우분투에서 실행시킴
     strategy:
-      matrix:
+      matrix: # common 은 작업시 같이 빌드된다?
         service: [ com.nameslowly.coinauctions.auction,
                    com.nameslowly.coinauctions.auth,
                    com.nameslowly.coinauctions.bidwin,
