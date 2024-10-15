@@ -18,30 +18,64 @@ env:
 
 jobs:
   build:
-    name: Build
-    steps: # 각 job에서 순차적으로 실행될 순서
-      - name: Checkout # 작업 이름(로그에 찍힐 것)
-        uses: actions/checkout@v1 # 작업 내용 - 레포지토리 파일들을 가져옴(v1은 버젼)
+    name: 프로젝트 빌드하기
+    runs-on: ubuntu-latest # github 가 우분투에서 실행시킴
+    strategy:
+      matrix:
+        service: [ com.nameslowly.coinauctions.auction,
+                   com.nameslowly.coinauctions.auth,
+                   com.nameslowly.coinauctions.bidwin,
+                   com.nameslowly.coinauctions.chat,
+                   com.nameslowly.coinauctions.coinpay,
+                   com.nameslowly.coinauctions.gateway,
+                   com.nameslowly.coinauctions.server
+        ]
 
-#      - name: Set up JDK 17 # JDK 설정
-#        uses: actions/setup-java@v4
-#        with:
-#          java-version: '17'
-#          distribution: 'temurin'
-#
-#      - name: Build with Gradle  # Gradle 빌드
-#        run: ./gradlew clean build
+    steps: # 각 job에서 순차적으로 실행될 순서
+
+      # 레포지토리 파일들을 가져옴(v1은 버젼)
+      - name: Checkout # 작업 이름(로그에 찍힐 것)
+        uses: actions/checkout@v1 # 작업 내용
+
+      # JDK 설정
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # Gradle 빌드
+      - name: Build with Gradle
+        run: ./gradlew clean build
+        working-directory: ${{ matrix.service }} # 여기에 각 폴더들
 
   docker:
-    name: Build docker image and Push to registry
+    name: 도커 이미지로 만들고 ECR 올리기
     needs: build
+    runs-on: ubuntu-latest
+
     steps: # test docker
       - name: Checkout Build
         uses: actions/checkout@v1
 
+      # AWS ECR 에 이미지 업로드 권한을 얻기 위해 인증을 진행합니다.
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+
+        ######### 여기에 ECR 들어가기 위한 시크릿 설정 해줘야함 #######
+
   deploy:
-    name: Deploy
-    needs: Docker
-    steps: # test steps
+    name: EC2 들어가서 배포하기
+    needs: docker
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Checkout Docker
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
+
+        ######### 여기에 도커 컴포즈를 EC2로 복사해주는 스크립트 작성 해줘야함 #######
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.3
+
+        ######### 여기에 EC2 접속하는 시크릿 설정 해줘야함 #########
