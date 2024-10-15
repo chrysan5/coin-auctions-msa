@@ -1,9 +1,12 @@
+server:
+  port: 8083
+
 spring:
   application:
-    name: bidwin-server
+    name: bidwin-service
 
   profiles:
-    active: dev
+    active: prod
 
   cloud:
     openfeign:

@@ -1,6 +1,14 @@
+server:
+  port: 8084
+
 spring:
   application:
-    name: coinpay-server
+    name: coinpay-service
 
   profiles:
     active: prod
+
+message:
+  exchange: app
+  queue:
+    bid-cancel: app.bid.cancel

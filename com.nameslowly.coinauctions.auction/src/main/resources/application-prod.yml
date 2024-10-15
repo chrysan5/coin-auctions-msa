@@ -1,9 +1,4 @@
-server:
-  port: 8082
-
 spring:
-  application:
-    name: auction-service
   mvc:
     static-path-pattern: /swagger-ui/**
   datasource:
@@ -18,6 +13,7 @@ spring:
       port: 6379
       username: default
       password:
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -27,11 +23,6 @@ spring:
         show-sql: true
         format-sql: true
         generate-ddl: true
-
-message:
-  exchange: app
-  queue:
-    bid-register: app.bid.register
 
 eureka:
   client:

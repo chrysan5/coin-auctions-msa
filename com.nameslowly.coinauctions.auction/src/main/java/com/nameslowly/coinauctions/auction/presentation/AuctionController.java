@@ -30,7 +30,7 @@ public class AuctionController {
     @PostMapping("/api/auctions")
     public CommonResponse<RegisterAuctionResponse> register(
         @RequestBody RegisterAuctionRequest request) {
-        Long auctionId = auctionService.register(request.toDto());
+        Long auctionId = auctionService.registerAuction(request.toDto());
         return CommonResponse.success(new RegisterAuctionResponse(auctionId));
     }
 
@@ -60,7 +60,7 @@ public class AuctionController {
     // message
 
     @RabbitListener(queues = "${message.queue.bid-register}")
-    public void updateCurrentAmount(BidRegisterMessage message) {
-        auctionService.updateCurrentAmount(message.getAuctionId(), message.getBidAmount());
+    public void bidAuction(BidRegisterMessage message) {
+        auctionService.bidAuction(message.toDto());
     }
 }

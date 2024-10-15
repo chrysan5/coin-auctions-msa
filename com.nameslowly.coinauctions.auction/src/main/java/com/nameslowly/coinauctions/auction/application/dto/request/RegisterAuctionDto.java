@@ -23,10 +23,9 @@ public class RegisterAuctionDto {
             .title(this.title)
             .image(this.image)
             .description(this.description)
-            .basePrice(this.hopePrice)
+            .hopePrice(this.hopePrice)
             .coinId(this.coinId)
             .registerMemberUsername(this.registerMemberUsername)
             .build();
     }
-
 }

@@ -1,6 +1,14 @@
+server:
+  port: 8761
+
 spring:
   application:
     name: eureka-server-service
 
   profiles:
     active: prod
+
+# 나중에 따로 관리해야함
+jwt:
+  secret:
+    key: YW55IHNlY3JldCBleGFtcGxlIHNlY3JldCBrZXkgZm9yIGp3dA==
