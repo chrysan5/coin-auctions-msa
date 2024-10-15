@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/coin_histories/")
+@RequestMapping("/api/coin_histories")
 public class CoinHistoryController {
 
     private final CoinHistoryService coinHistoryService;

@@ -26,7 +26,7 @@ X-User-Name: user1234
 X-User-Role: MASTER
 
 ### 회원정보 전체검색 (페이징 포함) - 관리자기능
-GET localhost:8081/api/all
+GET localhost:8081/api/auth/all
 X-User-Name: user1234
 X-User-Role: MASTER
 

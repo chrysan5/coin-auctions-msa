@@ -86,7 +86,7 @@ public class BidService {
             log.info("현재 입찰 존재");
             Bid winBid = winBidOpt.get();
 
-            if (winBid.getParticipantMemberUsername() == dto.getParticipantMemberUsername()) {
+            if (winBid.getParticipantMemberUsername().equals(dto.getParticipantMemberUsername())) {
                 throw new RuntimeException("최고 입찰자가 본인임");
             }
 

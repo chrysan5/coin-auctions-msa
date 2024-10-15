@@ -6,7 +6,7 @@ spring:
     name: coinpay-service
 
   profiles:
-    active: dev
+    active: prod
 
 message:
   exchange: app

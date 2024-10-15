@@ -6,7 +6,7 @@ spring:
     name: userAuth-service
 
   profiles:
-    active: dev
+    active: prod
 
 jwt:
   secret:

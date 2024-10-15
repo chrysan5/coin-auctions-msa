@@ -6,7 +6,7 @@ spring:
     name: bidwin-service
 
   profiles:
-    active: dev
+    active: prod
 
   cloud:
     openfeign:

@@ -6,7 +6,7 @@ spring:
     name: eureka-server-service
 
   profiles:
-    active: dev
+    active: prod
 
 # 나중에 따로 관리해야함
 jwt:

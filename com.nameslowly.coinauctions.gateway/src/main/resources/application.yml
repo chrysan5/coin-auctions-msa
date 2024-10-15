@@ -6,7 +6,7 @@ spring:
     name: gateway-service
 
   profiles:
-    active: dev
+    active: prod
 
 jwt:
   secret:
