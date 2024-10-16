@@ -1,6 +1,7 @@
 package com.nameslowly.coinauctions.chat.application.service;
 
 
+import com.nameslowly.coinauctions.chat.application.dto.AuctionInfoMessage;
 import com.nameslowly.coinauctions.chat.domain.model.Chatroom;
 import com.nameslowly.coinauctions.chat.domain.model.ChatroomMember;
 import com.nameslowly.coinauctions.chat.domain.repository.ChatroomMemberRepository;
@@ -65,6 +66,16 @@ public class ChatroomService {
     }
 
     @Transactional
+    public void createChatroom(AuctionInfoMessage auctionInfoMessage) {
+        String roomname = auctionInfoMessage.getTitle();
+        String auctionEndTime = auctionInfoMessage.getEndTime();
+        String username = auctionInfoMessage.getRegisterMemberUsername();
+
+        Chatroom chatroom = chatroomRepository.save(new Chatroom(roomname, auctionEndTime));
+        chatroomMemberRepository.save(new ChatroomMember(chatroom, username));
+    }
+
+    @Transactional
     public void deleteChatMember(String chatroomId) {
         Chatroom chatroom = chatroomRepository.findById(Long.valueOf(chatroomId)).orElseThrow(
                 () -> new GlobalException(ResultCase.CHATROOM_NOT_FOUND)
@@ -72,5 +83,17 @@ public class ChatroomService {
 
         ChatroomMember chatroomMember = chatroomMemberRepository.findByChatroom(chatroom);
         chatroomMember.setDelete(true);
+    }
+
+    @Transactional
+    public void deleteChatMemberAll(Long chatroomId) {
+        Chatroom chatroom = chatroomRepository.findById(Long.valueOf(chatroomId)).orElseThrow(
+                () -> new RuntimeException("채팅방이 존재하지 않습니다.")
+        );
+
+        List<ChatroomMember> chatroomMemberList = chatroomMemberRepository.findAllByChatroom(chatroom);
+        for(ChatroomMember chatroomMember : chatroomMemberList){
+            chatroomMember.setDelete(true);
+        }
     }
 }

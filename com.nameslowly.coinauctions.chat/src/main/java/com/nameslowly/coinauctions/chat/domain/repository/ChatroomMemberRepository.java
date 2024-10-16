@@ -13,5 +13,7 @@ public interface ChatroomMemberRepository extends JpaRepository<ChatroomMember, 
     Optional<ChatroomMember> findByUsernameAndChatroom(String username, Chatroom chatroom);
 
     ChatroomMember findByChatroom(Chatroom chatroom);
+
+    List<ChatroomMember> findAllByChatroom(Chatroom chatroom);
 }
 
