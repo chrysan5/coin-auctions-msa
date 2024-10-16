@@ -104,7 +104,7 @@ jobs:
           ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
 
       - name: ECR에 태그 달아서 이미지 푸시하자
-        run: dockerTagAndPush.sh
+        run: .github/workflows/dockerTagAndPush.sh
         env:
           ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
 
@@ -125,7 +125,11 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_KEY }}
-          source: "docker-compose.yml"
+          source: |
+            init.sql
+            app-compose.yml
+            db-compose.yml
+            monitoring-compose.yml
           target: "/home/ubuntu" # target 은 디렉토리임. target directory 아래에 같은 이름의 파일로 옮겨진다.
 
         # SSH를 통해 EC2 접속하고 컨테이너 재실행
@@ -148,4 +152,6 @@ jobs:
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
             docker compose down
             docker compose pull
-            docker compose up -d
+            docker compose -f app-compose up -d
+
+
