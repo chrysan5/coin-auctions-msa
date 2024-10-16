@@ -1,6 +1,13 @@
+server:
+  port: 8080
+
 spring:
   application:
-    name: gateway-server
+    name: gateway-service
 
   profiles:
     active: prod
+
+jwt:
+  secret:
+    key: YW55IHNlY3JldCBleGFtcGxlIHNlY3JldCBrZXkgZm9yIGp3dA==

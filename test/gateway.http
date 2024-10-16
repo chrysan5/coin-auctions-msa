@@ -2,4 +2,164 @@
 GET localhost:8080/api/auth/user1234
 Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMTIzNCIsImF1dGgiOiJNQVNURVIiLCJleHAiOjE3Mjg3MzEzNzMsImlhdCI6MTcyODcyNzc3M30.Sx4nalKgI6aONX13xPrWfB7d93AXQafk5F_eq39Gq04
 
-### 게이트웨이를 통한~
+### AUTHSUSER-SERVICE ------------------------------------------------
+
+### 회원가입
+POST localhost:8081/api/auth/sign-up
+Content-Type: application/json
+
+{
+  "username": "user1234",
+  "password": "pwd1234@",
+  "role" : "MASTER"
+}
+
+### 로그인
+POST localhost:8081/user/login
+Content-Type: application/json
+
+{
+  "username": "user1234",
+  "password": "pwd1234@"
+}
+
+> {%
+  token = response.body.data.token.replace("Bearer ", "");
+  client.global.set("token", token);
+%}
+
+### 로그아웃
+POST localhost:8080/api/auth/logout
+Authorization: {{token}}
+
+### 회원정보 단일검색
+GET localhost:8080/api/auth/user1234
+Authorization: {{token}}
+
+### 회원정보 전체검색 (페이징 포함) - 관리자기능
+GET localhost:8080/api/auth/all
+Authorization: {{token}}
+
+### INTERNAL GET USER
+GET localhost:8080/api/auth/internal/user1234
+Authorization: {{token}}
+
+### COINPAY-SERVICE ------------------------------------------------
+
+### 코인 생성
+POST localhost:8080/api/coins/create
+Content-Type: application/json
+Authorization: {{token}}
+
+//{
+//  "coin_real_name" : "KRW-SOL",
+//  "coin_name" : "solana"
+//}
+
+//{
+//  "coin_real_name" : "KRW-USDT",
+//  "coin_name" : "usdt"
+//}
+
+//{
+//  "coin_real_name" : "KRW-DOGE",
+//  "coin_name" : "doge"
+//}
+
+### 코인 목록 조회
+GET localhost:8080/api/coins
+Authorization: {{token}}
+
+### 코인 삭제
+DELETE localhost:8080/api/coins/1
+Authorization: {{token}}
+
+### INTERNAL GET COIN
+GET localhost:8084/api/internal/coins/3
+
+### 코인 충전
+POST localhost:8080/api/coin_wallets
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "charge_amount": 10000,
+  "coin_id": 3
+}
+
+### 코인 지갑 목록 조회
+GET localhost:8080/api/coin_wallets
+Authorization: {{token}}
+
+### INTERNAL USE COIN
+PUT localhost:8084/api/internal/coin_wallets/use
+Content-Type: application/json
+
+{
+  "username": "user1234",
+  "coin_id": 3,
+  "quantity": 50
+}
+
+### INTERNAL RECOVER BID COIN
+PUT localhost:8084/api/internal/coin_wallets/recover
+Content-Type: application/json
+
+{
+  "username": "user1234",
+  "coin_id": 3,
+  "quantity": 100
+}
+
+### 코인 내역 조회
+GET localhost:8080/api/coin_histories
+Authorization: {{token}}
+
+### AUCTION-SERVICE ------------------------------------------------
+
+### 경매 등록
+POST http://localhost:8080/api/auctions
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "title": "Galaxy s24",
+  "image": "http://example.com/Galaxy S24.jpg",
+  "description": "액정 고장남",
+  "hopePrice": 1000,
+  "coinId": 3,
+  "registerMemberUsername": "user1234"
+}
+
+### 경매 목록 조회
+GET http://localhost:8080/api/auctions
+Authorization: {{token}}
+
+### 경매 단건 조회
+GET http://localhost:8080/api/auctions/1
+Authorization: {{token}}
+
+### INTERNAL GET AUCTION
+GET http://localhost:8082/api/internal/auctions/1
+
+### BIDWIN-SERVICE ------------------------------------------------
+
+### 입찰 등록
+POST http://localhost:8080/api/bids
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "auctionId": 1,
+  "participantMemberUsername": "user1234",
+  "coinId": 3,
+  "coinAmount": 50.01
+}
+
+### 입찰 목록 조회
+GET http://localhost:8080/api/bids
+Authorization: {{token}}
+
+### 입찰 단건 조회
+GET http://localhost:8080/api/bids/1
+Authorization: {{token}}

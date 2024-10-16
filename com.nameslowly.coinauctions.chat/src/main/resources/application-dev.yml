@@ -6,9 +6,9 @@ spring:
     password: guest
 
   datasource:
-    url: jdbc:mysql://localhost:3306/coinactions
-    username: root
-    password: 1234
+    url: jdbc:mysql://localhost:3306/CoinAuction
+    username: panjun
+    password: 0709
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -20,8 +20,6 @@ spring:
         format-sql: true
         generate-ddl: true
 
-server:
-  port: 8085
 eureka:
   client:
     service-url:

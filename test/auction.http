@@ -1,21 +1,21 @@
-### register
+### 경매 등록
 POST http://localhost:8082/api/auctions
 Content-Type: application/json
 
 {
-  "title": "galaxy s24",
-  "image": "http://example.com/image.jpg",
+  "title": "Galaxy s24",
+  "image": "http://example.com/Galaxy S24.jpg",
   "description": "액정 고장남",
   "hopePrice": 1000,
   "coinId": 3,
-  "registerMemberUsername": "panjun"
+  "registerMemberUsername": "user1234"
 }
 
-### retrieve auction page
+### 경매 목록 조회
 GET http://localhost:8082/api/auctions
 
-### retrieve auction
+### 경매 단건 조회
 GET http://localhost:8082/api/auctions/1
 
-### get auction
+### INTERNAL GET AUCTION
 GET http://localhost:8082/api/internal/auctions/1
