@@ -157,6 +157,7 @@ jobs:
 
           script: |
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
+
             docker compose -f db-compose down -v
             docker compose -f app-compose down -v
             docker compose -f db-compose pull
@@ -164,3 +165,4 @@ jobs:
             docker compose -f db-compose up -d
             sleep 60
             docker compose -f app-compose up -d
+
