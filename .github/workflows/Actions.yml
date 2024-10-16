@@ -121,7 +121,7 @@ jobs:
 
         # 파일 권한 설정 (777 : 소유자, 그룹 및 다른 사용자 모두 읽기 쓰기 실행 권한 갖도록
       - name: Set file permissions
-        run: chmod 644 init.sql app-compose.yml db-compose.yml monitoring-compose.yml
+        run: chmod 777 init.sql app-compose.yml db-compose.yml monitoring-compose.yml
 
         # 작업중 폴더 좀 보자
       - name: List files in current directory
@@ -167,6 +167,7 @@ jobs:
 
           script: |
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
+
             docker compose -f db-compose down -v
             docker compose -f app-compose down -v
             docker compose -f db-compose pull
@@ -174,3 +175,4 @@ jobs:
             docker compose -f db-compose up -d
             sleep 60
             docker compose -f app-compose up -d
+
