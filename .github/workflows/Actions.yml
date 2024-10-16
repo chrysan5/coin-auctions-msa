@@ -153,3 +153,5 @@ jobs:
             docker compose down
             docker compose pull
             docker compose -f app-compose up -d
+
+
