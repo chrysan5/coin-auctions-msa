@@ -118,6 +118,10 @@ jobs:
       - name: Checkout Docker
         uses: actions/checkout@v4
 
+      # 작업중 폴더 좀 보자
+      - name: List files in current directory
+        run: ls -la
+
         # 도커 컴포즈를 EC2로 복사
       - name: Copy Docker compose file to EC2
         uses: appleboy/scp-action@v0.1.7
@@ -148,10 +152,17 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           port: 22
           envs: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, ECR_REGISTRY, ECR_NAMESPACE
+
+          # ECR에서 도커 컴포즈에 정의된 이미지들을 가져오는 pull
+
           script: |
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
-            docker compose down
-            docker compose pull
-            docker compose -f app-compose up -d
 
+            docker compose -f db-compose down -v
+            docker compose -f app-compose down -v
+            docker compose -f db-compose pull
+            docker compose -f app-compose pull
+            docker compose -f db-compose up -d
+            sleep 60
+            docker compose -f app-compose up -d
 
