@@ -125,7 +125,7 @@ jobs:
 
         # 파일 권한 설정 (777 : 소유자, 그룹 및 다른 사용자 모두 읽기 쓰기 실행 권한 갖도록
       - name: Set file permissions
-        run: chmod 644 init.sql app-compose.yml db-compose.yml monitoring-compose.yml
+        run: chmod 777 init.sql app-compose.yml db-compose.yml monitoring-compose.yml
 
         # 도커 컴포즈를 EC2로 복사
       - name: Copy Docker compose file to EC2
