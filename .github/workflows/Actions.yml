@@ -117,7 +117,7 @@ jobs:
 
     steps:
       - name: Checkout Docker
-        uses: actions/checkout@v4
+        uses: actions/checkout@v1
 
         # 파일 권한 설정 (777 : 소유자, 그룹 및 다른 사용자 모두 읽기 쓰기 실행 권한 갖도록
       - name: Set file permissions
@@ -125,7 +125,7 @@ jobs:
 
         # 작업중 폴더 좀 보자
       - name: List files in current directory
-        run: ls -la
+        run: ls -a
 
         # 작업 디렉토리도 보자
       - name: Print working directory
@@ -139,10 +139,10 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_KEY }}
           source: |
-            /init.sql
-            /app-compose.yml
-            /db-compose.yml
-            /monitoring-compose.yml
+            coin-auctions-proto-msa/init.sql
+            coin-auctions-proto-msa/app-compose.yml
+            coin-auctions-proto-msa/db-compose.yml
+            coin-auctions-proto-msa/monitoring-compose.yml
           target: "/home/ubuntu" # target 은 디렉토리임. target directory 아래에 같은 이름의 파일로 옮겨진다.
           debug: true # 추가: 디버그 모드 활성화 (로그좀 더 보려고)
 
