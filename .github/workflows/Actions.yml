@@ -35,9 +35,10 @@ jobs:
 
     steps: # 각 job에서 순차적으로 실행될 순서
 
-      # 레포지토리 파일들을 가져옴(v1은 버젼)
-      - name: Checkout # 작업 이름(로그에 찍힐 것)
-        uses: actions/checkout@v1 # 작업 내용
+        # 작업 이름(로그에 찍힐 것)
+      - name: Checkout
+        # 작업내용
+        uses: actions/checkout@v1 # /github/workspace 으로 github 레포지토리 내용들이 복사되고 작업이 종료되면 다 삭제된다?
 
       # JDK 설정
       - name: Set up JDK 17
@@ -118,9 +119,13 @@ jobs:
       - name: Checkout Docker
         uses: actions/checkout@v4
 
-      # 작업중 폴더 좀 보자
+        # 작업중 폴더 좀 보자
       - name: List files in current directory
         run: ls -la
+
+        # 파일 권한 설정 (777 : 소유자, 그룹 및 다른 사용자 모두 읽기 쓰기 실행 권한 갖도록
+      - name: Set file permissions
+        run: chmod 644 init.sql app-compose.yml db-compose.yml monitoring-compose.yml
 
         # 도커 컴포즈를 EC2로 복사
       - name: Copy Docker compose file to EC2
@@ -135,6 +140,7 @@ jobs:
             db-compose.yml
             monitoring-compose.yml
           target: "/home/ubuntu" # target 은 디렉토리임. target directory 아래에 같은 이름의 파일로 옮겨진다.
+          debug: true # 추가: 디버그 모드 활성화 (로그좀 더 보려고)
 
         # SSH를 통해 EC2 접속하고 컨테이너 재실행
       - name: Deploy to EC2
