@@ -94,12 +94,17 @@ jobs:
         run: |
           cd .github/workflows
           ls -la
+          cd ..
+          cd ..
 
       # docker compose 를 이용해서 여러 이미지를 모두 빌드하고 + 별도의 script를 사용해서 이미지를 push 합니다.
-      - name: Build, Tag and Push docker image to AWS ECR
-        run: |
-          docker compose -f Actions-compose.yml build 
-          dockerTagAndPush.sh
+      - name: 도커 이미지로 빌드하자 , Tag and Push docker image to AWS ECR
+        run: docker compose -f ./Actions-compose.yml build
+        env:
+          ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+
+      - name: ECR에 태그 달아서 이미지 푸시하자
+        run: dockerTagAndPush.sh
         env:
           ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
 
