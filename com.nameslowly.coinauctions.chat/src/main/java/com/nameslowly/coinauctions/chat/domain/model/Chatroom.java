@@ -3,6 +3,7 @@ package com.nameslowly.coinauctions.chat.domain.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalTime;
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @Getter
+@Setter
 @Table(name = "chatrooms")
 public class Chatroom {
     @Id
@@ -23,7 +25,7 @@ public class Chatroom {
     @Column(nullable = false, unique = true)
     private String roomname;
 
-    private LocalTime closeAt;
+    private String auctionEndTime;
 
     private boolean isDelete = false;
 
@@ -35,5 +37,10 @@ public class Chatroom {
 
     public Chatroom(String roomname){
         this.roomname = roomname;
+    }
+
+    public Chatroom(String roomname, String auctionEndTime) {
+        this.roomname = roomname;
+        this.auctionEndTime = auctionEndTime;
     }
 }

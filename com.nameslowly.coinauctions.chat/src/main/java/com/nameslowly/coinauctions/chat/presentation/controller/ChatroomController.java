@@ -1,17 +1,20 @@
 package com.nameslowly.coinauctions.chat.presentation.controller;
 
 
+import com.nameslowly.coinauctions.chat.application.dto.AuctionInfoMessage;
 import com.nameslowly.coinauctions.chat.application.service.ChatroomService;
 import com.nameslowly.coinauctions.chat.domain.model.Chatroom;
 import com.nameslowly.coinauctions.chat.infrastructure.user.AuthService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+@Slf4j
 @AllArgsConstructor
 @Controller
 @RequestMapping("/api/chat")
@@ -59,6 +62,13 @@ public class ChatroomController {
     public String createChatroom(@RequestParam("roomname") String roomname, @RequestHeader(value = "X-User-Name", required = true) String username){
         chatroomService.createChatroom(roomname, username);
         return "redirect:/api/chat/rooms-list";
+    }
+
+    //rabbitmq 메시징시스템에 의한 채팅방 생성
+    @RabbitListener(queues = "${message.queue.auction-info}")
+    public void receiveAuctionInfoMessage(AuctionInfoMessage auctionInfoMessage) {
+        log.info("CHAT RECEIVE:{}", auctionInfoMessage.toString());
+        chatroomService.createChatroom(auctionInfoMessage);
     }
 
     //채팅방 삭제 -> 채팅방 목록에서 보이지 않으므로 과거 채팅 기록 조회 불가능
