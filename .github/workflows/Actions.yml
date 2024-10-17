@@ -136,8 +136,7 @@ jobs:
         run: ls -l ./init.sql ./*.yml
 
         # init.sql 을 EC2로 복사
-        # ---> tar achive 가 없다고 나와서 init.sql 만 따로 하니 뭔가 진전은 됨
-        # ---> EC2 key 업데이트해봄
+        # ---> tar achive 가 없다고 나와서 init.sql 만 따로 하니 뭔가 진전은 됨 (★뭐가 문제인거지? 다중파일을 못가져가나)
       - name: Copy init.sql to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -152,7 +151,7 @@ jobs:
         # ---> EC2 ssh 포트를 ipv6에 대해서도 열어놓아봄 fail
         # ---> EC2 내에 들어가 ufw(Uncomplicated Firewall) 활성화 - allow port 22, 22(v6) 시키고 다시 도전 fail
         # ---> timeout 늘리고 다시도전 fail
-        # ---> secret 들 재설정해봄
+        # ---> EC2 secret 들 재설정해봄 (★ 요문제였나... pem에서 본문만 넣어야하는?)
       - name: Copy .*yml to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -186,11 +185,13 @@ jobs:
           script: |
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
 
-            docker compose -f db-compose down -v
-            docker compose -f app-compose down -v
-            docker compose -f db-compose pull
-            docker compose -f app-compose pull
-            docker compose -f db-compose up -d
+            docker compose version # 도커 버젼 확인 (혹시 - 가 생략되서그런가싶어서 다시 넣어봄)
+            
+            docker-compose -f db-compose down -v
+            docker-compose -f app-compose down -v
+            docker-compose -f db-compose pull
+            docker-compose -f app-compose pull
+            docker-compose -f db-compose up -d
             sleep 60
             docker compose -f app-compose up -d
 
