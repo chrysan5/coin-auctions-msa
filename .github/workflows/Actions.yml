@@ -152,6 +152,7 @@ jobs:
         # ---> EC2 ssh 포트를 ipv6에 대해서도 열어놓아봄 fail
         # ---> EC2 내에 들어가 ufw(Uncomplicated Firewall) 활성화 - allow port 22, 22(v6) 시키고 다시 도전 fail
         # ---> timeout 늘리고 다시도전 fail
+        # ---> secret 들 재설정해봄
       - name: Copy .*yml to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
