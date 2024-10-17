@@ -149,8 +149,8 @@ jobs:
 
         # yml 들을 EC2로 복사 
         # ---> EC2 ssh 포트를 ipv6에 대해서도 열어놓아봄 fail
-        # ---> EC2 내에 들어가 ufw(Uncomplicated Firewall) 활성화 - allow port 22, 22(v6) 시키고 다시 도전
-        # ---> timeout 늘리고 다시도전
+        # ---> EC2 내에 들어가 ufw(Uncomplicated Firewall) 활성화 - allow port 22, 22(v6) 시키고 다시 도전 fail
+        # ---> timeout 늘리고 다시도전 fail
       - name: Copy .*yml to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -167,6 +167,7 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
 
         # EC2 접속하는 시크릿 설정
+        ---> secrey key 부분 본체만 업데이트 시도
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
