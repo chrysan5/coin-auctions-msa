@@ -191,6 +191,7 @@ jobs:
             docker-compose -f app-compose.yml down -v
             docker-compose -f db-compose.yml pull
             docker-compose -f app-compose.yml pull
+            sleep 60 # db 인간적으로 컨테이너 내려가는 시간좀 주자
             
             docker-compose -f db-compose.yml up -d
             sleep 60 # db 띄울때까지 좀 쉬렴
