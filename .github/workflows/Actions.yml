@@ -146,8 +146,8 @@ jobs:
           target: "/home/ubuntu" # target 은 디렉토리임. target directory 아래에 같은 이름의 파일로 옮겨진다.
           debug: true # 추가: 디버그 모드 활성화 (로그좀 더 보려고)
 
-        # yml 들을 EC2로 복사
-      - name: Copy init.sql to EC2
+        # yml 들을 EC2로 복사 ---> EC2 ssh 포트를 ipv6에 대해서도 열어놓아봄
+      - name: Copy .*yml to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
