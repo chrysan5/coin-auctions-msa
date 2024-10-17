@@ -137,6 +137,7 @@ jobs:
 
         # init.sql 을 EC2로 복사
         # ---> tar achive 가 없다고 나와서 init.sql 만 따로 하니 뭔가 진전은 됨
+        # ---> EC2 key 업데이트해봄
       - name: Copy init.sql to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
