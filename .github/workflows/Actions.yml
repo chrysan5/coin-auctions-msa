@@ -187,11 +187,11 @@ jobs:
 
             docker compose version # 도커 버젼 확인 (혹시 - 가 생략되서그런가싶어서 다시 넣어봄)
             
-            docker-compose -f db-compose down -v
-            docker-compose -f app-compose down -v
-            docker-compose -f db-compose pull
-            docker-compose -f app-compose pull
-            docker-compose -f db-compose up -d
-            sleep 60
-            docker compose -f app-compose up -d
+            docker-compose -f db-compose.yml down -v
+            docker-compose -f app-compose.yml down -v
+            docker-compose -f db-compose.yml pull
+            docker-compose -f app-compose.yml pull
+            docker-compose -f db-compose up.yml -d
+            sleep 60 # db 띄울때까지 좀 쉬렴
+            docker compose -f app-compose up.yml -d
 
