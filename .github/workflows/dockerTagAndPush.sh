@@ -23,6 +23,7 @@ do
   imageName="$ECR_REGISTRY/$ECR_NAMESPACE/$service"
 
   # 이미지를 구분하기 위해서 latest 이외의 태그(커밋 해시태그)를 추가합니다.
+  # (태그가 달라도 둘 다 동일한 이미지로 한 번만 저장, 두 개의 태그로 조회될 뿐)
   docker tag "$imageName:latest" "$imageName:$commit_hash"
 
   # AWS ECR에 Push
