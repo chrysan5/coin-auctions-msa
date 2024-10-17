@@ -188,14 +188,16 @@ jobs:
             docker compose version # 도커 버젼 확인 (혹시 - 가 생략되서그런가싶어서 다시 넣어봄)
             
             docker-compose -f db-compose.yml down -v
+            sleep 60 # db 인간적으로 컨테이너 내려가는 시간좀 주자
             docker-compose -f app-compose.yml down -v
             sleep 60 # db 인간적으로 컨테이너 내려가는 시간좀 주자
+
+            docker ps -a # 컨테이너 다 내려갔는지 보자
 
             docker-compose -f db-compose.yml pull
             docker-compose -f app-compose.yml pull
             sleep 60 # db 인간적으로 이미지 받는 시간좀 주자
-            
-            docker ps -a # 컨테이너 다 내려갔는지 보자
+          
             docker images # 받는 이미지도 한 번 보자
 
             docker-compose -f db-compose.yml up -d
