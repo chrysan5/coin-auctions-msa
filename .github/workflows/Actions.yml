@@ -167,7 +167,7 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
 
         # EC2 접속하는 시크릿 설정
-        ---> secrey key 부분 본체만 업데이트 시도
+        ---> secrey key 부분 본체만 업데이트 시도!
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
