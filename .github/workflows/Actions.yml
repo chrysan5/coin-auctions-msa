@@ -188,8 +188,8 @@ jobs:
             docker compose version # 도커 버젼 확인 (혹시 - 가 생략되서그런가싶어서 다시 넣어봄)
 
             # 기존 이미지 삭제함
-            docker compose -f db-compose down --rmi all -v
-            docker compose -f app-compose down --rmi all -v         
+            docker-compose -f db-compose down --rmi all -v
+            docker-compose -f app-compose down --rmi all -v         
 
             
             docker-compose -f db-compose.yml down -v
@@ -207,5 +207,5 @@ jobs:
 
             docker-compose -f db-compose.yml up -d
             sleep 60 # db 띄울때까지 좀 쉬렴
-            docker compose -f app-compose.yml up -d
+            docker-compose -f app-compose.yml up -d
 
