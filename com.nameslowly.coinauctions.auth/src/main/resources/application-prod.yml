@@ -23,6 +23,14 @@ spring:
         format-sql: true
         generate-ddl: true
 
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always
+      data-locations: >
+        classpath:data/auth.sql
+
 eureka:
   client:
     serviceUrl:

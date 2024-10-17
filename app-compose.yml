@@ -11,17 +11,17 @@ services:
     ports:
       - "8761:8761"
 
-#  gateway-service:
-#    networks:
-#      - auction-network
-#    container_name: gateway-service
-#    build:
-#      context: . # app-compose.yml 이 있는 경로
-#      dockerfile: ./com.nameslowly.coinauctions.gateway/Dockerfile
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - eureka-service
+  gateway-service:
+    networks:
+      - auction-network
+    container_name: gateway-service
+    build:
+      context: . # app-compose.yml 이 있는 경로
+      dockerfile: ./com.nameslowly.coinauctions.gateway/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-service
 
   userauth-service:
     networks:
@@ -47,29 +47,29 @@ services:
     depends_on:
       - eureka-service
 
-#  bidwin-service:
-#    networks:
-#      - auction-network
-#    container_name: bidwin-service
-#    build:
-#      context: . # app-compose.yml 이 있는 경로
-#      dockerfile: ./com.nameslowly.coinauctions.bidwin/Dockerfile
-#    ports:
-#      - "8083:8083"
-#    depends_on:
-#      - eureka-service
-#
-#  chat-service:
-#    networks:
-#      - auction-network
-#    container_name: chat-service
-#    build:
-#      context: . # app-compose.yml 이 있는 경로
-#      dockerfile: ./com.nameslowly.coinauctions.chat/Dockerfile
-#    ports:
-#      - "8085:8085"
-#    depends_on:
-#      - eureka-service
+  bidwin-service:
+    networks:
+      - auction-network
+    container_name: bidwin-service
+    build:
+      context: . # app-compose.yml 이 있는 경로
+      dockerfile: ./com.nameslowly.coinauctions.bidwin/Dockerfile
+    ports:
+      - "8083:8083"
+    depends_on:
+      - eureka-service
+
+  chat-service:
+    networks:
+      - auction-network
+    container_name: chat-service
+    build:
+      context: . # app-compose.yml 이 있는 경로
+      dockerfile: ./com.nameslowly.coinauctions.chat/Dockerfile
+    ports:
+      - "8085:8085"
+    depends_on:
+      - eureka-service
 
   coinpay-service:
     networks:
