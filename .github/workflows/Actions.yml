@@ -188,8 +188,8 @@ jobs:
             docker compose version # 도커 버젼 확인 (혹시 - 가 생략되서그런가싶어서 다시 넣어봄)
 
             # 기존 이미지 삭제함
-            docker-compose -f db-compose down --rmi all -v
-            docker-compose -f app-compose down --rmi all -v         
+            docker-compose -f db-compose.yml down --rmi all -v
+            docker-compose -f app-compose.yml down --rmi all -v         
 
             # 종료전 환경변수 세팅 (down 도 docker-compose 명령어쓰므로 이미지, 환경변수, 네트워크 구성등 해석 파싱한다함)
             export ECR_REGISTRY=""
