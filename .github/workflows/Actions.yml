@@ -186,6 +186,11 @@ jobs:
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
 
             docker compose version # 도커 버젼 확인 (혹시 - 가 생략되서그런가싶어서 다시 넣어봄)
+
+            # 기존 이미지 삭제함
+            docker compose -f db-compose down --rmi all -v
+            docker compose -f app-compose down --rmi all -v         
+
             
             docker-compose -f db-compose.yml down -v
             sleep 60 # db 인간적으로 컨테이너 내려가는 시간좀 주자
