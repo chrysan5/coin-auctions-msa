@@ -136,6 +136,7 @@ jobs:
         run: ls -l ./init.sql ./*.yml
 
         # init.sql 을 EC2로 복사
+        # ---> tar achive 가 없다고 나와서 init.sql 만 따로 하니 뭔가 진전은 됨
       - name: Copy init.sql to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -148,7 +149,8 @@ jobs:
 
         # yml 들을 EC2로 복사 
         # ---> EC2 ssh 포트를 ipv6에 대해서도 열어놓아봄 fail
-        # ---> EC2 내에 들어가 ufw(Uncomplicated Firewall) 활성화 시키고 다시 도전
+        # ---> EC2 내에 들어가 ufw(Uncomplicated Firewall) 활성화 - allow port 22, 22(v6) 시키고 다시 도전
+        # ---> timeout 늘리고 다시도전
       - name: Copy .*yml to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -158,6 +160,7 @@ jobs:
           source: ./*.yml
           target: "/home/ubuntu"
           debug: true
+          timeout: 120s
 
         # SSH를 통해 EC2 접속하고 컨테이너 재실행
       - name: Deploy to EC2
