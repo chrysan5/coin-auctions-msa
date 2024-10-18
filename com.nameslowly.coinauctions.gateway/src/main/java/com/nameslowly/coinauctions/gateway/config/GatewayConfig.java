@@ -41,13 +41,16 @@ public class GatewayConfig {
             )
             // coin
             .route("coinpay-service", r -> r.path("/api/coins/**", "/api/coin_wallets/**", "/api/coin_histories")
-
                 .filters(f -> f.filter(authFilter))
                 .uri("lb://coinpay-service")
             )
             // chat
-            .route("chat-service", r -> r.path("/api/chat/**", "/chat/**")
+            .route("chat-service", r -> r.path("/api/chat/**")
                 .filters(f -> f.filter(authFilter))
+                .uri("lb://chat-service")
+            )
+            //chat login
+            .route("chat-service", r -> r.path("/api/chat/login-page")
                 .uri("lb://chat-service")
             )
             .build();

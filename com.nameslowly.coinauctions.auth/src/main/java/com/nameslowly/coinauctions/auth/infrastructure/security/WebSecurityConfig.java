@@ -28,7 +28,7 @@ import org.springframework.web.cors.CorsConfiguration;
 public class WebSecurityConfig {
 
     private static final List<String> ALLOWED_ORIGINS = List.of(
-            "http://localhost:3000"
+            "http://localhost:8080"
     );
     private static final List<String> ALLOWED_METHODS = List.of(
             HttpMethod.GET.name(),
@@ -113,6 +113,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         // 로그인할거면 드루와
                         .requestMatchers("/user/login").permitAll()
+                        //채팅 로그인 페이지
+                        .requestMatchers("/api/chat/login-page").permitAll()
                         // 그 외
                         .anyRequest().authenticated() // TODO : 인증 구현 후 authenticated()로 변경
         );

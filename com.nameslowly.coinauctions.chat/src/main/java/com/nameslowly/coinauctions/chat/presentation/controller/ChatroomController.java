@@ -21,7 +21,6 @@ import java.util.List;
 public class ChatroomController {
 
     private final ChatroomService chatroomService;
-    private final AuthService authService;
 
     //채팅방 목록 -> 일단 유저서비스 켜서 feign으로 user 가져와서 이거 테스트 되는지 보자.
     @GetMapping("/rooms-list")
