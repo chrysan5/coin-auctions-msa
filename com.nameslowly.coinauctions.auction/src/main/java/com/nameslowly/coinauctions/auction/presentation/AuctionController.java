@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuctionController {
 
     private final AuctionService auctionService;
-    private final CoinpayService coinpayService;
 
     @PostMapping("/api/auctions")
     public CommonResponse<RegisterAuctionResponse> registerAuction(
@@ -49,14 +49,14 @@ public class AuctionController {
         return CommonResponse.success();
     }
 
-    @PostMapping("/api/auctions/{auctionId}/updateWin")
-    public CommonResponse updateAuctionWin(UpdateAuctionWinRequest request) {
-        return CommonResponse.success();
-    }
-
     @PostMapping("/api/auctions/end")
     public CommonResponse endAuction() {
         auctionService.endAuction();
+        return CommonResponse.success();
+    }
+
+    @PostMapping("/api/auctions/{auctionId}/updateWin")
+    public CommonResponse updateAuctionWin(@RequestBody UpdateAuctionWinRequest request) {
         return CommonResponse.success();
     }
 

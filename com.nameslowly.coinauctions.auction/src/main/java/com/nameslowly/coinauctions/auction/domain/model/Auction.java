@@ -39,8 +39,10 @@ public class Auction extends BaseEntity {
     private String image;
     private String description;
 
+    @Column(precision = 10, scale = 3)
     private BigDecimal basePrice;
     private Long coinId;
+    @Column(precision = 10, scale = 3)
     private BigDecimal fixedCoinPrice; // 경매 시작시 조회
 
     private String registerUsername;
@@ -50,6 +52,7 @@ public class Auction extends BaseEntity {
     private LocalDateTime endTime; // startTime + AUCTION_DURATION_HOUR
 
     private String winnerUsername; // 입찰시 갱신
+    @Column(precision = 10, scale = 3)
     private BigDecimal winAmount; // 입찰시 갱신
 
     @Builder
