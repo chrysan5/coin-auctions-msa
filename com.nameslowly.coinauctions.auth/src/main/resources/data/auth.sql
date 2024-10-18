@@ -1,7 +1,4 @@
-INSERT INTO p_user (username, password, role)
-VALUES ('user1234', 'pwd1234@', 'MASTER'),
-       ('admin0000', 'admin0000@', 'MASTER'),
-       ('panjun1111', 'panjun1111@', 'MASTER'),
-       ('seongjin2222', 'seongjin2222@', 'MASTER'),
-       ('hyeokjin3333', 'hyeokjin3333@', 'MASTER'),
-       ('minju4444', 'minju4444@', 'MASTER');
+INSERT INTO p_user (username, password, role, is_public)
+VALUES ('bider123', '$2a$10$EZyFIjdNsSr2ZXmchgcxIu0qCiw7B0iXESqVaOIT4uhXubBEvqsRm', 'MASTER', true),
+       ('bider456', '$2a$10$EZyFIjdNsSr2ZXmchgcxIu0qCiw7B0iXESqVaOIT4uhXubBEvqsRm', 'MASTER', true),
+       ('register789', '$2a$10$EZyFIjdNsSr2ZXmchgcxIu0qCiw7B0iXESqVaOIT4uhXubBEvqsRm', 'MASTER', true);

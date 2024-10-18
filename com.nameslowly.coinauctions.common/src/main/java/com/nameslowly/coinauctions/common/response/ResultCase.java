@@ -48,8 +48,9 @@ public enum ResultCase {
     NOT_ENOUGH_THAN_CURRENT_PRICE(HttpStatus.BAD_REQUEST, 5003, "현재 입찰 보다 적음"),
     NOT_ENOUGH_THAN_BASE_AMOUNT(HttpStatus.BAD_REQUEST, 5004, "경매 시작가 보다 적음"),
     NEW_BID_CREATE_ERROR(HttpStatus.BAD_REQUEST, 5005, "새 입찰 생성 에러"),
+    CURRENT_WINNER(HttpStatus.BAD_REQUEST, 5006, "현재 본인이 최고 입찰자"),
+    AUCTION_REGISTER(HttpStatus.BAD_REQUEST, 5006, "현재 본인이 경매 등록자"),
 
-    
     /* chat-server 6000 */
     CHATROOM_NOT_FOUND(HttpStatus.NOT_FOUND, 6000, "채팅방이 존재하지 않습니다."),
     CHATROOM_MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, 6001, "채팅방-멤버 정보가 존재하지 않습니다."),

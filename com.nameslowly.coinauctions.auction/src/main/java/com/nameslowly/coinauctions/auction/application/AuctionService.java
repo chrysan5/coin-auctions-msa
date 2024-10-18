@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,7 +60,7 @@ public class AuctionService {
     @Transactional
     public void updateAuctionWin(BidAuctionDto dto) {
         Auction auction = auctionReader.getAuction(dto.getAuctionId());
-        auction.updateWin(dto.getBidUserUsername(), dto.getBidAmount());
+        auction.updateWin(dto.getWinnerUsername(), dto.getWinAmount());
     }
 
     @Transactional(readOnly = true)
