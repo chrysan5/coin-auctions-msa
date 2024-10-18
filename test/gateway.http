@@ -122,7 +122,7 @@ Authorization: {{token}}
 ### AUCTION-SERVICE ------------------------------------------------
 
 ### 경매 등록
-POST http://{{host}}:8080/api/auctions
+POST {{host}}:8080/api/auctions
 Content-Type: application/json
 Authorization: {{token}}
 

@@ -29,6 +29,7 @@ public class Bid extends BaseEntity {
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "bid_id")
     private Long id;
+    @Enumerated(EnumType.STRING)
     private BidStatus bidStatus;
 
     private String bidderUsername;
@@ -36,7 +37,6 @@ public class Bid extends BaseEntity {
     private Long coinId;
     @Column(precision = 10, scale = 3)
     private BigDecimal bidAmount;
-    @Enumerated(EnumType.STRING)
     private LocalDateTime bidTime;
 
     @Builder

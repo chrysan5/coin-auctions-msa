@@ -79,6 +79,10 @@ public class BidService {
         if (winBidOpt.isPresent()) {
             Bid winBid = winBidOpt.get();
 
+            if (auction.getRegisterUsername().equals(dto.getBidderUsername())) {
+                throw new GlobalException(ResultCase.AUCTION_REGISTER);
+            }
+
             if (winBid.getBidderUsername().equals(dto.getBidderUsername())) {
                 throw new GlobalException(ResultCase.CURRENT_WINNER);
             }

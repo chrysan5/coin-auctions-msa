@@ -90,12 +90,10 @@ public class Auction extends BaseEntity {
             throw new GlobalException(ResultCase.NOT_ONGOING_AUCTION);
         }
 
-        if (this.endTime.isAfter(LocalDateTime.now())) {
-            throw new GlobalException(ResultCase.NOT_END_AUCTION);
+        if (this.endTime.isBefore(LocalDateTime.now())) {
+            this.auctionStatus =
+                this.winnerUsername == null ? AuctionStatus.FAIL : AuctionStatus.SUCCESS;
         }
-
-        this.auctionStatus =
-            this.winnerUsername == null ? AuctionStatus.FAIL : AuctionStatus.SUCCESS;
     }
 
     public void updateWin(String winnerUsername, BigDecimal winAmount) {
