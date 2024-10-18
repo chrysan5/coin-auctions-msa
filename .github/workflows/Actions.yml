@@ -187,6 +187,9 @@ jobs:
 
             docker compose version # 도커 버젼 확인 (혹시 - 가 생략되서그런가싶어서 다시 넣어봄)
 
+            # 종료된 컨테이너 삭제
+            docker container prune -f
+            
             # 기존 이미지 삭제함
             # ---> 해당 docker compose 로 만든 이미지만 삭제한다고함
             docker-compose -f db-compose.yml down --rmi all -v
