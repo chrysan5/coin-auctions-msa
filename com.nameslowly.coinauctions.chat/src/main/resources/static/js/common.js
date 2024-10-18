@@ -4,9 +4,9 @@ $(document).ready(function () {
     let auth = Cookies.get('Authorization');
     console.log("auth: ",auth);
 
-    if (auth.startsWith("Bearer%20")) {
+    /*if (auth.startsWith("Bearer%20")) {
         auth = auth.substring(9).trim();
-    }
+    }*/
 
     if(auth === undefined) {
         return '';
@@ -18,7 +18,7 @@ $(document).ready(function () {
 
         });
     } else {
-        window.location.href = host + '/api/chat/login-page';
+        window.location.href = host + '/api/chatUser/login-page';
         return;
     }
 })

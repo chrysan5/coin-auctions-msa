@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ChatLoginController {
 
 
-    @GetMapping("/api/chat/login-page")
+    @GetMapping("/api/chatUser/login-page")
     public String login() {
         return "login";
     }

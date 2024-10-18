@@ -114,7 +114,7 @@ public class WebSecurityConfig {
                         // 로그인할거면 드루와
                         .requestMatchers("/user/login").permitAll()
                         //채팅 로그인 페이지
-                        .requestMatchers("/api/chat/login-page").permitAll()
+                        .requestMatchers("/api/chatUser/login-page").permitAll()
                         // 그 외
                         .anyRequest().authenticated() // TODO : 인증 구현 후 authenticated()로 변경
         );
