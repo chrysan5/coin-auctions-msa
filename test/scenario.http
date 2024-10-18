@@ -9,7 +9,7 @@ GET localhost:8080/host
 ### -----------------------------------------------------
 
 ### register789 로그인
-POST {{host}}:8081/user/login
+POST {{host}}:8080/user/login
 Content-Type: application/json
 
 {
@@ -37,7 +37,7 @@ Authorization: {{token}}
 }
 
 ### bider456 로그인
-POST {{host}}:8081/user/login
+POST {{host}}:8080/user/login
 Content-Type: application/json
 
 {
@@ -65,7 +65,7 @@ POST {{host}}:8080/api/auctions/start
 Authorization: {{token}}
 
 ### bider456 최초 입찰 // 경매 시작가보다 적음
-POST http://localhost:8080/api/bids
+POST {{host}}:8080/api/bids
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -77,8 +77,9 @@ Authorization: {{token}}
 }
 
 ### bider456 최초 입찰 // 성공
-POST http://localhost:8083/api/bids
+POST {{host}}:8080/api/bids
 Content-Type: application/json
+Authorization: {{token}}
 
 {
   "auctionId": 1,
@@ -88,8 +89,9 @@ Content-Type: application/json
 }
 
 ### bider456 최초 입찰 // 본인이 최고 입찰자
-POST http://localhost:8083/api/bids
+POST {{host}}:8080/api/bids
 Content-Type: application/json
+Authorization: {{token}}
 
 {
   "auctionId": 1,
@@ -99,7 +101,7 @@ Content-Type: application/json
 }
 
 ### bider123 로그인
-POST {{host}}:8081/user/login
+POST {{host}}:8080/user/login
 Content-Type: application/json
 
 {
@@ -113,7 +115,7 @@ Content-Type: application/json
 %}
 
 ### bider123 입찰 // 현재 입찰가보다 적음
-POST http://localhost:8080/api/bids
+POST {{host}}:8080/api/bids
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -125,7 +127,7 @@ Authorization: {{token}}
 }
 
 ### bider123 입찰 // 보유 코인 부족
-POST http://localhost:8080/api/bids
+POST {{host}}:8080/api/bids
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -147,7 +149,7 @@ Authorization: {{token}}
 }
 
 ### bider123 입찰 // 성공
-POST http://localhost:8080/api/bids
+POST {{host}}:8080/api/bids
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -156,4 +158,30 @@ Authorization: {{token}}
   "participantMemberUsername": "bider123",
   "coinId": 1,
   "coinAmount": 2.2
+}
+
+### bider456 로그인
+POST {{host}}:8080/user/login
+Content-Type: application/json
+
+{
+  "username": "bider456",
+  "password": "pwd1234@"
+}
+
+> {%
+  token = response.body.data.token.replace("Bearer ", "");
+  client.global.set("token", token);
+%}
+
+### bider456 입찰 // 성공
+POST {{host}}:8080/api/bids
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "auctionId": 1,
+  "participantMemberUsername": "bider456",
+  "coinId": 1,
+  "coinAmount": 3
 }
