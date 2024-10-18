@@ -59,17 +59,17 @@ services:
     depends_on:
       - eureka-service
 
-#  chat-service:
-#    networks:
-#      - auction-network
-#    container_name: chat-service
-#    build:
-#      context: . # app-compose.yml 이 있는 경로
-#      dockerfile: ./com.nameslowly.coinauctions.chat/Dockerfile
-#    ports:
-#      - "8085:8085"
-#    depends_on:
-#      - eureka-service
+  chat-service:
+    networks:
+      - auction-network
+    container_name: chat-service
+    build:
+      context: . # app-compose.yml 이 있는 경로
+      dockerfile: ./com.nameslowly.coinauctions.chat/Dockerfile
+    ports:
+      - "8085:8085"
+    depends_on:
+      - eureka-service
 
   coinpay-service:
     networks:
