@@ -76,12 +76,12 @@ public class ChatroomService {
     }
 
     @Transactional
-    public void deleteChatMember(String chatroomId) {
+    public void deleteChatMember(String chatroomId, String username) {
         Chatroom chatroom = chatroomRepository.findById(Long.valueOf(chatroomId)).orElseThrow(
                 () -> new GlobalException(ResultCase.CHATROOM_NOT_FOUND)
         );
 
-        ChatroomMember chatroomMember = chatroomMemberRepository.findByChatroom(chatroom);
+        ChatroomMember chatroomMember = chatroomMemberRepository.findByChatroomAndUserId(chatroom, username);
         chatroomMember.setDelete(true);
     }
 
