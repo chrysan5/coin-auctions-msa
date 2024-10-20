@@ -28,7 +28,7 @@ import org.springframework.web.cors.CorsConfiguration;
 public class WebSecurityConfig {
 
     private static final List<String> ALLOWED_ORIGINS = List.of(
-            "http://localhost:8080"
+            "http://localhost:8080", "http://13.125.123.80:8080"
     );
     private static final List<String> ALLOWED_METHODS = List.of(
             HttpMethod.GET.name(),
@@ -95,6 +95,7 @@ public class WebSecurityConfig {
             config.setAllowedMethods(ALLOWED_METHODS);
             config.setAllowedHeaders(List.of("*")); // preflight 요청에 대한 응답 헤더 허용
             config.setExposedHeaders(List.of("*")); // 브라우저가 접근할 수 있는 응답 헤더 허용
+            config.setAllowCredentials(true);
             return config;
         });
     }

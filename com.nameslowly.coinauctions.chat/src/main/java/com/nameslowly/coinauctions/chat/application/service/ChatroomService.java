@@ -81,7 +81,7 @@ public class ChatroomService {
                 () -> new GlobalException(ResultCase.CHATROOM_NOT_FOUND)
         );
 
-        ChatroomMember chatroomMember = chatroomMemberRepository.findByChatroomAndUserId(chatroom, username);
+        ChatroomMember chatroomMember = chatroomMemberRepository.findByChatroomAndUsername(chatroom, username);
         chatroomMember.setDelete(true);
     }
 

@@ -50,10 +50,10 @@ public class GatewayConfig {
                 .uri("lb://chat-service")
             )
             //chat login
-            .route("chat-service", r -> r.path("/api/chatUser/login-page")
+            .route("chat-service-login", r -> r.path("/api/chatUser/login-page", "/ws/**", "/chat/**")
                 .uri("lb://chat-service")
             )
-            // 정적 리소스(js, css, webjars)에 대한 접근을 JWT 인증 없이 허용
+            // 정적 리소스(js, css, webjars)에 대한 접근
             .route("static-resources", r -> r.path("/js/**", "/css/**", "/webjars/**")
                 .uri("lb://chat-service")
             )
