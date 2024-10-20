@@ -48,7 +48,7 @@ management:
   ######################## 집킨 설정 ########################
   zipkin:
     tracing:
-      endpoint: "http://localhost:9411/api/v2/spans" # Zipkin's HTTP endpoint
+      endpoint: "http://zipkin:9411/api/v2/spans" # Zipkin's HTTP endpoint
   tracing:
     sampling:
       probability: 1.0

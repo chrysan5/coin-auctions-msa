@@ -133,7 +133,7 @@ Authorization: {{token}}
   "description": "액정 고장남",
   "hopePrice": 1000,
   "coinId": 3,
-  "registerMemberUsername": "user1234"
+  "registerUsername": "user1234" // reigsterMemberUsername 이라고 되어있었음
 }
 
 ### 경매 목록 조회
