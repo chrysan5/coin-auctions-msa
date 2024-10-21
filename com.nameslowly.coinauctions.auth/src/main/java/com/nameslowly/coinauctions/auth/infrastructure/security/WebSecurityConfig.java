@@ -28,7 +28,7 @@ import org.springframework.web.cors.CorsConfiguration;
 public class WebSecurityConfig {
 
     private static final List<String> ALLOWED_ORIGINS = List.of(
-            "http://localhost:8080", "http://13.125.123.80:8080"
+            "http://localhost:8080", "http://13.125.123.80:8080", "http://localhost:3000" , "http://13.125.123.80:3000"
     );
     private static final List<String> ALLOWED_METHODS = List.of(
             HttpMethod.GET.name(),
