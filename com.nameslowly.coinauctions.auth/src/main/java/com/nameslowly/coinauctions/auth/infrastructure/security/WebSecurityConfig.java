@@ -28,7 +28,7 @@ import org.springframework.web.cors.CorsConfiguration;
 public class WebSecurityConfig {
 
     private static final List<String> ALLOWED_ORIGINS = List.of(
-            "http://localhost:3000"
+            "http://localhost:8080", "http://13.125.123.80:8080", "http://localhost:3000" , "http://13.125.123.80:3000"
     );
     private static final List<String> ALLOWED_METHODS = List.of(
             HttpMethod.GET.name(),
@@ -95,6 +95,7 @@ public class WebSecurityConfig {
             config.setAllowedMethods(ALLOWED_METHODS);
             config.setAllowedHeaders(List.of("*")); // preflight 요청에 대한 응답 헤더 허용
             config.setExposedHeaders(List.of("*")); // 브라우저가 접근할 수 있는 응답 헤더 허용
+            config.setAllowCredentials(true);
             return config;
         });
     }
@@ -117,6 +118,9 @@ public class WebSecurityConfig {
                         // TODO : yml 에 시큐리티 유저정보 넣어서 인증된 사용자만 접근하게끔 할 수 있음
                         // TODO : 혹은 특정 IP 에서의 접근만 혹은 특정 엔드포인트로의 접근만 허락할 수도
                         .requestMatchers("/actuator/**").permitAll()
+
+                        //채팅 로그인 페이지
+                        //.requestMatchers("/api/chatUser/login-page").permitAll()
                         // 그 외
                         .anyRequest().authenticated() // TODO : 인증 구현 후 authenticated()로 변경
         );
