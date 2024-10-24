@@ -62,6 +62,18 @@ badge&logo=Hibernate&logoColor=white">
 ![image](https://github.com/user-attachments/assets/851e4310-4a6b-41ca-8fa2-33fb077615a7)
 
 
+## 시스템 구조도
+![image](https://github.com/user-attachments/assets/51e64d48-6ebf-4e35-8f7f-11e316465992)
+
+## 플로우 차트
+![image](https://github.com/user-attachments/assets/b44d4bdf-69d2-46bc-8058-a21beecba248)
+![image](https://github.com/user-attachments/assets/da507196-653a-4969-8cae-ea5a83887cbb)
+
+
+## 채팅 페이지
+![image](https://github.com/user-attachments/assets/433d339c-426f-49c8-8bb5-ccc7a6d55415)
+
+
 ## 📄 서비스 구성 및 실행방법
 
 ### 필수 설치 사항
