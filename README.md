@@ -1,6 +1,7 @@
 ## 🙌 Coin Auction
 코인으로 거래하는 실시간 경매 서비스
 
+
 ## ❓프로젝트 소개
 - 다양한 중고 물품을 경매에 등록하고 입찰할 수 있는 플랫폼으로, 입찰과 결제는 암호화폐(코인)로 이루어집니다.
 - 자원을 재활용하는 동시에 암호화폐의 새로운 거래처를 제공합니다.
@@ -13,6 +14,7 @@
 - 🗂️ **입찰**: 
 - 🗂️ **코인 및 결재**: 
 - 🏪 **채팅**: 경매의 라이프사이클에 따른 채팅방의 생성과 종료
+
 
 ## 개발 인원 (4명 BE)
 | 이름 | 역할 | 담당 |
@@ -55,23 +57,40 @@ badge&logo=Hibernate&logoColor=white">
 
 
 ## 📄 ERD 다이어그램
-![image](https://github.com/user-attachments/assets/a7eb1675-6e82-42b1-8f7f-a0efeeb79fe4)
+<details>
+  <summary>ERD 다이어그램</summary>
+  ![image](https://github.com/user-attachments/assets/a7eb1675-6e82-42b1-8f7f-a0efeeb79fe4)
+</details>
 
 
 ## 인프라 설계도
-![image](https://github.com/user-attachments/assets/851e4310-4a6b-41ca-8fa2-33fb077615a7)
+<details>
+  <summary>인프라 설계도</summary>
+  ![image](https://github.com/user-attachments/assets/851e4310-4a6b-41ca-8fa2-33fb077615a7)
+</details>
 
 
 ## 시스템 구조도
-![image](https://github.com/user-attachments/assets/51e64d48-6ebf-4e35-8f7f-11e316465992)
+<details>
+  <summary>시스템 구조도 </summary>
+  ![image](https://github.com/user-attachments/assets/51e64d48-6ebf-4e35-8f7f-11e316465992)
+</details>
+
 
 ## 플로우 차트
-![image](https://github.com/user-attachments/assets/b44d4bdf-69d2-46bc-8058-a21beecba248)
-![image](https://github.com/user-attachments/assets/da507196-653a-4969-8cae-ea5a83887cbb)
+<details>
+  <summary>플로우 차트 </summary>
+  ![image](https://github.com/user-attachments/assets/b44d4bdf-69d2-46bc-8058-a21beecba248)
+  ![image](https://github.com/user-attachments/assets/da507196-653a-4969-8cae-ea5a83887cbb)
+</details>
 
 
 ## 채팅 페이지
-![image](https://github.com/user-attachments/assets/433d339c-426f-49c8-8bb5-ccc7a6d55415)
+<details>
+  <summary>채팅 페이지 </summary>
+  ![image](https://github.com/user-attachments/assets/433d339c-426f-49c8-8bb5-ccc7a6d55415)
+</details>
+
 
 
 ## 📄 서비스 구성 및 실행방법
