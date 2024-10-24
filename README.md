@@ -118,7 +118,7 @@ API 부하와 응답 속도를 개선함
     </div>
 </details>
 
-## 🔨 트러블 슈팅
+## 🔧 트러블 슈팅
 <details>
   <summary> 트러블 슈팅 </summary>
   <img src="">
