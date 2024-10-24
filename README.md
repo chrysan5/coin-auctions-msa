@@ -98,15 +98,26 @@ badge&logo=Hibernate&logoColor=white">
 ### 필수 설치 사항
 - Java 17.x : Spring Boot 애플리케이션을 실행하기 위한 JDK
 - Docker : 애플리케이션을 컨테이너로 실행하기 위한 Docker
-- MySQL 8.x : 백엔드 데이터베이스로 사용할 MySQL 서버
 
 ### 설치 및 실행 방법
-- project 다운 및 Docker 설치
+- project 다운
 - 터미널을 실행하여 project root로 이동
 - 터미널에서 docker compose -f db-compose.yml up --build -d 입력
 - 터미널에서 docker compose -f app-compse.yml up --build -d 입력
 - Gateway(localhost:8080)를 통해 api 호출
 - API 문서 : https://teamsparta.notion.site/API-2212243ea8ad4f1597acb2bb72a11cf6
 
+## 주요 포인트
+### 인증 인가 처리 방
+- 별도의 auth 서버에서 처리하던 회원가입, 로그인을 gateway 로 인입점을 모음
+- 권한처리 로직은 AOP를 활용한 어노테이션을 구현하여 각 서비스에서는 시큐리티 의존 없이 어노테이션 적용
 
-## 트러블 슈팅
+### RabbitMQ 를 이용한 비동기 처리
+- 주요 로직에 영향을 주지 않는 로직은 메시지이 시스템을 이용하여 비동기처리함으로써
+API 부하와 응답 속도를 개선함
+
+### 코인 가격 갱신 최적화
+- 코인 가격 최신화 보장을 위해 코인 가격을 5초마다 스케줄러로 가져와서 한 번에 bulk update (변경사항 있는것만) 방식으로 성능을 최적화
+
+### 채팅
+- WebSocket, SockJS 및 AWS S3를 활용한 채팅 메시지, 이미지 전송
