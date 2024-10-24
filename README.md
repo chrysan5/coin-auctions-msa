@@ -2,16 +2,16 @@
 코인으로 거래하는 실시간 경매 서비스
 
 
-## 📕프로젝트 소개
+## 📖 프로젝트 소개
 - 다양한 중고 물품을 경매에 등록하고 입찰할 수 있는 플랫폼으로, 입찰과 결제는 암호화폐(코인)로 이루어집니다.
 - 자원을 재활용하는 동시에 암호화폐의 새로운 거래처를 제공합니다.
 - 이를 통해 환경 보호와 함께 암호화폐의 실용성을 높이는 긍정적인 효과를 기대해봅니다.
 
 
-## 🔖 MSA 서비스 개요
+## 🔎 MSA 서비스 개요
 - 🔐 **유저 및 인증인가**: 기본값인 사용자(USER), 관리자(MASTER), 게스트(GUEST)
 - 📣 **경매**: 경매 등록
-- 🗃 **입찰**: 입찰 등록 및 기존 입찰 취소
+- 🗳 **입찰**: 입찰 등록 및 기존 입찰 취소
 - 💴 **코인 및 결재**: 
 - 💬 **채팅**: 경매의 라이프사이클에 따른 채팅방의 생성과 종료
 
@@ -79,23 +79,32 @@
 </details>
 
 
-
 ## 📜 서비스 구성 및 실행방법
+<details>
+    <summary> 서비스 구성 및 실행방법 </summary>
+    <b>필수 설치 사항 </b>
+    <div markdown="1">
+      <ul>
+        <li>Java 17.x : Spring Boot 애플리케이션을 실행하기 위한 JDK</li>
+        <li>Docker : 애플리케이션을 컨테이너로 실행하기 위한 Docker</li>
+      </ul>
+    </div>
+    <b> 설치 및 실행 방법 </b>
+    <div markdown="1">
+      <ul>
+        <li>project 다운</li>
+        <li>터미널을 실행하여 project root로 이동</li>
+        <li>터미널에서 docker compose -f db-compose.yml up --build -d 입력</li>
+        <li>터미널에서 docker compose -f app-compse.yml up --build -d 입력</li>
+        <li>Gateway(localhost:8080)를 통해 api 호출</li>
+        <li>API 문서 : https://teamsparta.notion.site/API-2212243ea8ad4f1597acb2bb72a11cf6</li>
+      </ul>
+    </div>
+</details>
 
-### 필수 설치 사항
-- Java 17.x : Spring Boot 애플리케이션을 실행하기 위한 JDK
-- Docker : 애플리케이션을 컨테이너로 실행하기 위한 Docker
 
-### 설치 및 실행 방법
-- project 다운
-- 터미널을 실행하여 project root로 이동
-- 터미널에서 docker compose -f db-compose.yml up --build -d 입력
-- 터미널에서 docker compose -f app-compse.yml up --build -d 입력
-- Gateway(localhost:8080)를 통해 api 호출
-- API 문서 : https://teamsparta.notion.site/API-2212243ea8ad4f1597acb2bb72a11cf6
-
-## 🔎 주요 포인트
-### 인증 인가 처리 방
+## 🔖 주요 포인트
+### 인증 인가 처리 방식
 - 별도의 auth 서버에서 처리하던 회원가입, 로그인을 gateway 로 인입점을 모음
 - 권한처리 로직은 AOP를 활용한 어노테이션을 구현하여 각 서비스에서는 시큐리티 의존 없이 어노테이션 적용
 
