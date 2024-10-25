@@ -3,6 +3,7 @@ package com.nameslowly.coinauctions.coinpay.application.service;
 
 import com.nameslowly.coinauctions.coinpay.application.dto.request.CoinBidRequest;
 import com.nameslowly.coinauctions.coinpay.application.dto.request.CoinChargeRequest;
+import com.nameslowly.coinauctions.coinpay.application.dto.request.CoinExchangeRequest;
 import com.nameslowly.coinauctions.coinpay.application.dto.response.CoinHistoryMessage;
 import com.nameslowly.coinauctions.coinpay.domain.model.Coin;
 import com.nameslowly.coinauctions.coinpay.domain.model.CoinHistory;
@@ -156,4 +157,57 @@ public class CoinWalletService {
 //        saveCoinHistoryAsync(request.getUsername(), request.getCoin_id(), request.getQuantity(),
 //            balanceBefore, updatedQuantity, "코인 회복");
     }
+
+    @Transactional
+    public void exchangeCoin(CoinExchangeRequest request, String username) {
+        // 코인1 (bf_coin_id)의 월렛 조회
+        CoinWallet bfCoinWallet = coinWalletRepository.findByUsernameAndCoinId(username,
+                request.getBf_coin_id())
+            .orElseThrow(() -> new GlobalException(ResultCase.COIN_WALLET_NOT_FOUND));
+
+        BigDecimal bfCoinQuantity = bfCoinWallet.getQuantity(); // 코인1 수량
+
+        if (bfCoinQuantity.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new GlobalException(ResultCase.INSUFFICIENT_COIN_QUANTITY);
+        }
+
+        // 코인1 (bf_coin_id)와 코인2 (at_coin_id)의 가격 조회
+        Coin bfCoin = coinRepository.findByIdAndIsDeletedFalse(request.getBf_coin_id())
+            .orElseThrow(() -> new GlobalException(ResultCase.COIN_NOT_FOUND));
+        Coin atCoin = coinRepository.findByIdAndIsDeletedFalse(request.getAt_coin_id())
+            .orElseThrow(() -> new GlobalException(ResultCase.COIN_NOT_FOUND));
+
+        BigDecimal bfCoinPrice = bfCoin.getCoinPrice(); // 코인1 가격
+        BigDecimal atCoinPrice = atCoin.getCoinPrice(); // 코인2 가격
+
+        // 교환될 코인 수량 계산 (코인1 수량 * 코인1 가격 / 코인2 가격)
+        BigDecimal exchangeQuantity = bfCoinQuantity.multiply(bfCoinPrice).divide(atCoinPrice, 2, RoundingMode.HALF_UP);
+
+        // 코인2 (at_coin_id)에 해당하는 지갑 조회 또는 생성
+        CoinWallet atCoinWallet = coinWalletRepository.findByUsernameAndCoinId(username, request.getAt_coin_id())
+            .orElseGet(() -> CoinWallet.builder()
+                .username(username)
+                .coinId(request.getAt_coin_id())
+                .quantity(BigDecimal.ZERO)
+                .build());
+
+        // 코인2 (at_coin_id)의 지갑에 수량 업데이트
+        BigDecimal atCoinBalanceBefore = atCoinWallet.getQuantity();
+        BigDecimal atCoinBalanceAfter = atCoinBalanceBefore.add(exchangeQuantity);
+        atCoinWallet.coinWalletUpdate(atCoinBalanceAfter);
+
+        // 코인1의 수량 차감
+        bfCoinWallet.coinWalletUpdate(BigDecimal.ZERO); // 코인1 전량 사용
+
+        // DB 저장
+        coinWalletRepository.save(atCoinWallet);
+        coinWalletRepository.save(bfCoinWallet);
+
+        // 코인 히스토리 비동기 처리 (코인1 차감, 코인2 추가)
+        saveCoinHistoryAsync(username, request.getBf_coin_id(), bfCoinQuantity, bfCoinQuantity, BigDecimal.ZERO, "코인 교환");
+        saveCoinHistoryAsync(username, request.getAt_coin_id(), exchangeQuantity, atCoinBalanceBefore, atCoinBalanceAfter, "코인 교환");
+
+        log.info("Coin exchange completed for user: {} ({} -> {})", username, request.getBf_coin_id(), request.getAt_coin_id());
+    }
+
 }
