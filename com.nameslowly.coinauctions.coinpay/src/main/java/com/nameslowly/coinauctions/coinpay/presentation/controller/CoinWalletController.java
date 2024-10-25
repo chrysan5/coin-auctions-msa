@@ -1,5 +1,6 @@
 package com.nameslowly.coinauctions.coinpay.presentation.controller;
 
+import com.nameslowly.coinauctions.coinpay.application.dto.request.CoinExchangeRequest;
 import com.nameslowly.coinauctions.coinpay.domain.model.CoinWalletVO;
 import com.nameslowly.coinauctions.coinpay.application.dto.request.CoinBidRequest;
 import com.nameslowly.coinauctions.coinpay.application.dto.request.CoinChargeRequest;
@@ -37,5 +38,10 @@ public class CoinWalletController {
         List<CoinWalletVO> coinWallet = coinWalletService.getCoinWallet(username);
         return CommonResponse.success(coinWallet);
     }
-
+    @RoleCheck(roles = {"USER"})
+    @PostMapping("/coin_wallets/exchange")
+    public CommonResponse exchangeCoin(@RequestBody CoinExchangeRequest request, @RequestHeader("X-User-Name") String username){
+        coinWalletService.exchangeCoin(request, username);
+        return CommonResponse.success();
+    }
 }

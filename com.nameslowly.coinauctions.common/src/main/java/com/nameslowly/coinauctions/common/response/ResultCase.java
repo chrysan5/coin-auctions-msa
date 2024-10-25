@@ -69,8 +69,10 @@ public enum ResultCase {
     UPBIT_API_ERROR(HttpStatus.BAD_REQUEST, 7007, "업비트 API를 불러오는데 실패했습니다."),
     COIN_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, 7008, "해당 코인은 이미 존재합니다."),
     NO_HISTORIES_FOUND(HttpStatus.NOT_FOUND, 7009, "코인 히스토리가 존재하지 않습니다."),
+    INSUFFICIENT_COIN_QUANTITY(HttpStatus.NOT_FOUND,7010 ,"코인의 개수가 충분치 않습니다." ),
     /* 경로 8000번대 */
-    ROUTE_NOT_INVALID(HttpStatus.BAD_REQUEST, 8000, "그런 경로 없습니다.");
+    ROUTE_NOT_INVALID(HttpStatus.BAD_REQUEST, 8000, "그런 경로 없습니다.")
+    ;
 
 
     private final HttpStatus httpStatus; // 응답 상태 코드
