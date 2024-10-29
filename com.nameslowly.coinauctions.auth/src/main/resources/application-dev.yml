@@ -1,16 +1,16 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver  # MySQL 드라이버 클래스 이름
-    url: jdbc:mysql://localhost:3306/CoinAuction  # MySQL 데이터베이스 URL
-    username: panjun  # 데이터베이스 사용자 이름
-    password: 0709  # 데이터베이스 비밀번호
+    url: jdbc:mysql://localhost:3306/coinauctions  # MySQL 데이터베이스 URL
+    username: root  # 데이터베이스 사용자 이름
+    password: 1234  # 데이터베이스 비밀번호
 
   data:
     redis:
       host: localhost # 성진 WSL 주소 -> localhost로 변경하기
       port: 6379
-      username: default
-      password:
+      #username: default
+      #password:
   jpa:
     hibernate:
       ddl-auto: update

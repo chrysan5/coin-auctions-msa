@@ -6,7 +6,7 @@ spring:
     name: eureka-service
 
   profiles:
-    active: prod
+    active: dev
 
 # 나중에 따로 관리해야함
 jwt:
@@ -34,11 +34,6 @@ management:
 
   # 프로메테우스를 위해 Actuator 메트릭을 활성화
   # 이제 Prometheus가 /actuator/prometheus 엔드포인트에서 메트릭을 수집할 수 있음
-  metrics:
-    export:
-      prometheus:
-        enabled: true
-
   ######################## 집킨 설정 ########################
   zipkin:
     tracing:
@@ -46,3 +41,7 @@ management:
   tracing:
     sampling:
       probability: 1.0
+  prometheus:
+    metrics:
+      export:
+        enabled: true

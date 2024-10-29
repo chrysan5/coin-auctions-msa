@@ -6,7 +6,7 @@ spring:
     name: chat-service
 
   profiles:
-    active: prod
+    active: dev
 
   cloud:
     aws:
